@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Emgu.CV.Face;
+using Emgu.CV;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static MFR_GUI.Pages.Globals;
 
 namespace MFR_GUI.Pages
 {
@@ -23,6 +26,9 @@ namespace MFR_GUI.Pages
         public Menu()
         {
             InitializeComponent();
+
+            //Load haarcascades for face detection
+            face = new CascadeClassifier("Haarcascade\\haarcascade_frontalface_alt.xml");
         }
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)

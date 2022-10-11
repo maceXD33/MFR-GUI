@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Emgu.CV.Face;
+using Emgu.CV.Structure;
+using Emgu.CV;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Menu = MFR_GUI.Pages.Menu;
+using System.Windows.Forms;
+using System.Windows.Forms.Integration;
+using Emgu.CV.UI;
 
 namespace MFR_GUI
 {
