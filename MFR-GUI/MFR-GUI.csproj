@@ -9,13 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\FaceRecognition.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Emgu.CV" Version="4.5.5.4823" />
     <PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.5.4823" />
     <PackageReference Include="Emgu.CV.UI" Version="4.5.5.4823" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Image\" />
+    <Resource Include="Image\FaceRecognition.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

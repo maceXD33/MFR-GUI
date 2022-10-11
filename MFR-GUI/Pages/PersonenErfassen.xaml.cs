@@ -23,6 +23,14 @@ namespace MFR_GUI.Pages
         public PersonenErfassen()
         {
             InitializeComponent();
+            Label1.Content = "Status";
+            Label2.Content = "Name";
+        }
+
+        private void btn_Zurueck3_Click(object sender, RoutedEventArgs e)
+        {
+            Menu m = new Menu();
+            this.NavigationService.Navigate(m);
         }
     }
 }

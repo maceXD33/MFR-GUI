@@ -24,5 +24,20 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
         }
+
+        private void btn_speichern_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
+        {
+            Menu m = new Menu();
+            this.NavigationService.Navigate(m);
+        }
+        private void txt_Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -24,5 +24,32 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
         }
+
+        private void btn_erfassen_Click(object sender, RoutedEventArgs e)
+        {
+            PersonenErfassen pe = new PersonenErfassen();
+            this.NavigationService.Navigate(pe);
+        }
+
+        private void btn_hinzufuegen_Click(object sender, RoutedEventArgs e)
+        {
+            BildHinzufuegen bh = new BildHinzufuegen();
+            this.NavigationService.Navigate(bh);
+        }
+
+        private void btn_anzeigen_Click(object sender, RoutedEventArgs e)
+        {
+            PersonenAnzeigen pa = new PersonenAnzeigen();
+            this.NavigationService.Navigate(pa);
+        }
+
+        private void btn_beenden_Click(object sender, RoutedEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow((DependencyObject)sender);
+            if (parentWindow != null)
+            {
+                parentWindow.Close();
+            }
+        }
     }
 }

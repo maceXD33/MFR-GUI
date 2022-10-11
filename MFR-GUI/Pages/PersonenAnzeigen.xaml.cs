@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +24,21 @@ namespace MFR_GUI.Pages
         public PersonenAnzeigen()
         {
             InitializeComponent();
+        }
+
+        private void btn_suchen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_Zurueck2_Click(object sender, RoutedEventArgs e)
+        {
+            Menu m = new Menu();
+            this.NavigationService.Navigate(m);
+        }
+        private void txt_Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
