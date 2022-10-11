@@ -13,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MFR_GUI
+namespace MFR_GUI.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaktionslogik für PersonenErfassen.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PersonenErfassen : Page
     {
-        public MainWindow()
+        public PersonenErfassen()
         {
             InitializeComponent();
-
-            Menu m = new Menu();
-            myframe.NavigationService.Navigate(m);
         }
     }
 }

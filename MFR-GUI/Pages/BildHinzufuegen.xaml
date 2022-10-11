@@ -1,0 +1,49 @@
+﻿<Page x:Class="MFR_GUI.Pages.BildHinzufuegen"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MFR_GUI.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BildHinzufuegen">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="i_Kamera" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1"/>
+
+        <Viewbox Grid.Row="0" Stretch="Uniform">
+            <TextBlock  Margin="10" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A">
+                Bild hinzufügen
+            </TextBlock>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <TextBox x:Name="txt_Name" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="txt_Name_TextChanged"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Label Content="Name:" Margin="25,0,0,35" Height="30" Width="120" Foreground="Gray" FontFamily="Dubai"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" Stretch="Uniform">
+            <Button x:Name="btn_speichern" Content="Person speichern" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_speichern_Click"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="3" Stretch="Uniform">
+            <Button x:Name="btn_Zurueck1" Content="Zurück" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_Zurueck1_Click"/>
+        </Viewbox>
+    </Grid>
+</Page>

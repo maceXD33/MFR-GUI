@@ -14,4 +14,8 @@
     <PackageReference Include="Emgu.CV.UI" Version="4.5.5.4823" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Image\" />
+  </ItemGroup>
+
 </Project>
