@@ -22,9 +22,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-
-        <WebBrowser x:Name="webBrowser" Source="D:\Test" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-
+        <WebBrowser x:Name="explorer" Source="D:\Test" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
             <TextBlock  Margin="10" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A">
@@ -33,7 +31,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">
-            <TextBox x:Name="txt_NameSuchen" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="txt_Name_TextChanged"/>
+            <TextBox x:Name="txt_NameSuchen" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler"/>
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">
@@ -41,7 +39,11 @@
         </Viewbox>
 
         <Viewbox Grid.Row="2" Stretch="Uniform">
-            <Button x:Name="btn_suchen" Content="Person suchen" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_suchen_Click"/>
+            <Button x:Name="btn_Back" Margin="0,30,73,30" Height="30" Width="50" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_Back_Click" Content="&lt;&lt;"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" Stretch="Uniform">
+            <Button x:Name="btn_Forward" Margin="73,30,0,30" Height="30" Width="50" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_Forward_Click" Content=">>"/>
         </Viewbox>
 
         <Viewbox Grid.Row="3" Stretch="Uniform">

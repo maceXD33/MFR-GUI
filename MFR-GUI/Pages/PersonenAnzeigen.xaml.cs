@@ -26,19 +26,35 @@ namespace MFR_GUI.Pages
             InitializeComponent();
         }
 
-        private void btn_suchen_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btn_Zurueck2_Click(object sender, RoutedEventArgs e)
         {
             Menu m = new Menu();
             this.NavigationService.Navigate(m);
         }
-        private void txt_Name_TextChanged(object sender, TextChangedEventArgs e)
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Return)
+            {
+                    Uri u = new Uri("D:\\Test\\" + txt_NameSuchen.Text);
+                    explorer.Source = u;
+            }
+            
+        }
 
+        private void btn_Back_Click(object sender, RoutedEventArgs e)
+        {
+            if(explorer.CanGoBack)
+            {
+                explorer.GoBack();
+            }
+        }
+
+        private void btn_Forward_Click(object sender, RoutedEventArgs e)
+        {
+            if(explorer.CanGoForward)
+            {
+                explorer.GoForward();
+            }
         }
     }
 }
