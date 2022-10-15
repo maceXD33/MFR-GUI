@@ -17,6 +17,7 @@ using Color = System.Drawing.Color;
 using Emgu.CV.UI;
 using Size = System.Drawing.Size;
 using System.Windows.Interop;
+using System.Windows.Forms;
 
 namespace MFR_GUI.Pages
 {   
@@ -74,7 +75,7 @@ namespace MFR_GUI.Pages
             foreach (Rectangle r in detectedFrontalFaces)
             {
                 //Get the rectangular region out of the whole image
-                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(256, 256, Emgu.CV.CvEnum.Inter.Cubic);
+                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(128, 128, Emgu.CV.CvEnum.Inter.Cubic);
 
                 //Draw a rectangle around the region
                 currentFrame.Draw(r, new Bgr(Color.Red), 3);
@@ -115,46 +116,10 @@ namespace MFR_GUI.Pages
                     //Release the lock on the synchronizing Object
                     Monitor.Exit(syncObj);
                 }
-                else
-                {
-                    //Check if there are any trained faces
-                    if (trainingFacesCount != 0)
-                    {
-                        //Get the result of the prediction from the recognizer
-                        FaceRecognizer.PredictionResult res = previousRecognizer.Predict(result);
-
-                        //res.Distance < n determs how familiar the faces must look
-                        if (res.Distance < 12000)
-                        {
-                            //Draw the label for the detected face
-                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
-
-                            //Add the label to the recognized faces
-                            recognizedNames += labels[res.Label] + ", ";
-                        }
-                        else
-                        {
-                            //Draw the label "Unkown" as the criteria for same face was not met
-                            currentFrame.Draw("Unbekannt" + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
-
-                            //Add the label "Unkown" to the recognized faces
-                            recognizedNames += "Unbekannt, ";
-                        }
-                    }
-                    else
-                    {
-                        //Add the Add the label "Unkown" to the recognized faces, because there is no face that can be recognized
-                        recognizedNames += "Unbekannt, ";
-                    }
-                }
             }
 
-            //Show the image with the drawn faces and labels
+            //Show the image with the drawn face
             imgBoxKamera.Image = currentFrame;
-            //Show the labels of the faces that were recognized
-            txt_Name.Text = recognizedNames;
-            //Empty the recognized faces
-            recognizedNames = "";
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
@@ -165,10 +130,17 @@ namespace MFR_GUI.Pages
             // Create the ImageBox control.
             imgBoxKamera = new ImageBox();
 
-            imgBoxKamera.Size = new Size(256, 256);
+            imgBoxKamera.Size = new Size(512, 512);
+            //imgBoxKamera.Location = new Point(400, 200);
+
+            Grid.SetColumn(host, 1);
+            Grid.SetRow(host, 0);
+            Grid.SetColumnSpan(host, 3);
+            Grid.SetRowSpan(host, 5);
 
             // Assign the ImageBox control as the host control's child.
             host.Child = imgBoxKamera;
+
 
             // Add the interop host control to the Grid
             // control's collection of child controls.
