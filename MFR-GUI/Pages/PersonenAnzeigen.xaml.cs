@@ -24,6 +24,9 @@ namespace MFR_GUI.Pages
         public PersonenAnzeigen()
         {
             InitializeComponent();
+
+            Uri u = new Uri(AppDomain.CurrentDomain.BaseDirectory + "gespeicherte Personen");
+            explorer.Source = u;
         }
 
         private void btn_Zurueck2_Click(object sender, RoutedEventArgs e)
@@ -35,10 +38,9 @@ namespace MFR_GUI.Pages
         {
             if (e.Key == Key.Return)
             {
-                    Uri u = new Uri("D:\\Test\\" + txt_NameSuchen.Text);
+                    Uri u = new Uri(AppDomain.CurrentDomain.BaseDirectory + "gespeicherte Personen\\" + txt_NameSuchen.Text);
                     explorer.Source = u;
             }
-            
         }
 
         private void btn_Back_Click(object sender, RoutedEventArgs e)

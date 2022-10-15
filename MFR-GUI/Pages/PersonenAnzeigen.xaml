@@ -22,7 +22,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <WebBrowser x:Name="explorer" Source="D:\Test" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <WebBrowser x:Name="explorer" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
             <TextBlock  Margin="10" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A">
