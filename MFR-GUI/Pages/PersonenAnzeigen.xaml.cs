@@ -39,9 +39,9 @@ namespace MFR_GUI.Pages
         {
             if (e.Key == Key.Return)
             {
-                if (Directory.Exists(Globals.projectDirectory + "gespeicherte Personen\\" + txt_NameSuchen.Text))
+                if (Directory.Exists(Globals.projectDirectory + "\\gespeicherte Personen\\" + txt_NameSuchen.Text))
                 {
-                    Uri u = new Uri(Globals.projectDirectory + "gespeicherte Personen\\" + txt_NameSuchen.Text);
+                    Uri u = new Uri(Globals.projectDirectory + "\\gespeicherte Personen\\" + txt_NameSuchen.Text);
                     explorer.Source = u;
                 }
             }

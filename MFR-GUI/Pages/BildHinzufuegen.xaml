@@ -10,39 +10,46 @@
 
     <Grid Name="grid2" Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="i_Kamera" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" Loaded="i_Kamera_Loaded"/>
+        <Image x:Name="i_Kamera" Grid.RowSpan="6" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="3" Loaded="i_Kamera_Loaded"/>
 
-        <Viewbox Grid.Row="0" Stretch="Uniform">
+        <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <TextBlock  Margin="10" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A">
                 Bild hinzufügen
             </TextBlock>
         </Viewbox>
 
-        <Viewbox Grid.Row="1" Stretch="Uniform">
+        <Viewbox Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <TextBox x:Name="txt_Name" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Viewbox>
 
-        <Viewbox Grid.Row="1" Stretch="Uniform">
+        <Viewbox Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Label Content="Name:" Margin="25,0,0,35" Height="30" Width="120" Foreground="Gray" FontFamily="Dubai"/>
         </Viewbox>
 
-        <Viewbox Grid.Row="2" Stretch="Uniform">
+        <Viewbox Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Button x:Name="btn_speichern" Content="Person speichern" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_speichern_Click"/>
         </Viewbox>
 
-        <Viewbox Grid.Row="3" Stretch="Uniform">
+        <Viewbox Grid.Row="6" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Button x:Name="btn_Zurueck1" Content="Zurück" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_Zurueck1_Click"/>
         </Viewbox>
     </Grid>
