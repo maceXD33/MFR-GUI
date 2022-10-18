@@ -26,7 +26,7 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            Uri u = new Uri(AppDomain.CurrentDomain.BaseDirectory + "gespeicherte Personen");
+            Uri u = new Uri(Globals.projectDirectory +  "\\gespeicherte Personen");
             explorer.Source = u;
         }
 

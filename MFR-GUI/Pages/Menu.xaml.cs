@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static MFR_GUI.Pages.Globals;
+using System.IO;
 
 namespace MFR_GUI.Pages
 {
@@ -27,8 +28,13 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
+            //Get the working- and project-directory for further load
+            Globals.workingDirectory = Environment.CurrentDirectory;
+            Globals.projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
+
             //Load haarcascades for face detection
-            //face = new CascadeClassifier("Haarcascade\\haarcascade_frontalface_alt.xml");
+            face = new CascadeClassifier(Globals.projectDirectory + "\\Haarcascade\\haarcascade_frontalface_alt.xml");
+
         }
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)

@@ -14,6 +14,9 @@ namespace MFR_GUI.Pages
         //Declaration of synchronizing object for lock-statements
         public static readonly Object syncObj = new Object();
 
+        public static String workingDirectory;
+        public static String projectDirectory;
+
         //Declararation of all variables
         public static VideoCapture grabber;
         public static CascadeClassifier face;

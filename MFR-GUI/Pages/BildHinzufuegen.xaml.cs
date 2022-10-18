@@ -20,7 +20,9 @@ using System.Windows.Interop;
 using System.Windows.Forms;
 
 namespace MFR_GUI.Pages
-{   
+{
+    public delegate void SetGrabberValuesDelegate();
+
     /// <summary>
     /// Interaktionslogik für BildHinzufuegen.xaml
     /// </summary>
@@ -32,21 +34,13 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            grabber = new VideoCapture();
-
-
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
-
-            ComponentDispatcher.ThreadIdle += FrameGrabber;
-            /*
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
                 //Initialize the capture device
                 grabber = new VideoCapture();
-                Application.Current.Activated += FrameGrabber;
+                this.AddFrameGrabberEvent();
             });
-            */
         }
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
@@ -79,43 +73,6 @@ namespace MFR_GUI.Pages
 
                 //Draw a rectangle around the region
                 currentFrame.Draw(r, new Bgr(Color.Red), 3);
-
-                //Try entering the critical region on the synchronizing object for the recognizer
-                if (Monitor.TryEnter(syncObj))
-                {
-                    //Check if there are any trained faces
-                    if (trainingFacesCount != 0)
-                    {
-                        //Get the result of the prediction from the recognizer
-                        FaceRecognizer.PredictionResult res = recognizer.Predict(result);
-
-                        //res.Distance < n determs how familiar the faces must look
-                        if (res.Distance < 12000)
-                        {
-                            //Draw the label for the detected face
-                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
-
-                            //Add the label to the recognized faces
-                            recognizedNames += labels[res.Label] + ", ";
-                        }
-                        else
-                        {
-                            //Draw the label "Unkown" as the criteria for same face was not met
-                            currentFrame.Draw("Unbekannt" + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
-
-                            //Add the label "Unkown" to the recognized faces
-                            recognizedNames += "Unbekannt, ";
-                        }
-                    }
-                    else
-                    {
-                        //Add the Add the label "Unkown" to the recognized faces, because there is no face that can be recognized
-                        recognizedNames += "Unbekannt, ";
-                    }
-
-                    //Release the lock on the synchronizing Object
-                    Monitor.Exit(syncObj);
-                }
             }
 
             //Show the image with the drawn face
@@ -145,6 +102,25 @@ namespace MFR_GUI.Pages
             // Add the interop host control to the Grid
             // control's collection of child controls.
             this.grid2.Children.Add(host);
+        }
+
+        //Threadsafe method
+        /// <summary>
+        /// Add the function FrameGrabber to the Event ComponentDispatcher.ThreadIdle
+        /// This function can be called in a thread outside of the Main-Thread.
+        /// </summary>
+        private void AddFrameGrabberEvent()
+        {
+            if (this.btn_speichern.Dispatcher.CheckAccess())
+            {
+                //We are on the thread that owns the control
+                ComponentDispatcher.ThreadIdle += FrameGrabber;
+            }
+            else
+            {
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
+                this.Dispatcher.Invoke(new SetGrabberValuesDelegate(this.AddFrameGrabberEvent));
+            }
         }
     }
 }
