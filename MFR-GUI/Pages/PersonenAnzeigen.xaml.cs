@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -38,8 +39,11 @@ namespace MFR_GUI.Pages
         {
             if (e.Key == Key.Return)
             {
+                if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "gespeicherte Personen\\" + txt_NameSuchen.Text))
+                {
                     Uri u = new Uri(AppDomain.CurrentDomain.BaseDirectory + "gespeicherte Personen\\" + txt_NameSuchen.Text);
                     explorer.Source = u;
+                }
             }
         }
 

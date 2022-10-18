@@ -28,7 +28,7 @@ namespace MFR_GUI.Pages
             InitializeComponent();
 
             //Load haarcascades for face detection
-            face = new CascadeClassifier("Haarcascade\\haarcascade_frontalface_alt.xml");
+            //face = new CascadeClassifier("Haarcascade\\haarcascade_frontalface_alt.xml");
         }
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)
