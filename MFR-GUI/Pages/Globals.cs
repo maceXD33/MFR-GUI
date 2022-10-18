@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace MFR_GUI.Pages
 {
+    public delegate void SetGrabberValuesDelegate();
+
     static class Globals
     {
         //Declaration of synchronizing object for lock-statements

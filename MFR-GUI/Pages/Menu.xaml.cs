@@ -34,7 +34,6 @@ namespace MFR_GUI.Pages
 
             //Load haarcascades for face detection
             face = new CascadeClassifier(Globals.projectDirectory + "\\Haarcascade\\haarcascade_frontalface_alt.xml");
-
         }
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)

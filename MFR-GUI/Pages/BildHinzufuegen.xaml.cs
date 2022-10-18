@@ -21,8 +21,6 @@ using System.Windows.Forms;
 
 namespace MFR_GUI.Pages
 {
-    public delegate void SetGrabberValuesDelegate();
-
     /// <summary>
     /// Interaktionslogik für BildHinzufuegen.xaml
     /// </summary>
@@ -58,7 +56,6 @@ namespace MFR_GUI.Pages
         {
             //Get the current frame from capture device
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
-
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
 
@@ -76,31 +73,27 @@ namespace MFR_GUI.Pages
             }
 
             //Show the image with the drawn face
-            imgBoxKamera.Image = currentFrame;
+            Size s = imgBoxKamera.Size;
+
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the interop host control.
+            //Create the interop host control.
             System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
 
-            // Create the ImageBox control.
+            //Create the ImageBox control.
             imgBoxKamera = new ImageBox();
-
-            imgBoxKamera.Size = new Size(512, 512);
-            //imgBoxKamera.Location = new Point(400, 200);
 
             Grid.SetColumn(host, 1);
             Grid.SetRow(host, 0);
             Grid.SetColumnSpan(host, 3);
             Grid.SetRowSpan(host, 5);
-
-            // Assign the ImageBox control as the host control's child.
+            
+            //Assign the ImageBox control as the host control's child.
             host.Child = imgBoxKamera;
-
-
-            // Add the interop host control to the Grid
-            // control's collection of child controls.
+            //Add the interop host control to the Grid
+            //control's collection of child controls.
             this.grid2.Children.Add(host);
         }
 
