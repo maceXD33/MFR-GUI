@@ -55,7 +55,7 @@ namespace MFR_GUI.Pages
         void FrameGrabber(object sender, EventArgs e)
         {
             //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1024, 1024, Emgu.CV.CvEnum.Inter.Cubic);
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
 
@@ -73,8 +73,7 @@ namespace MFR_GUI.Pages
             }
 
             //Show the image with the drawn face
-            Size s = imgBoxKamera.Size;
-
+            imgBoxKamera.Image = currentFrame;
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
