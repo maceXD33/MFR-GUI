@@ -45,8 +45,7 @@ namespace MFR_GUI.Pages
 
         private void btn_Zurueck3_Click(object sender, RoutedEventArgs e)
         {
-            Menu m = new Menu();
-            this.NavigationService.Navigate(m);
+            this.NavigationService.Navigate(new Menu());
         }
 
         void FrameGrabber(object sender, EventArgs e)

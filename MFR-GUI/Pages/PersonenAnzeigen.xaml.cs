@@ -26,22 +26,22 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            Uri u = new Uri(Globals.projectDirectory + "\\TrainingFaces");
+            Uri u = new Uri(Globals.projectDirectory + "/TrainingFaces");
             explorer.Source = u;
         }
 
         private void btn_Zurueck2_Click(object sender, RoutedEventArgs e)
         {
-            Menu m = new Menu();
-            this.NavigationService.Navigate(m);
+            this.NavigationService.Navigate(new Menu());
         }
+
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-                if (Directory.Exists(Globals.projectDirectory + "\\TrainingFaces\\" + txt_NameSuchen.Text))
+                if (Directory.Exists(Globals.projectDirectory + "/TrainingFaces/" + txt_NameSuchen.Text))
                 {
-                    Uri u = new Uri(Globals.projectDirectory + "\\TrainingFaces\\" + txt_NameSuchen.Text);
+                    Uri u = new Uri(Globals.projectDirectory + "/TrainingFaces/" + txt_NameSuchen.Text);
                     explorer.Source = u;
                 }
             }
