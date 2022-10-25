@@ -18,7 +18,9 @@ using Emgu.CV.UI;
 using Size = System.Drawing.Size;
 using System.Windows.Interop;
 using System.Windows.Forms;
-using System.Windows.Input;
+using System.Xml.Linq;
+using System.IO;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MFR_GUI.Pages
 {
@@ -45,6 +47,65 @@ namespace MFR_GUI.Pages
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
 
+            String text = txt_Name.Text;
+
+            //Create and start a Task
+            Task t = Task.Factory.StartNew(() =>
+            {
+                String text = get_txt_Name();
+
+                try
+                {
+                    //increase the counter for trainingfaces
+                    trainingFacesCount++;
+
+                    //Get a gray frame from capture device
+                    gray = new Image<Gray, byte>("test.jpg");
+                    //grabber.QueryFrame().ToImage<Gray, Byte>().Resize(1024, 1024, Emgu.CV.CvEnum.Inter.Cubic);
+
+                    //Detect rectangular regions which contain a face and take the first region as the training face
+                    Rectangle[] dedectedFaces = face.DetectMultiScale(gray);
+                    TrainingFace = gray.Copy(dedectedFaces[0]);
+
+                    //Resize the image of the detected face and add the image and label to the lists for training
+                    TrainingFace = TrainingFace.Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+                    labels.Add(text);
+                    trainingImagesMat.Add(TrainingFace.Mat);
+                    labelNr.Add(labelNr.Count);
+
+                    //Enter critical region
+                    lock (syncObj)
+                    {
+                        //Train the new Image with all other images into the FaceRecognizer
+                        recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+
+                        //Set the transitional recognizer to the 
+                        previousRecognizer = recognizer;
+                    }
+
+                    //Write the number of trained faces in a file text for further load
+                    File.WriteAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt", trainingImagesMat.Count + "%");
+
+                    //Write the labels of trained faces in a file text for further load and save the images as bitmap-file
+                    String folderPath = projectDirectory + "/TrainingFaces/" + text + "/";
+
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+                    trainingImagesMat[trainingImagesMat.Count].Save(folderPath + trainingImagesMat.Count + ".bmp");
+
+                    //File.AppendAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt", labels[i] + "%");
+
+                    //Show a MessageBox for confirmation of successful training
+                    MessageBox.Show(text + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception)
+                {
+                    //Show a MessageBox if there was an exception
+                    MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            });
         }
 
         private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
@@ -56,7 +117,8 @@ namespace MFR_GUI.Pages
         void FrameGrabber(object sender, EventArgs e)
         {
             //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1024, 1024, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+            
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
 
@@ -114,6 +176,20 @@ namespace MFR_GUI.Pages
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
                 this.Dispatcher.Invoke(new SetGrabberValuesDelegate(this.AddFrameGrabberEvent));
+            }
+        }
+
+        private String get_txt_Name()
+        {
+            if (this.txt_Name.Dispatcher.CheckAccess())
+            {
+                //We are on the thread that owns the control
+                return txt_Name.Text;
+            }
+            else
+            {
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
+                return (String) this.Dispatcher.Invoke(new GetTextFromTextBoxDelegate(this.get_txt_Name));
             }
         }
     }

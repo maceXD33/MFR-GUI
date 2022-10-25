@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace MFR_GUI.Pages
 {
     public delegate void SetGrabberValuesDelegate();
+    public delegate String GetTextFromTextBoxDelegate();
 
     static class Globals
     {

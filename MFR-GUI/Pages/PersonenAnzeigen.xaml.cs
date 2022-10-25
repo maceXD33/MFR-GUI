@@ -26,7 +26,7 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            Uri u = new Uri(Globals.projectDirectory +  "\\gespeicherte Personen");
+            Uri u = new Uri(Globals.projectDirectory + "\\TrainingFaces");
             explorer.Source = u;
         }
 
@@ -39,9 +39,9 @@ namespace MFR_GUI.Pages
         {
             if (e.Key == Key.Return)
             {
-                if (Directory.Exists(Globals.projectDirectory + "\\gespeicherte Personen\\" + txt_NameSuchen.Text))
+                if (Directory.Exists(Globals.projectDirectory + "\\TrainingFaces\\" + txt_NameSuchen.Text))
                 {
-                    Uri u = new Uri(Globals.projectDirectory + "\\gespeicherte Personen\\" + txt_NameSuchen.Text);
+                    Uri u = new Uri(Globals.projectDirectory + "\\TrainingFaces\\" + txt_NameSuchen.Text);
                     explorer.Source = u;
                 }
             }

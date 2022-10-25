@@ -44,7 +44,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
-            <Label Content="Name:" Margin="25,0,0,35" Height="30" Width="120" Foreground="Gray" FontFamily="Dubai"/>
+            <Label Content="Name:" Margin="25,0,0,35" Height="30" Width="120" Foreground="Gray" FontFamily="Dubai" RenderTransformOrigin="0.51,0.562"/>
         </Viewbox>
 
         <Viewbox Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
