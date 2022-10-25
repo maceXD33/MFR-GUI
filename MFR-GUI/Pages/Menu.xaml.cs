@@ -16,6 +16,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static MFR_GUI.Pages.Globals;
 using System.IO;
+using Emgu.CV.Structure;
+using System.Windows.Forms;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MFR_GUI.Pages
 {
@@ -33,7 +36,48 @@ namespace MFR_GUI.Pages
             Globals.projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
 
             //Load haarcascades for face detection
-            face = new CascadeClassifier(Globals.projectDirectory + "\\Haarcascade\\haarcascade_frontalface_alt.xml");
+            face = new CascadeClassifier(Globals.projectDirectory + "/Haarcascade/haarcascade_frontalface_alt.xml");
+            
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (!this.NavigationService.CanGoBack)
+            {
+                try
+                {
+                    //Load the file with the labels from previous trained faces and get the labels and the number of trained faces
+                    string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
+                    string[] Labels = allLabels.Split('%');
+                    trainingFacesCount = Convert.ToInt16(Labels[0]);
+
+                    string[] distinctLabels = Labels.Distinct().ToArray();
+                    
+                    //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
+                    int totalCount = 0;
+                    foreach (string name in distinctLabels)
+                    {
+                        for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp"); i++, totalCount++)
+                        {
+                            Image<Gray, byte> image = new Image<Gray, byte>(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp");
+                            trainingImagesMat.Add(image.Mat);
+                            labels.Add(Labels[totalCount + 1]);
+                            labelNr.Add(totalCount);
+                        }
+                    }
+
+                    //Train both facerecognizer with the images and labelnumbers
+                    recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+                    previousRecognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    //Show a MessageBox if there was an exception
+                    MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
         }
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)

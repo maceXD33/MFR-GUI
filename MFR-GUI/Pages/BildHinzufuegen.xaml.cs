@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.IO;
 using MessageBox = System.Windows.Forms.MessageBox;
+using System.Collections.Generic;
 
 namespace MFR_GUI.Pages
 {
@@ -46,31 +47,31 @@ namespace MFR_GUI.Pages
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
-
-            String text = txt_Name.Text;
-
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
-                String text = get_txt_Name();
-
-                /*
+                String name = get_txt_Name();
+                
                 try
                 {
                     //increase the counter for trainingfaces
                     trainingFacesCount++;
 
-                    //Get a gray frame from capture device
-                    gray = new Image<Gray, byte>("test.jpg");
-                    //grabber.QueryFrame().ToImage<Gray, Byte>().Resize(1024, 1024, Emgu.CV.CvEnum.Inter.Cubic);
+                    //Get the current frame from capture device
+                    currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
 
+                    //Convert it to Grayscale
+                    gray = currentFrame.Convert<Gray, Byte>();
+                   
                     //Detect rectangular regions which contain a face and take the first region as the training face
                     Rectangle[] dedectedFaces = face.DetectMultiScale(gray);
+
                     TrainingFace = gray.Copy(dedectedFaces[0]);
 
+                    Console.WriteLine("");
                     //Resize the image of the detected face and add the image and label to the lists for training
                     TrainingFace = TrainingFace.Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
-                    labels.Add(text);
+                    labels.Add(name);
                     trainingImagesMat.Add(TrainingFace.Mat);
                     labelNr.Add(labelNr.Count);
 
@@ -84,29 +85,38 @@ namespace MFR_GUI.Pages
                         previousRecognizer = recognizer;
                     }
 
+                    string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
+
                     //Write the number of trained faces in a file text for further load
-                    File.WriteAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt", trainingImagesMat.Count + "%");
+                    File.WriteAllText(trainingFacesDirectory + "TrainedLabels.txt", trainingImagesMat.Count.ToString());
 
                     //Write the labels of trained faces in a file text for further load and save the images as bitmap-file
-                    String folderPath = projectDirectory + "/TrainingFaces/" + text + "/";
-
-                    if (!Directory.Exists(folderPath))
+                    if (!Directory.Exists(trainingFacesDirectory + name + "/"))
                     {
-                        Directory.CreateDirectory(folderPath);
+                        Directory.CreateDirectory(trainingFacesDirectory + name + "/");
                     }
-                    trainingImagesMat[trainingImagesMat.Count].Save(folderPath + trainingImagesMat.Count + ".bmp");
 
-                    //File.AppendAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt", labels[i] + "%");
+                    int i = 0;
+                    while(File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"))
+                    {
+                        i++;
+                    }
 
+                    trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
+            
+                    for (int x = 0; x < labels.Count; x++)
+                    {
+                        File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + labels[x]);
+                    }
+                    
                     //Show a MessageBox for confirmation of successful training
-                    MessageBox.Show(text + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(name + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception)
                 {
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-                */
             });
         }
 
@@ -124,8 +134,12 @@ namespace MFR_GUI.Pages
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
 
-            //Detect rectangular regions which contain a face
-            Rectangle[] detectedFrontalFaces = face.DetectMultiScale(gray);
+            Rectangle[] detectedFrontalFaces;
+            lock (syncObj)
+            {
+                //Detect rectangular regions which contain a face
+                detectedFrontalFaces = face.DetectMultiScale(gray);
+            }
 
             //Action for each region detected
             foreach (Rectangle r in detectedFrontalFaces)
