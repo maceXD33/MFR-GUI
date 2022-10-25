@@ -54,6 +54,7 @@ namespace MFR_GUI.Pages
             {
                 String text = get_txt_Name();
 
+                /*
                 try
                 {
                     //increase the counter for trainingfaces
@@ -105,6 +106,7 @@ namespace MFR_GUI.Pages
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+                */
             });
         }
 
@@ -180,6 +182,11 @@ namespace MFR_GUI.Pages
             }
         }
 
+        //Threadsafe method
+        /// <summary>
+        /// Gets the Name Property of the TextView txt_Name
+        /// This function can be called in a thread outside of the Main-Thread.
+        /// </summary>
         private String get_txt_Name()
         {
             if (this.txt_Name.Dispatcher.CheckAccess())
