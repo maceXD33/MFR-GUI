@@ -81,14 +81,14 @@ namespace MFR_GUI.Pages
 
             // Create the ImageBox control.
             imgBoxKamera = new ImageBox();
+            imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
-            imgBoxKamera.Size = new Size(512, 512);
             //imgBoxKamera.Location = new Point(400, 200);
 
-            Grid.SetColumn(host, 1);
-            Grid.SetRow(host, 0);
-            Grid.SetColumnSpan(host, 3);
-            Grid.SetRowSpan(host, 5);
+            Grid.SetColumn(host, 3);
+            Grid.SetRow(host, 1);
+            Grid.SetColumnSpan(host, 2);
+            Grid.SetRowSpan(host, 6);
 
             // Assign the ImageBox control as the host control's child.
             host.Child = imgBoxKamera;
