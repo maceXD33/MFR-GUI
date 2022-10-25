@@ -82,6 +82,7 @@ namespace MFR_GUI.Pages
             // Create the ImageBox control.
             imgBoxKamera = new ImageBox();
             imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            imgBoxKamera.Enabled = false;
 
             //imgBoxKamera.Location = new Point(400, 200);
 
