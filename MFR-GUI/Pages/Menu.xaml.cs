@@ -71,9 +71,8 @@ namespace MFR_GUI.Pages
                     recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
                     previousRecognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine(ex);
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
@@ -82,24 +81,54 @@ namespace MFR_GUI.Pages
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)
         {
-            PersonenErfassen pe = new PersonenErfassen();
-            this.NavigationService.Navigate(pe);
+            this.NavigationService.Navigate(new PersonenErfassen());
         }
 
         private void btn_hinzufuegen_Click(object sender, RoutedEventArgs e)
         {
-            BildHinzufuegen bh = new BildHinzufuegen();
-            this.NavigationService.Navigate(bh);
+            this.NavigationService.Navigate(new BildHinzufuegen());
         }
 
         private void btn_anzeigen_Click(object sender, RoutedEventArgs e)
         {
-            PersonenAnzeigen pa = new PersonenAnzeigen();
-            this.NavigationService.Navigate(pa);
+            this.NavigationService.Navigate(new PersonenAnzeigen());
         }
 
         private void btn_beenden_Click(object sender, RoutedEventArgs e)
         {
+            if (grabber != null)
+            { 
+                grabber.Dispose();
+            }
+            if (face != null)
+            {
+                face.Dispose();
+            }
+            if (currentFrame != null)
+            {
+                currentFrame.Dispose();
+            }
+            if (gray != null)
+            {
+                gray.Dispose();
+            }
+            if (TrainingFace != null)
+            {
+                TrainingFace.Dispose();
+            }
+            if (result != null)
+            {
+                result.Dispose();
+            }
+            if (recognizer != null)
+            {
+                recognizer.Dispose();
+            }
+            if (previousRecognizer != null)
+            {
+                previousRecognizer.Dispose();
+            }
+
             Window parentWindow = Window.GetWindow((DependencyObject)sender);
             if (parentWindow != null)
             {

@@ -22,6 +22,7 @@ using System.Xml.Linq;
 using System.IO;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MFR_GUI.Pages
 {
@@ -31,6 +32,7 @@ namespace MFR_GUI.Pages
     public partial class BildHinzufuegen : Page
     {
         ImageBox imgBoxKamera;
+        long longestTime = 0;
 
         public BildHinzufuegen()
         {
@@ -41,6 +43,7 @@ namespace MFR_GUI.Pages
             {
                 //Initialize the capture device
                 grabber = new VideoCapture();
+                imgBoxKamera.Image = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(256, 256, Emgu.CV.CvEnum.Inter.Cubic);
                 this.AddFrameGrabberEvent();
             });
         }
@@ -128,27 +131,34 @@ namespace MFR_GUI.Pages
 
         void FrameGrabber(object sender, EventArgs e)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
-            
+            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(256, 256, Emgu.CV.CvEnum.Inter.Cubic);
+
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
-
+            
             Rectangle[] detectedFrontalFaces;
+
             lock (syncObj)
             {
                 //Detect rectangular regions which contain a face
-                detectedFrontalFaces = face.DetectMultiScale(gray);
+                detectedFrontalFaces = face.DetectMultiScale(gray, scaleFactor: 1.2, minNeighbors: 2, minSize: new Size(20,20));
             }
-
+            
             //Action for each region detected
             foreach (Rectangle r in detectedFrontalFaces)
             {
-                //Get the rectangular region out of the whole image
-                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(128, 128, Emgu.CV.CvEnum.Inter.Cubic);
-
                 //Draw a rectangle around the region
-                currentFrame.Draw(r, new Bgr(Color.Red), 3);
+                currentFrame.Draw(r, new Bgr(Color.Red), 2);
+            }
+
+            sw.Stop();
+            if (longestTime < sw.ElapsedMilliseconds)
+            {
+                Task.Delay((int)(sw.ElapsedMilliseconds - longestTime));
+                longestTime = sw.ElapsedMilliseconds;
             }
 
             //Show the image with the drawn face
