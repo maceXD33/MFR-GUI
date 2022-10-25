@@ -18,6 +18,7 @@ using Emgu.CV.UI;
 using Size = System.Drawing.Size;
 using System.Windows.Interop;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace MFR_GUI.Pages
 {
