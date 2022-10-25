@@ -147,6 +147,7 @@ namespace MFR_GUI.Pages
             //Create the ImageBox control.
             imgBoxKamera = new ImageBox();
             imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            imgBoxKamera.Enabled = false;
 
             Grid.SetColumn(host, 3);
             Grid.SetRow(host, 1);
