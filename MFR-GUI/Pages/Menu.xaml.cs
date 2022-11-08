@@ -31,19 +31,12 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            //Get the working- and project-directory for further load
-            Globals.workingDirectory = Environment.CurrentDirectory;
-            Globals.projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
-
-            //Load haarcascades for face detection
-            face = new CascadeClassifier(Globals.projectDirectory + "/Haarcascade/haarcascade_frontalface_alt.xml");
-
             this.Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (!this.NavigationService.CanGoBack)
+            if (!dataLoaded)
             {
                 try
                 {
@@ -69,6 +62,8 @@ namespace MFR_GUI.Pages
 
                     //Train the facerecognizer with the images and labelnumbers
                     recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+
+                    dataLoaded = true;
                 }
                 catch(Exception ex)
                 {

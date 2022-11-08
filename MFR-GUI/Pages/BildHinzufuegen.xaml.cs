@@ -44,34 +44,6 @@ namespace MFR_GUI.Pages
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
-                /*
-                List<string> cameraNames = new List<string>();
-
-                try
-                {
-                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(new ObjectQuery("WQL", "SELECT * FROM Win32_PnPEntity"));
-
-                    ManagementObjectCollection moc = searcher.Get();
-
-                    foreach (var device in moc)
-                    {
-                        if (device["PNPClass"] != null)
-                        {
-                            cameraNames.Add(device["PNPClass"].ToString());
-                        }
-                    }
-
-                    cameraNames = cameraNames.Distinct().ToList();
-                    cameraNames.Sort();
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                */
-
-                //Initialize the capture
-                imgBoxKamera.Image = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(256, 256, Emgu.CV.CvEnum.Inter.Cubic);
                 this.AddFrameGrabberEvent();
             });
         }
@@ -89,7 +61,7 @@ namespace MFR_GUI.Pages
                     trainingFacesCount++;
 
                     //Get the current frame from capture device
-                    currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+                    currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
 
                     //Convert it to Grayscale
                     gray = currentFrame.Convert<Gray, Byte>();
@@ -108,7 +80,7 @@ namespace MFR_GUI.Pages
                     TrainingFace = gray.Copy(dedectedFaces[0]);
 
                     //Resize the image of the detected face and add the image and label to the lists for training
-                    TrainingFace = TrainingFace.Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+                    TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
                     labels.Add(name);
                     trainingImagesMat.Add(TrainingFace.Mat);
                     labelNr.Add(labelNr.Count);
@@ -161,8 +133,12 @@ namespace MFR_GUI.Pages
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+
+            lock (syncObj)
+            {
+                //Get the current frame from capture device
+                currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+            }
 
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
@@ -239,7 +215,7 @@ namespace MFR_GUI.Pages
         /// Gets the Name Property of the TextView txt_Name
         /// This function can be called in a thread outside of the Main-Thread.
         /// </summary>
-        private String get_txt_Name()
+        private string get_txt_Name()
         {
             if (this.txt_Name.Dispatcher.CheckAccess())
             {

@@ -18,6 +18,7 @@ using Emgu.CV.UI;
 using Size = System.Drawing.Size;
 using System.Windows.Interop;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MFR_GUI.Pages
 {
@@ -27,6 +28,7 @@ namespace MFR_GUI.Pages
     public partial class PersonenErfassen : Page
     {
         ImageBox imgBoxKamera;
+        long longestTime = 0;
 
         public PersonenErfassen()
         {
@@ -49,8 +51,14 @@ namespace MFR_GUI.Pages
 
         void FrameGrabber(object sender, EventArgs e)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+            lock (syncObj)
+            {
+                currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+            }
 
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
@@ -62,7 +70,7 @@ namespace MFR_GUI.Pages
             foreach (Rectangle r in detectedFrontalFaces)
             {
                 //Get the rectangular region out of the whole image
-                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
+                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
 
                 //Draw a rectangle around the region
                 currentFrame.Draw(r, new Bgr(Color.Red), 3);
@@ -106,6 +114,13 @@ namespace MFR_GUI.Pages
 
                 //Set the number of faces detected on the scene
                 Label2.Content = detectedFrontalFaces.Length.ToString();
+            }
+
+            sw.Stop();
+            if (longestTime < sw.ElapsedMilliseconds)
+            {
+                Task.Delay((int)(sw.ElapsedMilliseconds - longestTime));
+                longestTime = sw.ElapsedMilliseconds;
             }
 
             //Show the image with the drawn face

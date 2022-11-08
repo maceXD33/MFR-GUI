@@ -23,6 +23,7 @@ namespace MFR_GUI.Pages
 
         //Declararation of all variables
         public static int cameraIndex;
+        public static bool dataLoaded;
         public static VideoCapture grabber;
         public static CascadeClassifier face;
         public static Image<Bgr, Byte>? currentFrame;

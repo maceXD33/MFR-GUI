@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -45,6 +46,14 @@ namespace MFR_GUI.Pages
             //Assign default-values in case the user doesn't select a camera
             kameraAuswahl.Text = cameraNames[0];
             cameraIndex = 0;
+
+            //Get the working- and project-directory for further load
+            Globals.workingDirectory = Environment.CurrentDirectory;
+            Globals.projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
+
+            //Load haarcascades for face detection
+            face = new CascadeClassifier(Globals.projectDirectory + "/Haarcascade/haarcascade_frontalface_alt.xml");
+
         }
 
         private void btn_passwort_Click(object sender, RoutedEventArgs e)
@@ -55,7 +64,15 @@ namespace MFR_GUI.Pages
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
-            grabber = new VideoCapture(cameraIndex);
+            Task t = Task.Factory.StartNew(() =>
+            {
+                //Initialize the capture device
+                lock (syncObj)
+                {
+                    grabber = new VideoCapture(cameraIndex);
+                }
+            });
+
             Menu m = new Menu();
             this.NavigationService.Navigate(m);
         }
