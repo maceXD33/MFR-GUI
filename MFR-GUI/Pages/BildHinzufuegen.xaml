@@ -29,8 +29,6 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-
-
         <Image x:Name="i_Kamera" Grid.RowSpan="6" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="3" Loaded="i_Kamera_Loaded"/>
 
         <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">

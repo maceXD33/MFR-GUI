@@ -1,7 +1,4 @@
-﻿using Emgu.CV.Face;
-using Emgu.CV.Structure;
-using Emgu.CV;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,25 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Menu = MFR_GUI.Pages.Menu;
-using System.Windows.Forms;
-using System.Windows.Forms.Integration;
-using Emgu.CV.UI;
-using MFR_GUI.Pages;
 
-namespace MFR_GUI
+namespace MFR_GUI.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaktionslogik für PasswortÄndern.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PasswortÄndern : Page
     {
-        public MainWindow()
+        public PasswortÄndern()
         {
             InitializeComponent();
+        }
 
+        private void btn_speichern_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_zurück_Click(object sender, RoutedEventArgs e)
+        {
             Startseite s = new Startseite();
-            myframe.NavigationService.Navigate(s);
+            this.NavigationService.Navigate(s);
         }
     }
 }

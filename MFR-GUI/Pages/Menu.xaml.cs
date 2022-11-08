@@ -85,12 +85,14 @@ namespace MFR_GUI.Pages
 
         private void btn_hinzufuegen_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new BildHinzufuegen());
+            Passwort_BildHinzufuegen pbh = new Passwort_BildHinzufuegen();
+            this.NavigationService.Navigate(pbh);
         }
 
         private void btn_anzeigen_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new PersonenAnzeigen());
+            Passwort_PersonenAnzeigen ppa = new Passwort_PersonenAnzeigen();
+            this.NavigationService.Navigate(ppa);
         }
 
         private void btn_beenden_Click(object sender, RoutedEventArgs e)

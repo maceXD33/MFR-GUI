@@ -1,0 +1,54 @@
+﻿<Page x:Class="MFR_GUI.Pages.Passwort_PersonenAnzeigen"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MFR_GUI.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Passwort_PersonenAnzeigen">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="FaceRecognition" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" Source="\Image\FaceRecognition.jpg"></Image>
+
+        <Viewbox Grid.Row="0" Stretch="Uniform">
+            <TextBlock  Margin="10" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A">
+                Passworteingabe
+            </TextBlock>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1"  Stretch="Uniform">
+            <TextBox x:Name="txt_passwort" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Label Content="Passwort:" Margin="25,0,0,35" Height="30" Width="120" Foreground="Gray" FontFamily="Dubai" RenderTransformOrigin="0.51,0.562"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" Stretch="Uniform">
+            <Button x:Name="btn_anmelden"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_anmelden_Click">
+                Anmelden
+            </Button>
+        </Viewbox>
+
+        <Viewbox Grid.Row="3" Stretch="Uniform">
+            <Button x:Name="btn_zurück"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_zurück_Click">
+                Zurück
+            </Button>
+        </Viewbox>
+
+    </Grid>
+</Page>
