@@ -30,8 +30,18 @@
             </TextBlock>
         </Viewbox>
 
-        <Viewbox Grid.Row="1"  Stretch="Uniform">
-            <TextBox x:Name="txt_passwort" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <PasswordBox PasswordChar="*" x:Name="PasswordHidden" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <TextBox Name="PasswordUnmask" Margin="30" Height="30" Width="120" Visibility="Hidden" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Button x:Name="ShowPassword" Margin="220, 30,30,30" Height="30" Width="30" PreviewMouseDown="ShowPassword_PreviewMouseDown" PreviewMouseUp="ShowPassword_PreviewMouseUp" MouseLeave="ShowPassword_MouseLeave" Background="White" BorderBrush="White">
+                <Image Source="\Image\Passwort.png"/>
+            </Button>
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">

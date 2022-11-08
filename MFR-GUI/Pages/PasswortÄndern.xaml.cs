@@ -25,6 +25,40 @@ namespace MFR_GUI.Pages
             InitializeComponent();
         }
 
+        private void alt_ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => alt_ShowPasswordFunction();
+        private void alt_ShowPassword_PreviewMouseUp(object sender, MouseButtonEventArgs e) => alt_HidePasswordFunction();
+        private void alt_ShowPassword_MouseLeave(object sender, MouseEventArgs e) => alt_HidePasswordFunction();
+
+        private void alt_ShowPasswordFunction()
+        {          
+            alt_PasswordUnmask.Visibility = Visibility.Visible;
+            alt_PasswordHidden.Visibility = Visibility.Hidden;
+            alt_PasswordUnmask.Text = alt_PasswordHidden.Password;
+        }
+
+        private void alt_HidePasswordFunction()
+        {           
+            alt_PasswordUnmask.Visibility = Visibility.Hidden;
+            alt_PasswordHidden.Visibility = Visibility.Visible;
+        }
+
+        private void neu_ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => neu_ShowPasswordFunction();
+        private void neu_ShowPassword_PreviewMouseUp(object sender, MouseButtonEventArgs e) => neu_HidePasswordFunction();
+        private void neu_ShowPassword_MouseLeave(object sender, MouseEventArgs e) => neu_HidePasswordFunction();
+
+        private void neu_ShowPasswordFunction()
+        {
+            neu_PasswordUnmask.Visibility = Visibility.Visible;
+            neu_PasswordHidden.Visibility = Visibility.Hidden;
+            neu_PasswordUnmask.Text = neu_PasswordHidden.Password;
+        }
+
+        private void neu_HidePasswordFunction()
+        {
+            neu_PasswordUnmask.Visibility = Visibility.Hidden;
+            neu_PasswordHidden.Visibility = Visibility.Visible;
+        }
+
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
 

@@ -24,6 +24,22 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
         }
+        private void ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPasswordFunction();
+        private void ShowPassword_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePasswordFunction();
+        private void ShowPassword_MouseLeave(object sender, MouseEventArgs e) => HidePasswordFunction();
+
+        private void ShowPasswordFunction()
+        {
+            PasswordUnmask.Visibility = Visibility.Visible;
+            PasswordHidden.Visibility = Visibility.Hidden;
+            PasswordUnmask.Text = PasswordHidden.Password;
+        }
+
+        private void HidePasswordFunction()
+        {
+            PasswordUnmask.Visibility = Visibility.Hidden;
+            PasswordHidden.Visibility = Visibility.Visible;
+        }
 
         private void btn_anmelden_Click(object sender, RoutedEventArgs e)
         {
