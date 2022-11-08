@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Linq;
 using Emgu.CV.Models;
 using System.Collections.Generic;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace MFR_GUI.Pages
 {
