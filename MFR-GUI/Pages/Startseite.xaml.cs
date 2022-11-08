@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,9 +52,7 @@ namespace MFR_GUI.Pages
             Globals.workingDirectory = Environment.CurrentDirectory;
             Globals.projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
 
-            //Load haarcascades for face detection
-            face = new CascadeClassifier(Globals.projectDirectory + "/Haarcascade/haarcascade_frontalface_alt.xml");
-
+            faceDetector.Init();
         }
 
         private void btn_passwort_Click(object sender, RoutedEventArgs e)

@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Management;
 using System.Windows.Documents;
 using System.Linq;
+using Emgu.CV.Models;
 
 namespace MFR_GUI.Pages
 {
@@ -63,17 +64,21 @@ namespace MFR_GUI.Pages
                     //Get the current frame from capture device
                     currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
 
-                    //Convert it to Grayscale
                     gray = currentFrame.Convert<Gray, Byte>();
 
-                    Rectangle[] dedectedFaces;
+                    List<Rectangle> dedectedFaces = new List<Rectangle>();
 
                     //Detect rectangular regions which contain a face
                     //Enter critical region
                     lock (syncObj)
                     {
                         //Detect rectangular regions which contain a face
-                        dedectedFaces = face.DetectMultiScale(gray, scaleFactor: 1.2, minNeighbors: 2, minSize: new Size(20, 20));
+                        faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+                    }
+
+                    foreach (DetectedObject d in fullFaceRegions)
+                    {
+                        dedectedFaces.Add(d.Region);
                     }
 
                     //Take the first region as the training face
@@ -112,7 +117,10 @@ namespace MFR_GUI.Pages
                     {
                         File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + labels[x]);
                     }
-                    
+
+                    fullFaceRegions = new List<DetectedObject>();
+                    partialFaceRegions = new List<DetectedObject>();
+
                     //Show a MessageBox for confirmation of successful training
                     MessageBox.Show(name + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -141,18 +149,32 @@ namespace MFR_GUI.Pages
             }
 
             //Convert it to Grayscale
-            gray = currentFrame.Convert<Gray, Byte>();
-            
-            Rectangle[] detectedFrontalFaces;
+            //gray = currentFrame.Convert<Gray, Byte>();
 
+            List<Rectangle> dedectedFaces = new List<Rectangle>();
+
+            //Detect rectangular regions which contain a face
+            //Enter critical region
             lock (syncObj)
             {
                 //Detect rectangular regions which contain a face
-                detectedFrontalFaces = face.DetectMultiScale(gray, scaleFactor: 1.2, minNeighbors: 2, minSize: new Size(20,20));
+                try
+                {
+                    faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+                }
+                catch(NullReferenceException ex)
+                {
+                    Console.WriteLine();
+                }
             }
-            
+
+            foreach(DetectedObject d in fullFaceRegions)
+            {
+                dedectedFaces.Add(d.Region);
+            }
+
             //Action for each region detected
-            foreach (Rectangle r in detectedFrontalFaces)
+            foreach (Rectangle r in dedectedFaces)
             {
                 //Draw a rectangle around the region
                 currentFrame.Draw(r, new Bgr(Color.Red), 2);
@@ -167,6 +189,8 @@ namespace MFR_GUI.Pages
 
             //Show the image with the drawn face
             imgBoxKamera.Image = currentFrame;
+            fullFaceRegions = new List<DetectedObject>();
+            partialFaceRegions = new List<DetectedObject>();
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.RightsManagement;
+using Emgu.CV.Models;
 
 namespace MFR_GUI.Pages
 {
@@ -25,7 +26,7 @@ namespace MFR_GUI.Pages
         public static int cameraIndex;
         public static bool dataLoaded;
         public static VideoCapture grabber;
-        public static CascadeClassifier face;
+        public static FaceDetector faceDetector = new FaceDetector();
         public static Image<Bgr, Byte>? currentFrame;
         public static Image<Gray, byte>? gray;
         public static Image<Gray, byte>? TrainingFace;
@@ -35,6 +36,8 @@ namespace MFR_GUI.Pages
         public static List<Mat> trainingImagesMat = new List<Mat>();
         public static List<string> labels = new List<string>();
         public static List<int> labelNr = new List<int>();
-        public static string recognizedNames = "";
+
+        public static List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+        public static List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
     }
 }

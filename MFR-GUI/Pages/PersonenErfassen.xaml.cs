@@ -19,6 +19,9 @@ using Size = System.Drawing.Size;
 using System.Windows.Interop;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Linq;
+using Emgu.CV.Models;
+using System.Collections.Generic;
 
 namespace MFR_GUI.Pages
 {
@@ -51,6 +54,8 @@ namespace MFR_GUI.Pages
 
         void FrameGrabber(object sender, EventArgs e)
         {
+            string status = "nicht erkannt";
+            string recognizedNames = "";
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -60,14 +65,24 @@ namespace MFR_GUI.Pages
                 currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
             }
 
-            //Convert it to Grayscale
-            gray = currentFrame.Convert<Gray, Byte>();
+            //Detect rectangular regions which contain a face
+            List<Rectangle> dedectedFaces = new List<Rectangle>();
 
             //Detect rectangular regions which contain a face
-            Rectangle[] detectedFrontalFaces = face.DetectMultiScale(gray);
+            //Enter critical region
+            lock (syncObj)
+            {
+                //Detect rectangular regions which contain a face
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+            }
+
+            foreach (DetectedObject d in fullFaceRegions)
+            {
+                dedectedFaces.Add(d.Region);
+            }
 
             //Action for each region detected
-            foreach (Rectangle r in detectedFrontalFaces)
+            foreach (Rectangle r in dedectedFaces)
             {
                 //Get the rectangular region out of the whole image
                 result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
@@ -91,30 +106,29 @@ namespace MFR_GUI.Pages
                             currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
 
                             //Add the label to the recognized faces
-                            recognizedNames += labels[res.Label] + ", ";
+                            if(recognizedNames != "")
+                            {
+                                recognizedNames += ", ";
+                            }
+                            recognizedNames += labels[res.Label];
+                            
+                            status = "erkannt";
                         }
                         else
                         {
                             //Draw the label "Unkown" as the criteria for same face was not met
                             currentFrame.Draw("Unbekannt" + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
-
-                            //Add the label "Unkown" to the recognized faces
-                            recognizedNames += "Unbekannt, ";
                         }
                     }
                     else
                     {
-                        //Add the Add the label "Unkown" to the recognized faces, because there is no face that can be recognized
-                        recognizedNames += "Unbekannt, ";
+                        //Draw the label "Unkown" as there are no faces in the database
+                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
                     }
-
+                }
                     //Release the lock on the synchronizing Object
                     Monitor.Exit(syncObj);
                 }
-
-                //Set the number of faces detected on the scene
-                Label2.Content = detectedFrontalFaces.Length.ToString();
-            }
 
             sw.Stop();
             if (longestTime < sw.ElapsedMilliseconds)
@@ -126,9 +140,13 @@ namespace MFR_GUI.Pages
             //Show the image with the drawn face
             imgBoxKamera.Image = currentFrame;
             //Show the labels of the faces that were recognized
-            Label1.Content = recognizedNames;
+            Label1.Content = status;
+            //
+            Label2.Content = recognizedNames;
             //Empty the recognized faces
             recognizedNames = "";
+            fullFaceRegions = new List<DetectedObject>();
+            partialFaceRegions = new List<DetectedObject>();
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
