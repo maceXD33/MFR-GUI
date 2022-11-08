@@ -63,14 +63,58 @@ namespace MFR_GUI.Pages
             foreach (Rectangle r in detectedFrontalFaces)
             {
                 //Get the rectangular region out of the whole image
-                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(128, 128, Emgu.CV.CvEnum.Inter.Cubic);
+                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
 
                 //Draw a rectangle around the region
                 currentFrame.Draw(r, new Bgr(Color.Red), 3);
+
+                //Try entering the critical region on the synchronizing object for the recognizer
+                if (Monitor.TryEnter(syncObj))
+                {
+                    //Check if there are any trained faces
+                    if (trainingFacesCount != 0)
+                    {
+                        //Get the result of the prediction from the recognizer
+                        FaceRecognizer.PredictionResult res = recognizer.Predict(result);
+
+                        //res.Distance < n determs how familiar the faces must look
+                        if (res.Distance < 12000)
+                        {
+                            //Draw the label for the detected face
+                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
+
+                            //Add the label to the recognized faces
+                            recognizedNames += labels[res.Label] + ", ";
+                        }
+                        else
+                        {
+                            //Draw the label "Unkown" as the criteria for same face was not met
+                            currentFrame.Draw("Unbekannt" + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
+
+                            //Add the label "Unkown" to the recognized faces
+                            recognizedNames += "Unbekannt, ";
+                        }
+                    }
+                    else
+                    {
+                        //Add the Add the label "Unkown" to the recognized faces, because there is no face that can be recognized
+                        recognizedNames += "Unbekannt, ";
+                    }
+
+                    //Release the lock on the synchronizing Object
+                    Monitor.Exit(syncObj);
+                }
+
+                //Set the number of faces detected on the scene
+                Label2.Content = detectedFrontalFaces.Length.ToString();
             }
 
             //Show the image with the drawn face
             imgBoxKamera.Image = currentFrame;
+            //Show the labels of the faces that were recognized
+            Label1.Content = recognizedNames;
+            //Empty the recognized faces
+            recognizedNames = "";
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)

@@ -29,7 +29,6 @@ namespace MFR_GUI.Pages
         public static Image<Gray, byte>? result;
         public static int trainingFacesCount = 0;
         public static EigenFaceRecognizer recognizer = new EigenFaceRecognizer();
-        public static EigenFaceRecognizer previousRecognizer = new EigenFaceRecognizer();
         public static List<Mat> trainingImagesMat = new List<Mat>();
         public static List<string> labels = new List<string>();
         public static List<int> labelNr = new List<int>();

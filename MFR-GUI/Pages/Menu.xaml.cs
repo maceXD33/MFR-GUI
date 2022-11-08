@@ -67,9 +67,8 @@ namespace MFR_GUI.Pages
                         }
                     }
 
-                    //Train both facerecognizer with the images and labelnumbers
+                    //Train the facerecognizer with the images and labelnumbers
                     recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
-                    previousRecognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
                 }
                 catch
                 {
@@ -123,10 +122,6 @@ namespace MFR_GUI.Pages
             if (recognizer != null)
             {
                 recognizer.Dispose();
-            }
-            if (previousRecognizer != null)
-            {
-                previousRecognizer.Dispose();
             }
 
             Window parentWindow = Window.GetWindow((DependencyObject)sender);

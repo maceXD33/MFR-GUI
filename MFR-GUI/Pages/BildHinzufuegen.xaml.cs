@@ -53,7 +53,7 @@ namespace MFR_GUI.Pages
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
-                String name = get_txt_Name();
+                string name = get_txt_Name();
                 
                 try
                 {
@@ -65,31 +65,32 @@ namespace MFR_GUI.Pages
 
                     //Convert it to Grayscale
                     gray = currentFrame.Convert<Gray, Byte>();
-                   
-                    //Detect rectangular regions which contain a face and take the first region as the training face
-                    Rectangle[] dedectedFaces = face.DetectMultiScale(gray);
 
+                    Rectangle[] dedectedFaces;
+
+                    //Detect rectangular regions which contain a face
+                    //Enter critical region
+                    lock (syncObj)
+                    {
+                        //Detect rectangular regions which contain a face
+                        dedectedFaces = face.DetectMultiScale(gray, scaleFactor: 1.2, minNeighbors: 2, minSize: new Size(20, 20));
+                    }
+
+                    //Take the first region as the training face
                     TrainingFace = gray.Copy(dedectedFaces[0]);
 
-                    Console.WriteLine("");
                     //Resize the image of the detected face and add the image and label to the lists for training
                     TrainingFace = TrainingFace.Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
                     labels.Add(name);
                     trainingImagesMat.Add(TrainingFace.Mat);
                     labelNr.Add(labelNr.Count);
 
-                    //Enter critical region
-                    lock (syncObj)
-                    {
-                        //Train the new Image with all other images into the FaceRecognizer
-                        recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
-
-                        //Set the transitional recognizer to the 
-                        previousRecognizer = recognizer;
-                    }
+                    //Train the recognizer with all Images and Labels
+                    recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
 
                     string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
 
+                    Console.WriteLine();
                     //Write the number of trained faces in a file text for further load
                     File.WriteAllText(trainingFacesDirectory + "TrainedLabels.txt", trainingImagesMat.Count.ToString());
 
@@ -115,7 +116,7 @@ namespace MFR_GUI.Pages
                     //Show a MessageBox for confirmation of successful training
                     MessageBox.Show(name + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -133,7 +134,7 @@ namespace MFR_GUI.Pages
             Stopwatch sw = new Stopwatch();
             sw.Start();
             //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(256, 256, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(512, 512, Emgu.CV.CvEnum.Inter.Cubic);
 
             //Convert it to Grayscale
             gray = currentFrame.Convert<Gray, Byte>();
