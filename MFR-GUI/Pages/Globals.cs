@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.RightsManagement;
 
 namespace MFR_GUI.Pages
 {
@@ -21,6 +22,7 @@ namespace MFR_GUI.Pages
         public static String projectDirectory;
 
         //Declararation of all variables
+        public static int cameraIndex;
         public static VideoCapture grabber;
         public static CascadeClassifier face;
         public static Image<Bgr, Byte>? currentFrame;

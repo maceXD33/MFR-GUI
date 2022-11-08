@@ -37,7 +37,7 @@ namespace MFR_GUI.Pages
 
             //Load haarcascades for face detection
             face = new CascadeClassifier(Globals.projectDirectory + "/Haarcascade/haarcascade_frontalface_alt.xml");
-            
+
             this.Loaded += OnLoaded;
         }
 
@@ -70,8 +70,9 @@ namespace MFR_GUI.Pages
                     //Train the facerecognizer with the images and labelnumbers
                     recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Console.WriteLine();
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }

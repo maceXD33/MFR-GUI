@@ -38,7 +38,6 @@ namespace MFR_GUI.Pages
             Task t = Task.Factory.StartNew(() =>
             {
                 //Initialize the capture device
-                grabber = new VideoCapture();
                 this.AddFrameGrabberEvent();
             });
         }

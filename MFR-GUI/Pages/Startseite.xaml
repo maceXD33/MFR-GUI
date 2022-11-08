@@ -32,7 +32,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="1"  Stretch="Uniform">
-            <ComboBox Name="kameraAuswahl" IsReadOnly="true" Margin="30" Height="30" Width="120"/>
+            <ComboBox Name="kameraAuswahl" IsReadOnly="true" Margin="30" Height="30" Width="120" SelectionChanged="OnSelectionChanged"/>
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">

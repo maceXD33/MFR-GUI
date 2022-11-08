@@ -23,6 +23,9 @@ using System.IO;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Management;
+using System.Windows.Documents;
+using System.Linq;
 
 namespace MFR_GUI.Pages
 {
@@ -41,8 +44,33 @@ namespace MFR_GUI.Pages
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
-                //Initialize the capture device
-                grabber = new VideoCapture();
+                /*
+                List<string> cameraNames = new List<string>();
+
+                try
+                {
+                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(new ObjectQuery("WQL", "SELECT * FROM Win32_PnPEntity"));
+
+                    ManagementObjectCollection moc = searcher.Get();
+
+                    foreach (var device in moc)
+                    {
+                        if (device["PNPClass"] != null)
+                        {
+                            cameraNames.Add(device["PNPClass"].ToString());
+                        }
+                    }
+
+                    cameraNames = cameraNames.Distinct().ToList();
+                    cameraNames.Sort();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                */
+
+                //Initialize the capture
                 imgBoxKamera.Image = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(256, 256, Emgu.CV.CvEnum.Inter.Cubic);
                 this.AddFrameGrabberEvent();
             });
@@ -129,7 +157,7 @@ namespace MFR_GUI.Pages
             this.NavigationService.Navigate(new Menu());
         }
 
-        void FrameGrabber(object sender, EventArgs e)
+        private void FrameGrabber(object sender, EventArgs e)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
