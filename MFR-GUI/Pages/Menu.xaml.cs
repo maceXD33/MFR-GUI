@@ -31,11 +31,6 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            this.Loaded += OnLoaded;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
             Task t = Task.Factory.StartNew(() =>
             {
                 if (!dataLoaded)

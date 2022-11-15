@@ -32,7 +32,6 @@ namespace MFR_GUI.Pages
     public partial class PersonenErfassen : Page
     {
         ImageBox imgBoxKamera;
-        long longestTime = 0;
 
         public PersonenErfassen()
         {
@@ -58,40 +57,36 @@ namespace MFR_GUI.Pages
             string status = "nicht erkannt";
             string recognizedNames = "";
 
-            //Get the current frame from capture device
-            lock (syncObj)
+            if(Monitor.TryEnter(syncObj))
             {
+                //Get the current frame from capture device
                 currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
-            }
 
-            //Detect rectangular regions which contain a face
-            List<Rectangle> dedectedFaces = new List<Rectangle>();
-
-            //Detect rectangular regions which contain a face
-            //Enter critical region
-            lock (syncObj)
-            {
                 //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-            }
+                List<Rectangle> dedectedFaces = new List<Rectangle>();
 
-            foreach (DetectedObject d in fullFaceRegions)
-            {
-                dedectedFaces.Add(d.Region);
-            }
-
-            //Action for each region detected
-            foreach (Rectangle r in dedectedFaces)
-            {
-                //Get the rectangular region out of the whole image
-                result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
-
-                //Draw a rectangle around the region
-                currentFrame.Draw(r, new Bgr(Color.Red), 3);
-
-                //Try entering the critical region on the synchronizing object for the recognizer
-                if (Monitor.TryEnter(syncObj))
+                //Detect rectangular regions which contain a face
+                //Enter critical region
+                lock (syncObj)
                 {
+                    //Detect rectangular regions which contain a face
+                    faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+                }
+
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    dedectedFaces.Add(d.Region);
+                }
+
+                //Action for each region detected
+                foreach (Rectangle r in dedectedFaces)
+                {
+                    //Get the rectangular region out of the whole image
+                    result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+
+                    //Draw a rectangle around the region
+                    currentFrame.Draw(r, new Bgr(Color.Red), 3);
+
                     //Check if there are any trained faces
                     if (trainingFacesCount != 0)
                     {
@@ -99,16 +94,17 @@ namespace MFR_GUI.Pages
                         FaceRecognizer.PredictionResult res = recognizer.Predict(result);
 
                         //res.Distance < n determs how familiar the faces must look
-                        if (res.Distance < 10000)
+                        if (res.Distance <= 30)
                         {
                             //Draw the label for the detected face
-                            currentFrame.Draw(labels[res.Label], new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
+                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
 
                             //Add the label to the recognized faces
-                            if(recognizedNames != "")
+                            if (recognizedNames != "")
                             {
                                 recognizedNames += ", ";
                             }
+
                             recognizedNames += labels[res.Label];
                             
                             status = "erkannt";                       
@@ -116,7 +112,7 @@ namespace MFR_GUI.Pages
                         else
                         {
                             //Draw the label "Unkown" as the criteria for same face was not met
-                            currentFrame.Draw("Unbekannt" + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
+                            currentFrame.Draw("Unbekannt" + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
                         }
                     }
                     else
@@ -130,27 +126,21 @@ namespace MFR_GUI.Pages
                 Monitor.Exit(syncObj);
             }
 
-            //Show the image with the drawn face
-            imgBoxKamera.Image = currentFrame;
-            //Show weither a face got recognized
-            Label1.Content = status;
-            //Show the labels of the faces that were recognized
-            Label1.Content = status;
+                //Show the image with the drawn face
+                imgBoxKamera.Image = currentFrame;
+                //Show weither a face got recognized
+                Label1.Content = status;
+                //Show the labels of the faces that were recognized
+                Label2.Content = recognizedNames;
+                //Empty the recognized faces
+                recognizedNames = "";
+                //Empty the lists for face-dedection
+                fullFaceRegions = new List<DetectedObject>();
+                partialFaceRegions = new List<DetectedObject>();
 
-            if(status=="erkannt")
-            {
-                Label1.Background = Brushes.Green;
+                //Release the lock on the synchronizing Object
+                Monitor.Exit(syncObj);
             }
-            else
-            {
-                Label1.Background = Brushes.OrangeRed;
-            }
-            //
-            Label2.Content = recognizedNames;
-            //Empty the recognized faces
-            recognizedNames = "";
-            fullFaceRegions = new List<DetectedObject>();
-            partialFaceRegions = new List<DetectedObject>();
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)

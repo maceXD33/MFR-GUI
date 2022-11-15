@@ -67,13 +67,14 @@ namespace MFR_GUI.Pages
         {
             Task t = Task.Factory.StartNew(() =>
             {
-                //Initialize the capture device
+                //Enter critical region
                 lock (syncObj)
                 {
-                    grabber = new VideoCapture(cameraIndex);
+                    //Initialize the capture device
+                    grabber = new VideoCapture(cameraIndex); //VideoCapture.API.DShow
                 }
             });
-
+            
             Menu m = new Menu();
             this.NavigationService.Navigate(m);
         }

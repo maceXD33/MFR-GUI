@@ -36,12 +36,11 @@ namespace MFR_GUI.Pages
     public partial class BildHinzufuegen : Page
     {
         ImageBox imgBoxKamera;
-        long longestTime = 0;
 
         public BildHinzufuegen()
         {
             InitializeComponent();
-
+            
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
@@ -55,20 +54,27 @@ namespace MFR_GUI.Pages
             Task t = Task.Factory.StartNew(() =>
             {
                 string name = get_txt_Name();
-
+                
                 try
                 {
                     //increase the counter for trainingfaces
                     trainingFacesCount++;
 
-                    //Get the current frame from capture device
-                    currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+                    //Enter critical region
+                    if(Monitor.TryEnter(syncObj))
+                    {
+                        //Get the current frame from capture device
+                        currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+                    }
+                    else
+                    {
+                        throw new Exception("Kamera nicht initializiert");
+                    }
 
                     gray = currentFrame.Convert<Gray, Byte>();
 
                     List<Rectangle> dedectedFaces = new List<Rectangle>();
 
-                    //Detect rectangular regions which contain a face
                     //Enter critical region
                     lock (syncObj)
                     {
@@ -87,51 +93,64 @@ namespace MFR_GUI.Pages
                         TrainingFace = gray.Copy(dedectedFaces[0]);
                     }
 
-                    //Resize the image of the detected face and add the image and label to the lists for training
-                    TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
-                    labels.Add(name);
-                    trainingImagesMat.Add(TrainingFace.Mat);
-                    labelNr.Add(labelNr.Count);
-
-                    //Train the recognizer with all Images and Labels
-                    recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
-
-                    string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
-
-                    Console.WriteLine();
-                    //Write the number of trained faces in a file text for further load
-                    File.WriteAllText(trainingFacesDirectory + "TrainedLabels.txt", trainingImagesMat.Count.ToString());
-
-                    //Write the labels of trained faces in a file text for further load and save the images as bitmap-file
-                    if (!Directory.Exists(trainingFacesDirectory + name + "/"))
+                    if (TrainingFace != null)
                     {
-                        Directory.CreateDirectory(trainingFacesDirectory + name + "/");
-                    }
+                        //Resize the image of the detected face and add the image and label to the lists for training
+                        TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+                        trainingImagesMat.Add(TrainingFace.Mat);
 
-                    int i = 0;
-                    while(File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"))
+                        labels.Add(name);
+                        labelNr.Add(labelNr.Count);
+
+                        //Train the recognizer with all Images and Labels
+                        recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+
+                        string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
+
+                        Console.WriteLine();
+                        //Write the number of trained faces in a file text for further load
+                        File.WriteAllText(trainingFacesDirectory + "TrainedLabels.txt", trainingImagesMat.Count.ToString());
+
+                        //Write the labels of trained faces in a file text for further load and save the images as bitmap-file
+                        if (!Directory.Exists(trainingFacesDirectory + name + "/"))
+                        {
+                            Directory.CreateDirectory(trainingFacesDirectory + name + "/");
+                        }
+
+                        int i = 0;
+                        while (File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"))
+                        {
+                            i++;
+                        }
+
+                        trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
+
+                        for (int x = 0; x < labels.Count; x++)
+                        {
+                            File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + labels[x]);
+                        }
+
+                        fullFaceRegions = new List<DetectedObject>();
+                        partialFaceRegions = new List<DetectedObject>();
+
+                        //Show a MessageBox for confirmation of successful training
+                        MessageBox.Show(name + "´s Gesicht wurde erkannt und hinzugefügt", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
                     {
-                        i++;
+                        MessageBox.Show("Es konnte leider kein Gesicht erkannt werden", "Kein Gesicht erkannt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
-            
-                    for (int x = 0; x < labels.Count; x++)
-                    {
-                        File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + labels[x]);
-                    }
-
-                    fullFaceRegions = new List<DetectedObject>();
-                    partialFaceRegions = new List<DetectedObject>();
-
-                    //Show a MessageBox for confirmation of successful training
-                    MessageBox.Show(name + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
+                    if(ex.Message.Equals("Kamera nicht initializiert"))
+                    {
+
+                    }
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+
             });
         }
 
@@ -142,48 +161,44 @@ namespace MFR_GUI.Pages
 
         private void FrameGrabber(object sender, EventArgs e)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
-            lock (syncObj)
+            //Try entering critical region
+            if(Monitor.TryEnter(syncObj))
             {
                 //Get the current frame from capture device
                 currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
-            }
 
-            List<Rectangle> dedectedFaces = new List<Rectangle>();
+                List<Rectangle> dedectedFaces = new List<Rectangle>();
 
-            //Enter critical region
-            lock (syncObj)
-            {
                 //Detect rectangular regions which contain a face
                 try
                 {
                     faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
                 }
-                catch(NullReferenceException ex)
+                catch (NullReferenceException ex)
                 {
                     Console.WriteLine();
                 }
-            }
 
-            foreach(DetectedObject d in fullFaceRegions)
-            {
-                dedectedFaces.Add(d.Region);
-            }
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    dedectedFaces.Add(d.Region);
+                }
 
-            //Action for each region detected
-            foreach (Rectangle r in dedectedFaces)
-            {
-                //Draw a rectangle around the region
-                currentFrame.Draw(r, new Bgr(Color.Red), 2);
-            }
+                //Action for each region detected
+                foreach (Rectangle r in dedectedFaces)
+                {
+                    //Draw a rectangle around the region
+                    currentFrame.Draw(r, new Bgr(Color.Red), 2);
+                }
 
-            //Show the image with the drawn face
-            imgBoxKamera.Image = currentFrame;
-            //Empty the lists for face-dedection
-            fullFaceRegions = new List<DetectedObject>();
-            partialFaceRegions = new List<DetectedObject>();
+                //Show the image with the drawn face
+                imgBoxKamera.Image = currentFrame;
+                //Empty the lists for face-dedection
+                fullFaceRegions = new List<DetectedObject>();
+                partialFaceRegions = new List<DetectedObject>();
+
+                Monitor.Exit(syncObj);
+            }
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
