@@ -40,12 +40,10 @@ namespace MFR_GUI.Pages
                         //Load the file with the labels from previous trained faces and get the labels and the number of trained faces
                         string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
                         string[] Labels = allLabels.Split('%');
-                        trainingFacesCount = Convert.ToInt16(Labels[0]);
                         
                         List<string> distinctLabels = Labels.Distinct().ToList();
                         distinctLabels.RemoveAt(0);
 
-                        int totalCount = 0;
                         //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
                         foreach (string name in distinctLabels)
                         {
@@ -53,11 +51,11 @@ namespace MFR_GUI.Pages
                             {
                                 Image<Gray, byte> image = new Image<Gray, byte>(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp");
                                 trainingImagesMat.Add(image.Mat);
-                                labelNr.Add(totalCount);
+                                labelNr.Add(savedNamesCount);
                             }
 
                             labels.Add(name);
-                            totalCount++;
+                            savedNamesCount++;
                         }
 
                         lock (syncObj)
@@ -70,7 +68,6 @@ namespace MFR_GUI.Pages
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine();
                         //Show a MessageBox if there was an exception
                         MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }

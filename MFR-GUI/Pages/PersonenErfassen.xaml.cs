@@ -83,7 +83,7 @@ namespace MFR_GUI.Pages
                     currentFrame.Draw(r, new Bgr(Color.Red), 3);
 
                     //Check if there are any trained faces
-                    if (trainingFacesCount != 0)
+                    if (savedNamesCount != 0)
                     {
                         //Get the result of the prediction from the recognizer
                         FaceRecognizer.PredictionResult res = recognizer.Predict(result);

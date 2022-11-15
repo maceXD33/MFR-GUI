@@ -57,9 +57,6 @@ namespace MFR_GUI.Pages
                 
                 try
                 {
-                    //increase the counter for trainingfaces
-                    trainingFacesCount++;
-
                     //Enter critical region
                     if(Monitor.TryEnter(syncObj))
                     {
@@ -92,18 +89,18 @@ namespace MFR_GUI.Pages
                     {
                         //Take the first region as the training face
                         TrainingFace = gray.Copy(dedectedFaces[0]);
-                    }
-
-                    if (TrainingFace != null)
-                    {
+                    
                         //Resize the image of the detected face and add the image and label to the lists for training
                         TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
                         trainingImagesMat.Add(TrainingFace.Mat);
 
-                        if(!labels.Contains(name))
+                        string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
+
+                        if (!labels.Contains(name))
                         {
                             labels.Add(name);
-                            labelNr.Add(labelNr.Count);
+                            labelNr.Add(savedNamesCount++);
+                            File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
                         }
                         else
                         {
@@ -112,12 +109,6 @@ namespace MFR_GUI.Pages
 
                         //Train the recognizer with all Images and Labels
                         recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
-
-                        string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
-
-                        Console.WriteLine();
-                        //Write the number of trained faces in a file text for further load
-                        File.WriteAllText(trainingFacesDirectory + "TrainedLabels.txt", trainingImagesMat.Count.ToString());
 
                         //Write the labels of trained faces in a file text for further load and save the images as bitmap-file
                         if (!Directory.Exists(trainingFacesDirectory + name + "/"))
@@ -132,11 +123,6 @@ namespace MFR_GUI.Pages
                         }
 
                         trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
-
-                        for (int x = 0; x < labels.Count; x++)
-                        {
-                            File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + labels[x]);
-                        }
 
                         fullFaceRegions = new List<DetectedObject>();
                         partialFaceRegions = new List<DetectedObject>();

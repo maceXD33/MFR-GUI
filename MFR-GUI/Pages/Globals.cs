@@ -31,7 +31,7 @@ namespace MFR_GUI.Pages
         public static Image<Gray, byte>? gray;
         public static Image<Gray, byte>? TrainingFace;
         public static Image<Gray, byte>? result;
-        public static int trainingFacesCount = 0;
+        public static int savedNamesCount = 0;
         public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer();
         public static List<Mat> trainingImagesMat = new List<Mat>();
         public static List<string> labels = new List<string>();
