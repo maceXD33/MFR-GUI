@@ -57,8 +57,6 @@ namespace MFR_GUI.Pages
         {
             string status = "nicht erkannt";
             string recognizedNames = "";
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
 
             //Get the current frame from capture device
             lock (syncObj)
@@ -101,10 +99,10 @@ namespace MFR_GUI.Pages
                         FaceRecognizer.PredictionResult res = recognizer.Predict(result);
 
                         //res.Distance < n determs how familiar the faces must look
-                        if (res.Distance < 12000)
+                        if (res.Distance < 10000)
                         {
                             //Draw the label for the detected face
-                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
+                            currentFrame.Draw(labels[res.Label], new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
 
                             //Add the label to the recognized faces
                             if(recognizedNames != "")
@@ -132,15 +130,10 @@ namespace MFR_GUI.Pages
                 Monitor.Exit(syncObj);
             }
 
-            sw.Stop();
-            if (longestTime < sw.ElapsedMilliseconds)
-            {
-                Task.Delay((int)(sw.ElapsedMilliseconds - longestTime));
-                longestTime = sw.ElapsedMilliseconds;
-            }
-
             //Show the image with the drawn face
             imgBoxKamera.Image = currentFrame;
+            //Show weither a face got recognized
+            Label1.Content = status;
             //Show the labels of the faces that were recognized
             Label1.Content = status;
 

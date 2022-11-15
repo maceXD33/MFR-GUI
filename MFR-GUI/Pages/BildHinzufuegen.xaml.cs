@@ -55,7 +55,7 @@ namespace MFR_GUI.Pages
             Task t = Task.Factory.StartNew(() =>
             {
                 string name = get_txt_Name();
-                
+
                 try
                 {
                     //increase the counter for trainingfaces
@@ -81,8 +81,11 @@ namespace MFR_GUI.Pages
                         dedectedFaces.Add(d.Region);
                     }
 
-                    //Take the first region as the training face
-                    TrainingFace = gray.Copy(dedectedFaces[0]);
+                    if (dedectedFaces.Count != 0)
+                    {
+                        //Take the first region as the training face
+                        TrainingFace = gray.Copy(dedectedFaces[0]);
+                    }
 
                     //Resize the image of the detected face and add the image and label to the lists for training
                     TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
@@ -148,12 +151,8 @@ namespace MFR_GUI.Pages
                 currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
             }
 
-            //Convert it to Grayscale
-            //gray = currentFrame.Convert<Gray, Byte>();
-
             List<Rectangle> dedectedFaces = new List<Rectangle>();
 
-            //Detect rectangular regions which contain a face
             //Enter critical region
             lock (syncObj)
             {
@@ -180,15 +179,9 @@ namespace MFR_GUI.Pages
                 currentFrame.Draw(r, new Bgr(Color.Red), 2);
             }
 
-            sw.Stop();
-            if (longestTime < sw.ElapsedMilliseconds)
-            {
-                Task.Delay((int)(sw.ElapsedMilliseconds - longestTime));
-                longestTime = sw.ElapsedMilliseconds;
-            }
-
             //Show the image with the drawn face
             imgBoxKamera.Image = currentFrame;
+            //Empty the lists for face-dedection
             fullFaceRegions = new List<DetectedObject>();
             partialFaceRegions = new List<DetectedObject>();
         }
@@ -217,7 +210,7 @@ namespace MFR_GUI.Pages
 
         //Threadsafe method
         /// <summary>
-        /// Add the function FrameGrabber to the Event ComponentDispatcher.ThreadIdle
+        /// Add the function FrameGrabber to the Event ComponentDispatcher.ThreadIdle.
         /// This function can be called in a thread outside of the Main-Thread.
         /// </summary>
         private void AddFrameGrabberEvent()
@@ -236,7 +229,7 @@ namespace MFR_GUI.Pages
 
         //Threadsafe method
         /// <summary>
-        /// Gets the Name Property of the TextView txt_Name
+        /// Gets the Name Property of the TextView txt_Name.
         /// This function can be called in a thread outside of the Main-Thread.
         /// </summary>
         private string get_txt_Name()

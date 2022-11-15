@@ -21,7 +21,7 @@ namespace MFR_GUI.Pages
 
         public static String workingDirectory;
         public static String projectDirectory;
-
+        
         //Declararation of all variables
         public static int cameraIndex;
         public static bool dataLoaded;
@@ -32,7 +32,7 @@ namespace MFR_GUI.Pages
         public static Image<Gray, byte>? TrainingFace;
         public static Image<Gray, byte>? result;
         public static int trainingFacesCount = 0;
-        public static EigenFaceRecognizer recognizer = new EigenFaceRecognizer();
+        public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer();
         public static List<Mat> trainingImagesMat = new List<Mat>();
         public static List<string> labels = new List<string>();
         public static List<int> labelNr = new List<int>();
