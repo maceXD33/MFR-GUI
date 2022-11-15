@@ -37,9 +37,6 @@ namespace MFR_GUI.Pages
         public static List<string> labels = new List<string>();
         public static List<int> labelNr = new List<int>();
 
-        public static List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-        public static List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-
         public static bool password_checked;
     }
 }

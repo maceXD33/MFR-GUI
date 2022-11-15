@@ -36,6 +36,8 @@ namespace MFR_GUI.Pages
     public partial class BildHinzufuegen : Page
     {
         ImageBox imgBoxKamera;
+        List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+        List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
 
         public BildHinzufuegen()
         {
@@ -80,15 +82,10 @@ namespace MFR_GUI.Pages
                         faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
                     }
 
-                    foreach (DetectedObject d in fullFaceRegions)
-                    {
-                        dedectedFaces.Add(d.Region);
-                    }
-
-                    if (dedectedFaces.Count != 0)
+                    if (fullFaceRegions.Count != 0)
                     {
                         //Take the first region as the training face
-                        TrainingFace = gray.Copy(dedectedFaces[0]);
+                        TrainingFace = gray.Copy(fullFaceRegions[0].Region);
                     
                         //Resize the image of the detected face and add the image and label to the lists for training
                         TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
@@ -150,6 +147,13 @@ namespace MFR_GUI.Pages
 
         private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
         {
+            imgBoxKamera.Dispose();
+            fullFaceRegions.Clear();
+            partialFaceRegions.Clear();
+            ComponentDispatcher.ThreadIdle -= FrameGrabber;
+            i_Kamera.Loaded -= i_Kamera_Loaded;
+            this.SizeChanged -= hideScrollbars;
+
             this.NavigationService.Navigate(new Menu());
         }
 
@@ -161,28 +165,12 @@ namespace MFR_GUI.Pages
                 //Get the current frame from capture device
                 currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
 
-                List<Rectangle> dedectedFaces = new List<Rectangle>();
-
                 //Detect rectangular regions which contain a face
-                try
-                {
-                    faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-                }
-                catch (NullReferenceException ex)
-                {
-                    Console.WriteLine();
-                }
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
                 foreach (DetectedObject d in fullFaceRegions)
                 {
-                    dedectedFaces.Add(d.Region);
-                }
-
-                //Action for each region detected
-                foreach (Rectangle r in dedectedFaces)
-                {
-                    //Draw a rectangle around the region
-                    currentFrame.Draw(r, new Bgr(Color.Red), 2);
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 2);
                 }
 
                 //Show the image with the drawn face

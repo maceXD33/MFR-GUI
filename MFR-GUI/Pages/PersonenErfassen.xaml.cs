@@ -34,6 +34,8 @@ namespace MFR_GUI.Pages
     public partial class PersonenErfassen : Page
     {
         ImageBox imgBoxKamera;
+        List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+        List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
 
         public PersonenErfassen()
         {
@@ -51,6 +53,13 @@ namespace MFR_GUI.Pages
 
         private void btn_Zurueck3_Click(object sender, RoutedEventArgs e)
         {
+            ComponentDispatcher.ThreadIdle -= FrameGrabber;
+            i_Kamera.Loaded -= i_Kamera_Loaded;
+            this.SizeChanged -= hideScrollbars;
+            imgBoxKamera.Dispose();
+            fullFaceRegions.Clear();
+            partialFaceRegions.Clear();
+
             this.NavigationService.Navigate(new Menu());
         }
 
@@ -65,24 +74,16 @@ namespace MFR_GUI.Pages
                 currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
 
                 //Detect rectangular regions which contain a face
-                List<Rectangle> dedectedFaces = new List<Rectangle>();
-
-                //Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
+                //Action for each region detected
                 foreach (DetectedObject d in fullFaceRegions)
                 {
-                    dedectedFaces.Add(d.Region);
-                }
-
-                //Action for each region detected
-                foreach (Rectangle r in dedectedFaces)
-                {
                     //Get the rectangular region out of the whole image
-                    result = currentFrame.Copy(r).Convert<Gray, Byte>().Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+                    result = currentFrame.Copy(d.Region).Convert<Gray, Byte>().Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
 
                     //Draw a rectangle around the region
-                    currentFrame.Draw(r, new Bgr(Color.Red), 3);
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 3);
 
                     //Check if there are any trained faces
                     if (savedNamesCount != 0)
@@ -94,7 +95,7 @@ namespace MFR_GUI.Pages
                         if (res.Distance <= 20)
                         {
                             //Draw the label for the detected face
-                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 3.0d, new Bgr(Color.LightGreen), thickness: 5);
+                            currentFrame.Draw(labels[res.Label], new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 3.0d, new Bgr(Color.LightGreen), thickness: 5);
 
                             //Add the label to the recognized faces
                             if (recognizedNames != "")
@@ -109,13 +110,13 @@ namespace MFR_GUI.Pages
                         else
                         {
                             //Draw the label "Unkown" as the criteria for same face was not met
-                            currentFrame.Draw("Unbekannt" + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 2.0d, new Bgr(Color.LightGreen), thickness: 3);
+                            currentFrame.Draw("Unbekannt", new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 2.0d, new Bgr(Color.LightGreen), thickness: 3);
                         }
                     }
                     else
                     {
                         //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 2.0d, new Bgr(Color.LightGreen), thickness: 3);                      
+                        currentFrame.Draw("Unbekannt", new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 2.0d, new Bgr(Color.LightGreen), thickness: 3);                      
                     }
                 }
 
