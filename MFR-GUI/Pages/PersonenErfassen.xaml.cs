@@ -124,7 +124,6 @@ namespace MFR_GUI.Pages
 
                 //Release the lock on the synchronizing Object
                 Monitor.Exit(syncObj);
-            }
 
                 //Show the image with the drawn face
                 imgBoxKamera.Image = currentFrame;
