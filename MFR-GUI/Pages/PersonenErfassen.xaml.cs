@@ -113,9 +113,17 @@ namespace MFR_GUI.Pages
                     else
                     {
                         //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
-                        status = "unbekannt";
+                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));                      
                     }
+                }
+
+                if (status == "erkannt")
+                {
+                    Label1.Background = Brushes.Green;
+                }
+                else
+                {
+                    Label1.Background = Brushes.OrangeRed;
                 }
 
                 //Show the image with the drawn face
@@ -128,10 +136,12 @@ namespace MFR_GUI.Pages
                 recognizedNames = "";
                 //Empty the lists for face-dedection
                 fullFaceRegions = new List<DetectedObject>();
-                partialFaceRegions = new List<DetectedObject>();
 
                 //Release the lock on the synchronizing Object
                 Monitor.Exit(syncObj);
+            }
+
+                
             }
         }
 

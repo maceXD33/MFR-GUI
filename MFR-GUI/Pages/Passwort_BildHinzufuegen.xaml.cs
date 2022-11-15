@@ -49,7 +49,7 @@ namespace MFR_GUI.Pages
             //Bool for Correct Password
             bool password = true;
             //Get Hashcode from File
-            string trainingFacesDirectory = Globals.projectDirectory + "/TrainingFaces/";
+            string trainingFacesDirectory = Globals.projectDirectory + "/Image/";
             string savedPasswordHash = File.ReadAllText(trainingFacesDirectory + "passwort.txt");
             // Extract the bytes 
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
@@ -66,6 +66,7 @@ namespace MFR_GUI.Pages
                 if (hashBytes[i + 16] != hash[i])
                 {
                     password = false;
+                    l_Fehler.Content = "Das Passwort ist falsch!";
                 }
             }
             //Correct Password

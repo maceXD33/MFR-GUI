@@ -44,6 +44,10 @@ namespace MFR_GUI.Pages
                     Uri u = new Uri(Globals.projectDirectory + "/TrainingFaces/" + txt_NameSuchen.Text);
                     explorer.Source = u;
                 }
+                else
+                {
+                    l_Fehler.Content = "Person nicht gefunden!";
+                }
             }
         }
 

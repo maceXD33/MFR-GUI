@@ -39,7 +39,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">
-            <Label x:Name="l_Fehler" Margin="25,35,0,0" Height="30" Width="120" Foreground="Red" FontFamily="Dubai" RenderTransformOrigin="0.51,0.562"/>
+            <Label x:Name="l_Fehler" Margin="30,35,0,0" Height="30" Width="130" Foreground="Red" FontFamily="Dubai" RenderTransformOrigin="0.51,0.562"/>
         </Viewbox>
 
         <Viewbox Grid.Row="2" Stretch="Uniform">

@@ -25,6 +25,16 @@ namespace MFR_GUI.Pages
         public PasswortÄndern()
         {
             InitializeComponent();
+
+            if (!File.Exists(Globals.projectDirectory + "/Image/passwort.txt"))
+            {
+                alt_PasswordUnmask.Visibility = Visibility.Hidden;
+                alt_PasswordHidden.Visibility = Visibility.Hidden;
+                alt_passwort.Visibility = Visibility.Hidden;
+                alt_ShowPassword.Visibility = Visibility.Hidden;
+                neu_Password_Label.Content = "Password:";
+            }
+
         }
 
         private void alt_ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => alt_ShowPasswordFunction();
@@ -63,6 +73,64 @@ namespace MFR_GUI.Pages
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
+            if (File.Exists(Globals.projectDirectory + "/Image/passwort.txt"))
+            {
+                //Bool for Correct Password
+                bool password = true;
+                //Get Hashcode from File
+                string trainingFacesDirectory = Globals.projectDirectory + "/Image/";
+                string savedPasswordHash = File.ReadAllText(trainingFacesDirectory + "passwort.txt");
+                // Extract the bytes 
+                byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
+                // Get the salt 
+                byte[] salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+                // Compute the hash on the password the user entered 
+                var pbkdf2 = new Rfc2898DeriveBytes(alt_PasswordHidden.Password, salt, 100000);
+                byte[] hash = pbkdf2.GetBytes(20);
+                // Compare the results 
+                for (int i = 0; i < 20; i++)
+                {
+                    //Incorrect Password
+                    if (hashBytes[i + 16] != hash[i])
+                    {
+                        password = false;
+                        l_Fehler.Content = "Altes Passwort ist falsch";
+                    }
+                }
+                //Correct Password
+                if (password)
+                {
+                    if (neu_PasswordHidden.Password != "")
+                    {
+                        passwort_ändern();
+                        l_Fehler.Foreground = Brushes.Green;
+                        l_Fehler.Content = "Passwort gespeichert!";
+                    }
+                    else
+                    {
+                        l_Fehler.Content = "Passwort eingeben!";
+                    }
+
+                }
+            }
+            else
+            {
+                passwort_ändern();
+                l_Fehler.Foreground = Brushes.Green;
+                l_Fehler.Content = "Passwort gespeichert!";
+
+            }
+        }
+
+        private void btn_zurück_Click(object sender, RoutedEventArgs e)
+        {
+            Startseite s = new Startseite();
+            this.NavigationService.Navigate(s);
+        }
+
+        public void passwort_ändern()
+        {
             //Create the salt value with a cryptographic PRNG
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
@@ -80,14 +148,8 @@ namespace MFR_GUI.Pages
             string savedPasswordHash = Convert.ToBase64String(hashBytes);
 
             //Save passwort in File
-            string trainingFacesDirectory = Globals.projectDirectory + "/TrainingFaces/";
+            string trainingFacesDirectory = Globals.projectDirectory + "/Image/";
             File.WriteAllText(trainingFacesDirectory + "passwort.txt", savedPasswordHash);
-        }
-
-        private void btn_zurück_Click(object sender, RoutedEventArgs e)
-        {
-            Startseite s = new Startseite();
-            this.NavigationService.Navigate(s);
         }
     }
 }
