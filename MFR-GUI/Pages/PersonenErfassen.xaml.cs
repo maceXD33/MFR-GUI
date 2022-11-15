@@ -140,9 +140,6 @@ namespace MFR_GUI.Pages
                 //Release the lock on the synchronizing Object
                 Monitor.Exit(syncObj);
             }
-
-                
-            }
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
