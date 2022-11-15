@@ -39,13 +39,13 @@
 
         <Viewbox Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Border BorderBrush="#FF87888A" BorderThickness="1" Margin="30" Height="30" Width="120">
-                <Label x:Name="Label1" Height="30" Width="120" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" Background="White"/>
+                <Label x:Name="Label1" Height="30" Width="120" FontWeight="Bold" FontFamily="Dubai" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" Background="White"/>
             </Border>
         </Viewbox>
 
         <Viewbox  Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Border BorderBrush="#FF87888A" BorderThickness="1" Margin="30" Height="30" Width="120">
-                <Label x:Name="Label2" Height="30" Width="120" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label x:Name="Label2" Height="30" Width="120" FontWeight="Bold" FontFamily="Dubai" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF87888A"/>
             </Border>
         </Viewbox>
 

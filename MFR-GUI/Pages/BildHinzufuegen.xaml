@@ -46,6 +46,10 @@
         </Viewbox>
 
         <Viewbox Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
+            <Label x:Name="l_Fehler" Margin="25,35,0,0" Height="30" Width="120" Foreground="Red" FontFamily="Dubai" RenderTransformOrigin="0.51,0.562"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <Button x:Name="btn_speichern" Content="Person speichern" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_speichern_Click"/>
         </Viewbox>
 

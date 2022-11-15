@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace MFR_GUI.Pages
 {
@@ -61,7 +63,25 @@ namespace MFR_GUI.Pages
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
+            //Create the salt value with a cryptographic PRNG
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
 
+            //Create the Rfc2898DeriveBytes and get the hash value
+            var pbkdf2 = new Rfc2898DeriveBytes(neu_PasswordHidden.Password, salt, 100000);
+            byte[] hash = pbkdf2.GetBytes(20);
+
+            //Combine the salt and password bytes for later use
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+
+            //Turn the combined salt+hash into a string for storage
+            string savedPasswordHash = Convert.ToBase64String(hashBytes);
+
+            //Save passwort in File
+            string trainingFacesDirectory = Globals.projectDirectory + "/TrainingFaces/";
+            File.WriteAllText(trainingFacesDirectory + "passwort.txt", savedPasswordHash);
         }
 
         private void btn_zurück_Click(object sender, RoutedEventArgs e)

@@ -29,6 +29,8 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
+            password_checked = false;
+
             List<string> cameraNames = new List<string>();
             
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image'OR PNPClass = 'Camera')"))

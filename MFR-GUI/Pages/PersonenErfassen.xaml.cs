@@ -113,7 +113,7 @@ namespace MFR_GUI.Pages
                             }
                             recognizedNames += labels[res.Label];
                             
-                            status = "erkannt";
+                            status = "erkannt";                       
                         }
                         else
                         {
@@ -124,12 +124,13 @@ namespace MFR_GUI.Pages
                     else
                     {
                         //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
+                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));                      
                     }
                 }
-                    //Release the lock on the synchronizing Object
-                    Monitor.Exit(syncObj);
-                }
+
+                //Release the lock on the synchronizing Object
+                Monitor.Exit(syncObj);
+            }
 
             sw.Stop();
             if (longestTime < sw.ElapsedMilliseconds)
@@ -142,6 +143,15 @@ namespace MFR_GUI.Pages
             imgBoxKamera.Image = currentFrame;
             //Show the labels of the faces that were recognized
             Label1.Content = status;
+
+            if(status=="erkannt")
+            {
+                Label1.Background = Brushes.Green;
+            }
+            else
+            {
+                Label1.Background = Brushes.OrangeRed;
+            }
             //
             Label2.Content = recognizedNames;
             //Empty the recognized faces
