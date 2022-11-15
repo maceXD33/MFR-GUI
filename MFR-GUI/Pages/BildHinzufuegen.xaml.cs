@@ -65,6 +65,7 @@ namespace MFR_GUI.Pages
                     {
                         //Get the current frame from capture device
                         currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+                        Monitor.Exit(syncObj);
                     }
                     else
                     {
@@ -221,6 +222,19 @@ namespace MFR_GUI.Pages
             //Add the interop host control to the Grid
             //control's collection of child controls.
             this.grid2.Children.Add(host);
+
+            this.SizeChanged += hideScrollbars;
+        }
+
+        /// <summary>
+        /// Hides the vertical and horizontal scrollbar of imgBoxKamera
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hideScrollbars(object sender, RoutedEventArgs e)
+        {
+            imgBoxKamera.HorizontalScrollBar.Hide();
+            imgBoxKamera.VerticalScrollBar.Hide();
         }
 
         //Threadsafe method

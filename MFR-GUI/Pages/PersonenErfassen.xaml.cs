@@ -66,12 +66,7 @@ namespace MFR_GUI.Pages
                 List<Rectangle> dedectedFaces = new List<Rectangle>();
 
                 //Detect rectangular regions which contain a face
-                //Enter critical region
-                lock (syncObj)
-                {
-                    //Detect rectangular regions which contain a face
-                    faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-                }
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
                 foreach (DetectedObject d in fullFaceRegions)
                 {
@@ -150,8 +145,6 @@ namespace MFR_GUI.Pages
             imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             imgBoxKamera.Enabled = false;
 
-            //imgBoxKamera.Location = new Point(400, 200);
-
             Grid.SetColumn(host, 3);
             Grid.SetRow(host, 1);
             Grid.SetColumnSpan(host, 2);
@@ -163,6 +156,19 @@ namespace MFR_GUI.Pages
             // Add the interop host control to the Grid
             // control's collection of child controls.
             this.grid2.Children.Add(host);
+            
+            this.SizeChanged += hideScrollbars;
+        }
+
+        /// <summary>
+        /// Hides the vertical and horizontal scrollbar of imgBoxKamera
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hideScrollbars(object sender, RoutedEventArgs e)
+        {
+            imgBoxKamera.HorizontalScrollBar.Hide();
+            imgBoxKamera.VerticalScrollBar.Hide();
         }
 
         //Threadsafe method

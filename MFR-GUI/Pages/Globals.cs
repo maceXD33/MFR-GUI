@@ -12,15 +12,15 @@ using Emgu.CV.Models;
 namespace MFR_GUI.Pages
 {
     public delegate void SetGrabberValuesDelegate();
-    public delegate String GetTextFromTextBoxDelegate();
+    public delegate string GetTextFromTextBoxDelegate();
 
     static class Globals
     {
         //Declaration of synchronizing object for lock-statements
         public static readonly Object syncObj = new Object();
 
-        public static String workingDirectory;
-        public static String projectDirectory;
+        public static string workingDirectory;
+        public static string projectDirectory;
         
         //Declararation of all variables
         public static int cameraIndex;
@@ -40,6 +40,6 @@ namespace MFR_GUI.Pages
         public static List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
         public static List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
 
-        public static bool password_checked { get; set; }
+        public static bool password_checked;
     }
 }

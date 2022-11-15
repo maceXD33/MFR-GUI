@@ -71,7 +71,7 @@ namespace MFR_GUI.Pages
                 lock (syncObj)
                 {
                     //Initialize the capture device
-                    grabber = new VideoCapture(cameraIndex); //VideoCapture.API.DShow
+                    grabber = new VideoCapture(cameraIndex, VideoCapture.API.DShow); //VideoCapture.API.DShow
                 }
             });
             
