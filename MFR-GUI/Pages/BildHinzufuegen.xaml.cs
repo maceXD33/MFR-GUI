@@ -100,8 +100,15 @@ namespace MFR_GUI.Pages
                         TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
                         trainingImagesMat.Add(TrainingFace.Mat);
 
-                        labels.Add(name);
-                        labelNr.Add(labelNr.Count);
+                        if(!labels.Contains(name))
+                        {
+                            labels.Add(name);
+                            labelNr.Add(labelNr.Count);
+                        }
+                        else
+                        {
+                            labelNr.Add(labels.IndexOf(name));
+                        }
 
                         //Train the recognizer with all Images and Labels
                         recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());

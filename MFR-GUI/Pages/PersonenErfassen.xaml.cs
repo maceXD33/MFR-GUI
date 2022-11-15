@@ -89,10 +89,10 @@ namespace MFR_GUI.Pages
                         FaceRecognizer.PredictionResult res = recognizer.Predict(result);
 
                         //res.Distance < n determs how familiar the faces must look
-                        if (res.Distance <= 30)
+                        if (res.Distance <= 20)
                         {
                             //Draw the label for the detected face
-                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen));
+                            currentFrame.Draw(labels[res.Label] + ", " + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 3.0d, new Bgr(Color.LightGreen), thickness: 5);
 
                             //Add the label to the recognized faces
                             if (recognizedNames != "")
@@ -107,13 +107,13 @@ namespace MFR_GUI.Pages
                         else
                         {
                             //Draw the label "Unkown" as the criteria for same face was not met
-                            currentFrame.Draw("Unbekannt" + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
+                            currentFrame.Draw("Unbekannt" + res.Distance, new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 2.0d, new Bgr(Color.LightGreen), thickness: 3);
                         }
                     }
                     else
                     {
                         //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));                      
+                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 2.0d, new Bgr(Color.LightGreen), thickness: 3);                      
                     }
                 }
 

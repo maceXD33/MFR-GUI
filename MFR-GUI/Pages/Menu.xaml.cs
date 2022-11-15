@@ -41,20 +41,23 @@ namespace MFR_GUI.Pages
                         string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
                         string[] Labels = allLabels.Split('%');
                         trainingFacesCount = Convert.ToInt16(Labels[0]);
+                        
+                        List<string> distinctLabels = Labels.Distinct().ToList();
+                        distinctLabels.RemoveAt(0);
 
-                        string[] distinctLabels = Labels.Distinct().ToArray();
-
-                        //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
                         int totalCount = 0;
+                        //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
                         foreach (string name in distinctLabels)
                         {
-                            for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp"); i++, totalCount++)
+                            for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp"); i++)
                             {
                                 Image<Gray, byte> image = new Image<Gray, byte>(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp");
                                 trainingImagesMat.Add(image.Mat);
-                                labels.Add(Labels[totalCount + 1]);
                                 labelNr.Add(totalCount);
                             }
+
+                            labels.Add(name);
+                            totalCount++;
                         }
 
                         lock (syncObj)
