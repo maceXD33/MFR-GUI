@@ -118,12 +118,10 @@ namespace MFR_GUI.Pages
                     else
                     {
                         //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));                      
+                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyTriplex, 0.5d, new Bgr(Color.LightGreen));
+                        status = "unbekannt";
                     }
                 }
-
-                //Release the lock on the synchronizing Object
-                Monitor.Exit(syncObj);
 
                 //Show the image with the drawn face
                 imgBoxKamera.Image = currentFrame;
