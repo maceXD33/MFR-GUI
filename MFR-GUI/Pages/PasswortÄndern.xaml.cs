@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Security.Cryptography;
 using System.IO;
+using static MFR_GUI.Pages.Globals;
 
 namespace MFR_GUI.Pages
 {
@@ -106,9 +98,11 @@ namespace MFR_GUI.Pages
                         passwort_ändern();
                         l_Fehler.Foreground = Brushes.Green;
                         l_Fehler.Content = "Passwort gespeichert!";
+                        password_checked = true;
                     }
                     else
                     {
+                        l_Fehler.Foreground = Brushes.Red;
                         l_Fehler.Content = "Passwort eingeben!";
                     }
 
@@ -119,6 +113,7 @@ namespace MFR_GUI.Pages
                 passwort_ändern();
                 l_Fehler.Foreground = Brushes.Green;
                 l_Fehler.Content = "Passwort gespeichert!";
+                password_checked = true;
 
             }
         }

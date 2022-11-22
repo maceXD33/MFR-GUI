@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PersonenAnzeigen">
 
-    <Grid Background="White">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -21,6 +21,10 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="\Image\Background.png"/>
+        </Grid.Background>
 
         <WebBrowser x:Name="explorer" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
 

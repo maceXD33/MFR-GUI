@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Startseite">
 
-    <Grid Background="White">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -22,6 +22,10 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="\Image\Background.png"/>
+        </Grid.Background>
 
         <Image x:Name="FaceRecognition" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" Source="\Image\FaceRecognition.jpg"></Image>
 

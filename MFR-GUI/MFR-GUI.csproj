@@ -9,8 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\Background.png" />
     <None Remove="Image\FaceRecognition.jpg" />
     <None Remove="Image\Passwort.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\Background.png" />
   </ItemGroup>
 
   <ItemGroup>

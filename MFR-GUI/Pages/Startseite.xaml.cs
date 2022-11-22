@@ -29,7 +29,10 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            password_checked = false;
+            if (!password_checked)
+            {
+                password_checked = false;
+            }
 
             List<string> cameraNames = new List<string>();
             
