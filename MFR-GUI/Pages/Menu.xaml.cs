@@ -1,19 +1,11 @@
-﻿using Emgu.CV.Face;
-using Emgu.CV;
+﻿using Emgu.CV;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static MFR_GUI.Pages.Globals;
 using System.IO;
 using Emgu.CV.Structure;
@@ -113,10 +105,6 @@ namespace MFR_GUI.Pages
             if (grabber != null)
             { 
                 grabber.Dispose();
-            }
-            if (currentFrame != null)
-            {
-                currentFrame.Dispose();
             }
             if (gray != null)
             {

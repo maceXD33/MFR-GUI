@@ -1,6 +1,4 @@
 ﻿using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Face;
 using Emgu.CV.Structure;
 using System.Threading;
 using System;
@@ -9,24 +7,14 @@ using System.Windows;
 using System.Windows.Controls;
 using static MFR_GUI.Pages.Globals;
 using System.Drawing;
-using Point = System.Drawing.Point;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Color = System.Drawing.Color;
 using Emgu.CV.UI;
-using Size = System.Drawing.Size;
-using System.Windows.Interop;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using System.IO;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Management;
-using System.Windows.Documents;
-using System.Linq;
 using Emgu.CV.Models;
+using Timer = System.Threading.Timer;
 
 namespace MFR_GUI.Pages
 {
@@ -35,19 +23,87 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class BildHinzufuegen : Page
     {
+        //List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+        //List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
         ImageBox imgBoxKamera;
-        List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-        List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+        Timer timer;
 
         public BildHinzufuegen()
         {
             InitializeComponent();
-            
-            //Create and start a Task
+
             Task t = Task.Factory.StartNew(() =>
             {
-                this.AddFrameGrabberEvent();
+                Thread.Sleep(100);
+
+                timer = new Timer(FrameGrabber, null, 100, 50);
             });
+        }
+
+        public void FrameGrabber(object state)
+        {
+            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+            Image<Bgr, Byte> currentFrame;
+
+            //Get the current frame from capture device
+            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+
+            if (Monitor.TryEnter(syncObj))
+            {
+                //Detect rectangular regions which contain a face
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                }
+
+                //Show the image with the drawn face
+                imgBoxKamera.Image = currentFrame;
+
+                Monitor.Exit(syncObj);
+            }
+        }
+
+        public void FrameGrabber2(Object stateInfo)
+        {
+            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+            Image<Bgr, Byte>? currentFrame;
+            //Logger.LogInfo("FrameGrabber", "Event ThreadIdle was raised");
+
+            //Try entering critical region
+            if (Monitor.TryEnter(syncObj))
+            {
+                Logger.LogInfo("FrameGrabber", "Lock on syncObj aquired");
+
+                //Get the current frame from capture device
+                currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            
+                //Detect rectangular regions which contain a face
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                }
+
+                Logger.LogInfo("FrameGrabber", "Setting new image");
+                //Show the image with the drawn face
+                imgBoxKamera.Image = currentFrame;
+                //Empty the lists for face-dedection
+                fullFaceRegions = new List<DetectedObject>();
+                partialFaceRegions = new List<DetectedObject>();
+
+                Monitor.Exit(syncObj);
+
+                Logger.LogInfo("FrameGrabber", "End of Method");
+            }
+            else
+            {
+                Logger.LogInfo("FrameGrabber", "Lock on syncObj couldn't be aquired");
+            }
         }
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
@@ -55,21 +111,16 @@ namespace MFR_GUI.Pages
             //Create and start a Task
             Task t = Task.Factory.StartNew(() =>
             {
+                List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+                List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+                Image<Bgr, Byte> currentFrame;
+
                 string name = get_txt_Name();
                 
                 try
                 {
-                    //Enter critical region
-                    if(Monitor.TryEnter(syncObj))
-                    {
-                        //Get the current frame from capture device
-                        currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
-                        Monitor.Exit(syncObj);
-                    }
-                    else
-                    {
-                        throw new Exception("Kamera nicht initializiert");
-                    }
+                    //Get the current frame from capture device
+                    currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
                     gray = currentFrame.Convert<Gray, Byte>();
 
@@ -88,7 +139,7 @@ namespace MFR_GUI.Pages
                         TrainingFace = gray.Copy(fullFaceRegions[0].Region);
                     
                         //Resize the image of the detected face and add the image and label to the lists for training
-                        TrainingFace = TrainingFace.Resize(1080, 1080, Emgu.CV.CvEnum.Inter.Cubic);
+                        TrainingFace = TrainingFace.Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
                         trainingImagesMat.Add(TrainingFace.Mat);
 
                         string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
@@ -107,17 +158,14 @@ namespace MFR_GUI.Pages
                         //Train the recognizer with all Images and Labels
                         recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
 
-                        //Write the labels of trained faces in a file text for further load and save the images as bitmap-file
+                        //save the images as bitmap-file
                         if (!Directory.Exists(trainingFacesDirectory + name + "/"))
                         {
                             Directory.CreateDirectory(trainingFacesDirectory + name + "/");
                         }
 
-                        int i = 0;
-                        while (File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"))
-                        {
-                            i++;
-                        }
+                        int i;
+                        for(i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++);
 
                         trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
 
@@ -134,53 +182,15 @@ namespace MFR_GUI.Pages
                 }
                 catch (Exception ex)
                 {
-                    if(ex.Message.Equals("Kamera nicht initializiert"))
-                    {
-
-                    }
                     //Show a MessageBox if there was an exception
                     MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-
             });
         }
 
         private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
         {
-            imgBoxKamera.Dispose();
-            fullFaceRegions.Clear();
-            partialFaceRegions.Clear();
-            ComponentDispatcher.ThreadIdle -= FrameGrabber;
-            i_Kamera.Loaded -= i_Kamera_Loaded;
-            this.SizeChanged -= hideScrollbars;
-
             this.NavigationService.Navigate(new Menu());
-        }
-
-        private void FrameGrabber(object sender, EventArgs e)
-        {
-            //Try entering critical region
-            if(Monitor.TryEnter(syncObj))
-            {
-                //Get the current frame from capture device
-                currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(1920, 1080, Emgu.CV.CvEnum.Inter.Cubic);
-
-                //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-
-                foreach (DetectedObject d in fullFaceRegions)
-                {
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 2);
-                }
-
-                //Show the image with the drawn face
-                imgBoxKamera.Image = currentFrame;
-                //Empty the lists for face-dedection
-                fullFaceRegions = new List<DetectedObject>();
-                partialFaceRegions = new List<DetectedObject>();
-
-                Monitor.Exit(syncObj);
-            }
         }
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
@@ -216,25 +226,6 @@ namespace MFR_GUI.Pages
         {
             imgBoxKamera.HorizontalScrollBar.Hide();
             imgBoxKamera.VerticalScrollBar.Hide();
-        }
-
-        //Threadsafe method
-        /// <summary>
-        /// Add the function FrameGrabber to the Event ComponentDispatcher.ThreadIdle.
-        /// This function can be called in a thread outside of the Main-Thread.
-        /// </summary>
-        private void AddFrameGrabberEvent()
-        {
-            if (this.btn_speichern.Dispatcher.CheckAccess())
-            {
-                //We are on the thread that owns the control
-                ComponentDispatcher.ThreadIdle += FrameGrabber;
-            }
-            else
-            {
-                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                this.Dispatcher.Invoke(new SetGrabberValuesDelegate(this.AddFrameGrabberEvent));
-            }
         }
 
         //Threadsafe method

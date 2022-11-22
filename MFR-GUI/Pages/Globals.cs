@@ -8,26 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.RightsManagement;
 using Emgu.CV.Models;
+using System.IO;
 
 namespace MFR_GUI.Pages
 {
     public delegate void SetGrabberValuesDelegate();
     public delegate string GetTextFromTextBoxDelegate();
+    public delegate void SetGUIElementsDelegate(Image<Bgr, byte> image, string status, string recognizedNames);
 
     static class Globals
     {
         //Declaration of synchronizing object for lock-statements
-        public static readonly Object syncObj = new Object();
+        public static readonly object syncObj = new object();
 
-        public static string workingDirectory;
-        public static string projectDirectory;
+        public static string workingDirectory = Environment.CurrentDirectory;
+        public static string projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
         
         //Declararation of all variables
         public static int cameraIndex;
         public static bool dataLoaded;
         public static VideoCapture grabber;
         public static FaceDetector faceDetector = new FaceDetector();
-        public static Image<Bgr, Byte>? currentFrame;
         public static Image<Gray, byte>? gray;
         public static Image<Gray, byte>? TrainingFace;
         public static Image<Gray, byte>? result;

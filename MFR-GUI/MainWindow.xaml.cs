@@ -1,24 +1,4 @@
-﻿using Emgu.CV.Face;
-using Emgu.CV.Structure;
-using Emgu.CV;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Menu = MFR_GUI.Pages.Menu;
-using System.Windows.Forms;
-using System.Windows.Forms.Integration;
-using Emgu.CV.UI;
+﻿using System.Windows;
 using MFR_GUI.Pages;
 
 namespace MFR_GUI
