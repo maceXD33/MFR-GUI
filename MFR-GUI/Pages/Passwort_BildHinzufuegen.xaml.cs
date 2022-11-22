@@ -44,6 +44,14 @@ namespace MFR_GUI.Pages
             PasswordHidden.Visibility = Visibility.Visible;
         }
 
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                btn_anmelden_Click(sender, e);
+            }
+        }
+
         private void btn_anmelden_Click(object sender, RoutedEventArgs e)
         {
             //Bool for Correct Password

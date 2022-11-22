@@ -29,7 +29,7 @@
         <Image x:Name="FaceRecognition" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" Source="\Image\FaceRecognition.jpg"/>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
-            <PasswordBox PasswordChar="*" x:Name="alt_PasswordHidden" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <PasswordBox PasswordChar="*" x:Name="alt_PasswordHidden" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler"/>
         </Viewbox>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
@@ -47,7 +47,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">
-            <PasswordBox PasswordChar="*" x:Name="neu_PasswordHidden" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <PasswordBox PasswordChar="*" x:Name="neu_PasswordHidden" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="OnKeyDownHandler"/>
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">

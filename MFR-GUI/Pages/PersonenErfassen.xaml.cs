@@ -23,6 +23,8 @@ using System.Linq;
 using Emgu.CV.Models;
 using System.Collections.Generic;
 using Brushes = System.Windows.Media.Brushes;
+using ColorConverter = System.Drawing.ColorConverter;
+using Brush = System.Windows.Media.Brush;
 
 namespace MFR_GUI.Pages
 {
@@ -123,7 +125,7 @@ namespace MFR_GUI.Pages
                 }
                 else
                 {
-                    Label1.Background = Brushes.OrangeRed;
+                    Label1.Background = Brushes.Red;
                 }
 
                 //Show the image with the drawn face

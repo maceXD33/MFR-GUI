@@ -63,7 +63,14 @@ namespace MFR_GUI.Pages
             neu_PasswordHidden.Visibility = Visibility.Visible;
         }
 
-        private void btn_speichern_Click(object sender, RoutedEventArgs e)
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                btn_speichern_Click(sender, e);
+            }
+        }
+            private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Globals.projectDirectory + "/Image/passwort.txt"))
             {
@@ -87,6 +94,7 @@ namespace MFR_GUI.Pages
                     if (hashBytes[i + 16] != hash[i])
                     {
                         password = false;
+                        l_Fehler.Foreground = Brushes.Red;
                         l_Fehler.Content = "Altes Passwort ist falsch";
                     }
                 }
