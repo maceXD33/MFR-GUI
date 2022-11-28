@@ -31,13 +31,6 @@ namespace MFR_GUI.Pages
         public BildHinzufuegen()
         {
             InitializeComponent();
-
-            Task t = Task.Factory.StartNew(() =>
-            {
-                Thread.Sleep(100);
-
-                timer = new Timer(FrameGrabber, null, 100, 50);
-            });
         }
 
         public void FrameGrabber(object state)
@@ -46,11 +39,15 @@ namespace MFR_GUI.Pages
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte> currentFrame;
 
+            Logger.LogInfo("BildHinzufuegen - FrameGrabber", "FrameGrabber started");
+
             //Get the current frame from capture device
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
             if (Monitor.TryEnter(syncObj))
             {
+                Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Lock on syncObj aquired");
+
                 //Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
@@ -59,50 +56,15 @@ namespace MFR_GUI.Pages
                     currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
 
+                Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Setting new image");
                 //Show the image with the drawn face
                 imgBoxKamera.Image = currentFrame;
 
                 Monitor.Exit(syncObj);
-            }
-        }
-
-        public void FrameGrabber2(Object stateInfo)
-        {
-            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte>? currentFrame;
-            //Logger.LogInfo("FrameGrabber", "Event ThreadIdle was raised");
-
-            //Try entering critical region
-            if (Monitor.TryEnter(syncObj))
-            {
-                Logger.LogInfo("FrameGrabber", "Lock on syncObj aquired");
-
-                //Get the current frame from capture device
-                currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            
-                //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-
-                foreach (DetectedObject d in fullFaceRegions)
-                {
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-                }
-
-                Logger.LogInfo("FrameGrabber", "Setting new image");
-                //Show the image with the drawn face
-                imgBoxKamera.Image = currentFrame;
-                //Empty the lists for face-dedection
-                fullFaceRegions = new List<DetectedObject>();
-                partialFaceRegions = new List<DetectedObject>();
-
-                Monitor.Exit(syncObj);
-
-                Logger.LogInfo("FrameGrabber", "End of Method");
             }
             else
             {
-                Logger.LogInfo("FrameGrabber", "Lock on syncObj couldn't be aquired");
+                Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Lock on syncObj couldn't be aquired");
             }
         }
 
@@ -192,6 +154,7 @@ namespace MFR_GUI.Pages
 
         private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
         {
+            timer.Dispose();
             this.NavigationService.Navigate(new Menu());
         }
 
@@ -217,6 +180,8 @@ namespace MFR_GUI.Pages
             this.grid2.Children.Add(host);
 
             this.SizeChanged += hideScrollbars;
+
+            timer = new Timer(FrameGrabber, null, 200, 50);
         }
 
         /// <summary>
@@ -232,7 +197,7 @@ namespace MFR_GUI.Pages
 
         //Threadsafe method
         /// <summary>
-        /// Gets the Name Property of the TextView txt_Name.
+        /// Gets the Text Property of the TextView txt_Name.
         /// This function can be called in a thread outside of the Main-Thread.
         /// </summary>
         private string get_txt_Name()
@@ -245,7 +210,7 @@ namespace MFR_GUI.Pages
             else
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                return (String) this.Dispatcher.Invoke(new GetTextFromTextBoxDelegate(this.get_txt_Name));
+                return (string) this.Dispatcher.Invoke(new GetTextFromTextBoxDelegate(this.get_txt_Name));
             }
         }
     }

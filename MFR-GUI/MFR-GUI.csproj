@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TrainingFaces\**" />
+    <EmbeddedResource Remove="TrainingFaces\**" />
+    <None Remove="TrainingFaces\**" />
+    <Page Remove="TrainingFaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Image\Background.png" />
     <None Remove="Image\FaceRecognition.jpg" />
     <None Remove="Image\Passwort.png" />

@@ -77,7 +77,7 @@ namespace MFR_GUI.Pages
             if (password_checked)
             {
                 BildHinzufuegen bh = new BildHinzufuegen();
-                NavigationService.Navigate(bh);
+                this.NavigationService.Navigate(bh);
             }
             else
             {
@@ -91,7 +91,7 @@ namespace MFR_GUI.Pages
             if (password_checked)
             {
                 PersonenAnzeigen pa = new PersonenAnzeigen();
-                NavigationService.Navigate(pa);
+                this.NavigationService.Navigate(pa);
             }
             else
             {
