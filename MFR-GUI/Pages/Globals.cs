@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Security.RightsManagement;
 using Emgu.CV.Models;
 using System.IO;
+using System.Windows.Forms;
 
 namespace MFR_GUI.Pages
 {
@@ -24,6 +25,9 @@ namespace MFR_GUI.Pages
         public static string workingDirectory = Environment.CurrentDirectory;
         public static string projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
         
+        public static FaceAndLandmarkDetector fald= new FaceAndLandmarkDetector();
+        public static FacemarkDetector fd = new FacemarkDetector();
+
         //Declararation of all variables
         public static int cameraIndex;
         public static bool dataLoaded;

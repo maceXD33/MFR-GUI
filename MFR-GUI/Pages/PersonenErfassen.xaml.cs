@@ -17,6 +17,9 @@ using System.Collections.Generic;
 using Brushes = System.Windows.Media.Brushes;
 using Timer = System.Threading.Timer;
 using System.Diagnostics;
+using Emgu.CV.Util;
+using System.Drawing;
+using System.Xml.Linq;
 
 namespace MFR_GUI.Pages
 {
@@ -27,6 +30,7 @@ namespace MFR_GUI.Pages
     {
         ImageBox imgBoxKamera;
         Timer timer;
+        int count = 0;
 
         public PersonenErfassen()
         {
@@ -41,78 +45,7 @@ namespace MFR_GUI.Pages
             this.NavigationService.Navigate(new Menu());
         }
 
-        void FrameGrabber2(object sender, EventArgs e)
-        {
-            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte>? currentFrame;
-            string status = "nicht erkannt";
-            string recognizedNames = "";
-
-            //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-
-            if (Monitor.TryEnter(syncObj))
-            {
-                //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-
-                Monitor.Exit(syncObj);
-
-                //Action for each region detected
-                foreach (DetectedObject d in fullFaceRegions)
-                {
-                    //Get the rectangular region out of the whole image
-                    result = currentFrame.Copy(d.Region).Convert<Gray, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-
-                    //Draw a rectangle around the region
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-
-                    //Check if there are any trained faces
-                    if (savedNamesCount != 0)
-                    {
-                        if (Monitor.TryEnter(syncObj))
-                        {
-                            //Get the result of the prediction from the recognizer
-                            FaceRecognizer.PredictionResult res = recognizer.Predict(result);
-
-                            Monitor.Exit(syncObj);
-
-                            //res.Distance < n determs how familiar the faces must look
-                            if (res.Distance <= 40)
-                            {
-                                //Draw the label for the detected face
-                                //currentFrame.Draw(labels[res.Label] + "," + res.Distance, new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-
-                                //Add the label to the recognized faces
-                                if (recognizedNames != "")
-                                {
-                                    recognizedNames += ", ";
-                                }
-
-                                recognizedNames += labels[res.Label];
-
-                                status = "erkannt";
-                            }
-                            else
-                            {
-                                //Draw the label "Unkown" as the criteria for same face was not met
-                                //currentFrame.Draw("Unbekannt" + "," + res.Distance, new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Draw the label "Unkown" as there are no faces in the database
-                        //currentFrame.Draw("Unbekannt", new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                    }
-                }
-
-                SetGUIElements(currentFrame, status, recognizedNames);
-            }
-        }
-
-        void FrameGrabber1(object o)
+        void FrameGrabber(object o)
         {
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
@@ -127,23 +60,36 @@ namespace MFR_GUI.Pages
 
             if (Monitor.TryEnter(syncObj))
             {
+
                 //Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-                
+
                 Monitor.Exit(syncObj);
+
+                List<Rectangle> recs = new List<Rectangle>();
 
                 //Action for each region detected
                 foreach (DetectedObject d in fullFaceRegions)
                 {
-                    //Get the rectangular region out of the whole image
-                    result = currentFrame.Copy(d.Region).Convert<Gray, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+                    recs.Add(d.Region);
+                }
 
-                    //Draw a rectangle around the region
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
 
+                for (int i = 0; i < vovop.Size; i++)
+                {
                     //Check if there are any trained faces
                     if (savedNamesCount != 0)
                     {
+                        result = rotateAndAlignPicture(currentFrame, vovop[i], fullFaceRegions[i]);
+
+                        result = result.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
+
+                        //result.Save(projectDirectory + "/" +  count++ + ".bmp");
+
+                        //Draw a rectangle around the region
+                        currentFrame.Draw(recs[i], new Bgr(Color.Red), 1);
+
                         if (Monitor.TryEnter(syncObj))
                         {
                             //Get the result of the prediction from the recognizer
@@ -152,10 +98,10 @@ namespace MFR_GUI.Pages
                             Monitor.Exit(syncObj);
 
                             //res.Distance < n determs how familiar the faces must look
-                            if (res.Distance <= 40)
+                            if (res.Distance <= 35)
                             {
                                 //Draw the label for the detected face
-                                currentFrame.Draw(labels[res.Label] + "," + res.Distance, new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                currentFrame.Draw(labels[res.Label] + "," + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
 
                                 //Add the label to the recognized faces
                                 if (recognizedNames != "")
@@ -170,14 +116,14 @@ namespace MFR_GUI.Pages
                             else
                             {
                                 //Draw the label "Unkown" as the criteria for same face was not met
-                                currentFrame.Draw("Unbekannt" + "," + res.Distance, new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                currentFrame.Draw("Unbekannt" + "," + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                             }
                         }
                     }
                     else
                     {
                         //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(d.Region.X - 5, d.Region.Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                        currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                     }
                 }
 
@@ -209,7 +155,7 @@ namespace MFR_GUI.Pages
             
             this.SizeChanged += hideScrollbars;
 
-            timer = new Timer(FrameGrabber1, null, 100, 50);
+            timer = new Timer(FrameGrabber, null, 100, 50);
         }
 
         /// <summary>
@@ -225,7 +171,8 @@ namespace MFR_GUI.Pages
 
         //Threadsafe method
         /// <summary>
-        /// Set the Background of Label1 to Green, when status is "erkannt". Set
+        /// Sets the Background of Label1 to Green, when status is "erkannt". Sets the Background of Label1 to Red, when status is "unbekannt".
+        /// 
         /// </summary>
         /// <param name="image">The Image that will be set for the ImageBox imgBoxKamera</param>
         /// <param name="status">The string that will determ the colour of the Background and it will be written as the Content for the Label Label1</param>
@@ -256,6 +203,35 @@ namespace MFR_GUI.Pages
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
                 this.Dispatcher.Invoke(new SetGUIElementsDelegate(this.SetGUIElements), image, status, recognizedNames);
             }
+        }
+
+        private Image<Gray, byte> rotateAndAlignPicture(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject)
+        {
+            Point Center = new Point(0, 0);
+
+            for (int j = 36; j < 42; j++)
+            {
+                Point p = Point.Round(vop[j]);
+                Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
+                Center.Offset(p);
+            }
+
+            Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
+            Center = new Point(0, 0);
+
+            for (int j = 42; j < 48; j++)
+            {
+                Point p = Point.Round(vop[j]);
+                Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
+                Center.Offset(p);
+            }
+
+            Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
+
+            double value = (double)(leftEyeCenter.Y - rightEyeCenter.Y) / (leftEyeCenter.X - rightEyeCenter.X);
+            double angle = (Math.Atan(value) * 180) / Math.PI;
+            
+            return image.Convert<Gray, byte>().Copy(detectedObject.Region).Rotate(-angle, new Gray(127));
         }
     }
 }

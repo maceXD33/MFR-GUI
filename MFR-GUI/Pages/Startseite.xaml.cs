@@ -17,6 +17,8 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
+            //fald.Init();
+            fd.Init();
             faceDetector.Init();
 
             if (!password_checked)
