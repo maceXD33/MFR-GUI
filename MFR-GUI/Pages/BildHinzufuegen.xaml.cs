@@ -173,11 +173,13 @@ namespace MFR_GUI.Pages
                         partialFaceRegions = new List<DetectedObject>();
 
                         //Show a MessageBox for confirmation of successful training
-                        MessageBox.Show(name + "´s Gesicht wurde erkannt und hinzugefügt", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        l_Fehler.Foreground = System.Windows.Media.Brushes.Green;
+                        l_Fehler.Content = "Gesicht wurde erkannt";                        
                     }
                     else
                     {
-                        MessageBox.Show("Es konnte leider kein Gesicht erkannt werden", "Kein Gesicht erkannt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        l_Fehler.Foreground = System.Windows.Media.Brushes.Red;
+                        l_Fehler.Content = "Kein Gesicht erkannt";                       
                     }
                 }
                 catch (Exception ex)
