@@ -53,14 +53,13 @@ namespace MFR_GUI.Pages
             string status = "nicht erkannt";
             string recognizedNames = "";
 
-            Logger.LogInfo("PersonenErfassen - FrameGrabber", "FrameGrabber started");
+            //Logger.LogInfo("PersonenErfassen - FrameGrabber", "FrameGrabber started");
 
             //Get the current frame from capture device
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
             if (Monitor.TryEnter(syncObj))
             {
-
                 //Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
@@ -72,58 +71,61 @@ namespace MFR_GUI.Pages
                 foreach (DetectedObject d in fullFaceRegions)
                 {
                     recs.Add(d.Region);
+
+                    //Draw a rectangle around the region
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
 
-                VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
-
-                for (int i = 0; i < vovop.Size; i++)
+                if (Monitor.TryEnter(syncObj))
                 {
-                    //Check if there are any trained faces
-                    if (savedNamesCount != 0)
+                    VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
+
+                    Monitor.Exit(syncObj);
+
+                    for (int i = 0; i < vovop.Size; i++)
                     {
-                        result = rotateAndAlignPicture(currentFrame, vovop[i], fullFaceRegions[i]);
-
-                        result = result.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
-
-                        //result.Save(projectDirectory + "/" +  count++ + ".bmp");
-
-                        //Draw a rectangle around the region
-                        currentFrame.Draw(recs[i], new Bgr(Color.Red), 1);
-
-                        if (Monitor.TryEnter(syncObj))
+                        //Check if there are any trained faces
+                        if (savedNamesCount != 0)
                         {
-                            //Get the result of the prediction from the recognizer
-                            FaceRecognizer.PredictionResult res = recognizer.Predict(result);
+                            result = rotateAndAlignPicture(currentFrame, vovop[i], fullFaceRegions[i]);
 
-                            Monitor.Exit(syncObj);
+                            result = result.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
-                            //res.Distance < n determs how familiar the faces must look
-                            if (res.Distance <= 35)
+                            if (Monitor.TryEnter(syncObj))
                             {
-                                //Draw the label for the detected face
-                                currentFrame.Draw(labels[res.Label] + "," + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                //Get the result of the prediction from the recognizer
+                                FaceRecognizer.PredictionResult res = recognizer.Predict(result);
 
-                                //Add the label to the recognized faces
-                                if (recognizedNames != "")
+                                Monitor.Exit(syncObj);
+
+                                //res.Distance < n determs how familiar the faces must look
+                                if (res.Distance <= 35)
                                 {
-                                    recognizedNames += ", ";
+                                    //Draw the label for the detected face
+                                    currentFrame.Draw(labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+
+                                    //Add the label to the recognized faces
+                                    if (recognizedNames != "")
+                                    {
+                                        recognizedNames += ", ";
+                                    }
+
+                                    recognizedNames += labels[res.Label];
+
+                                    status = "erkannt";
                                 }
-
-                                recognizedNames += labels[res.Label];
-
-                                status = "erkannt";
-                            }
-                            else
-                            {
-                                //Draw the label "Unkown" as the criteria for same face was not met
-                                currentFrame.Draw("Unbekannt" + "," + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                else
+                                {
+                                    //Draw the label "Unkown" as the criteria for same face was not met
+                                    currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        //Draw the label "Unkown" as there are no faces in the database
-                        currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                        else
+                        {
+                            //Draw the label "Unkown" as there are no faces in the database
+                            currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                        }
                     }
                 }
 
@@ -155,7 +157,7 @@ namespace MFR_GUI.Pages
             
             this.SizeChanged += hideScrollbars;
 
-            timer = new Timer(FrameGrabber, null, 100, 50);
+            timer = new Timer(FrameGrabber, null, 200, 50);
         }
 
         /// <summary>
@@ -212,7 +214,7 @@ namespace MFR_GUI.Pages
             for (int j = 36; j < 42; j++)
             {
                 Point p = Point.Round(vop[j]);
-                Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
+                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
                 Center.Offset(p);
             }
 
@@ -222,7 +224,7 @@ namespace MFR_GUI.Pages
             for (int j = 42; j < 48; j++)
             {
                 Point p = Point.Round(vop[j]);
-                Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
+                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
                 Center.Offset(p);
             }
 

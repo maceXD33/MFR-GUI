@@ -30,8 +30,6 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class BildHinzufuegen : Page
     {
-        //List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-        //List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
         ImageBox imgBoxKamera;
         Timer timer;
 
@@ -56,6 +54,8 @@ namespace MFR_GUI.Pages
                 //Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
+                Monitor.Exit(syncObj);
+
                 List<Rectangle> recs = new List<Rectangle>();
                 foreach (DetectedObject d in fullFaceRegions)
                 {
@@ -64,45 +64,52 @@ namespace MFR_GUI.Pages
                     currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
 
+                /*
                 Bitmap bitmap = currentFrame.ToBitmap();
-
-                //Detect rectangular regions which contain a face
-                VectorOfVectorOfPointF vovp = fd.Detect(currentFrame, recs.ToArray());
-
-                int i;
-                for(i = 0; vovp.Size > i; i++)
-                {
-                    Point Center = new Point(0, 0);
-                    for(int j = 36; j < 42; j++)
-                    {
-                        Point p = Point.Round(vovp[i][j]);
-                        Logger.LogInfo((j + 1).ToString(), "X: " + vovp[i][j].X + " Y:" + vovp[i][j].Y);
-                        bitmap.SetPixel(p.X, p.Y, Color.Red);
-                        Center.Offset(p);
-                    }
-
-                    Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-                    Center = new Point(0, 0);
-
-                    for (int j = 42; j < 48; j++)
-                    {
-                        Point p = Point.Round(vovp[i][j]);
-                        Logger.LogInfo((j + 1).ToString(), "X: " + vovp[i][j].X + " Y:" + vovp[i][j].Y);
-                        bitmap.SetPixel(p.X, p.Y, Color.Red);
-                        Center.Offset(p);
-                    }
-
-                    Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-
-                    bitmap.SetPixel(rightEyeCenter.X, rightEyeCenter.Y, Color.Red);
-                    bitmap.SetPixel(leftEyeCenter.X, leftEyeCenter.Y, Color.Red);
-                }
                 
-                //Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Setting new image");
-                //Show the image with the drawn face
-                imgBoxKamera.Image = bitmap.ToImage<Bgr, Byte>(); //.Rotate(Math.Atan());
+                if (Monitor.TryEnter(syncObj))
+                {
+                    //Detect rectangular regions which contain a face
+                    VectorOfVectorOfPointF vovp = fd.Detect(currentFrame, recs.ToArray());
 
-                Monitor.Exit(syncObj);
+                    Monitor.Exit(syncObj);
+
+                    int i;
+                    for (i = 0; vovp.Size > i; i++)
+                    {
+                        Point Center = new Point(0, 0);
+                        for (int j = 36; j < 42; j++)
+                        {
+                            Point p = Point.Round(vovp[i][j]);
+                            //Logger.LogInfo((j + 1).ToString(), "X: " + vovp[i][j].X + " Y:" + vovp[i][j].Y);
+                            bitmap.SetPixel(p.X, p.Y, Color.Red);
+                            Center.Offset(p);
+                        }
+
+                        Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
+                        Center = new Point(0, 0);
+
+                        for (int j = 42; j < 48; j++)
+                        {
+                            Point p = Point.Round(vovp[i][j]);
+                            //Logger.LogInfo((j + 1).ToString(), "X: " + vovp[i][j].X + " Y:" + vovp[i][j].Y);
+                            bitmap.SetPixel(p.X, p.Y, Color.Red);
+                            Center.Offset(p);
+                        }
+
+                        Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
+
+                        bitmap.SetPixel(rightEyeCenter.X, rightEyeCenter.Y, Color.Red);
+                        bitmap.SetPixel(leftEyeCenter.X, leftEyeCenter.Y, Color.Red);
+                    }
+
+                    //Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Setting new image");
+                    //Show the image with the drawn face
+                    imgBoxKamera.Image = bitmap.ToImage<Bgr, Byte>();
+                }
+                */
+
+                imgBoxKamera.Image = currentFrame;
             }
             else
             {
@@ -185,19 +192,19 @@ namespace MFR_GUI.Pages
                         partialFaceRegions = new List<DetectedObject>();
 
                         //Show a MessageBox for confirmation of successful training
-                        l_Fehler.Foreground = System.Windows.Media.Brushes.Green;
-                        l_Fehler.Content = "Gesicht wurde erkannt";                        
+                        //l_Fehler.Foreground = System.Windows.Media.Brushes.Green;
+                        //l_Fehler.Content = "Gesicht wurde erkannt";                        
                     }
                     else
                     {
-                        l_Fehler.Foreground = System.Windows.Media.Brushes.Red;
-                        l_Fehler.Content = "Kein Gesicht erkannt";                       
+                        //l_Fehler.Foreground = System.Windows.Media.Brushes.Red;
+                        //l_Fehler.Content = "Kein Gesicht erkannt";                       
                     }
                 }
                 catch (Exception ex)
                 {
                     //Show a MessageBox if there was an exception
-                    MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    //MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             });
         }
@@ -290,7 +297,7 @@ namespace MFR_GUI.Pages
             for (int j = 36; j < 42; j++)
             {
                 Point p = Point.Round(vop[j]);
-                Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
+                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
                 Center.Offset(p);
             }
 
@@ -300,7 +307,7 @@ namespace MFR_GUI.Pages
             for (int j = 42; j < 48; j++)
             {
                 Point p = Point.Round(vop[j]);
-                Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
+                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
                 Center.Offset(p);
             }
 

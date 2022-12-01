@@ -61,7 +61,7 @@ namespace MFR_GUI.Pages
                     catch (Exception ex)
                     {
                         //Show a MessageBox if there was an exception
-                        MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //MessageBox.Show("Nothing in binary database, please add at least a face!", "Trained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
             });
