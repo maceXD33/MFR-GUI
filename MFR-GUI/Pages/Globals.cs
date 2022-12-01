@@ -10,12 +10,14 @@ using System.Security.RightsManagement;
 using Emgu.CV.Models;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace MFR_GUI.Pages
 {
     public delegate void SetGrabberValuesDelegate();
     public delegate string GetTextFromTextBoxDelegate();
     public delegate void SetGUIElementsDelegate(Image<Bgr, byte> image, string status, string recognizedNames);
+    public delegate void SetTrainingStatusDelegate(string status, Brush color);
 
     static class Globals
     {

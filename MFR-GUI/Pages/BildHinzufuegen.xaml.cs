@@ -22,6 +22,10 @@ using Emgu.CV.Reg;
 using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Shapes;
 using Rectangle = System.Drawing.Rectangle;
+using System.Windows.Threading;
+using System.Windows.Media;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace MFR_GUI.Pages
 {
@@ -192,17 +196,16 @@ namespace MFR_GUI.Pages
                         partialFaceRegions = new List<DetectedObject>();
 
                         //Show a MessageBox for confirmation of successful training
-                        //l_Fehler.Foreground = System.Windows.Media.Brushes.Green;
-                        //l_Fehler.Content = "Gesicht wurde erkannt";                        
+                        set_training_status("Gesicht gespeichert", Brushes.Green);                      
                     }
                     else
                     {
-                        //l_Fehler.Foreground = System.Windows.Media.Brushes.Red;
-                        //l_Fehler.Content = "Kein Gesicht erkannt";                       
+                        set_training_status("Kein Gesicht!", Brushes.Red);
                     }
                 }
                 catch (Exception ex)
                 {
+                    set_training_status("Nicht gespeichert!", Brushes.Red);
                     //Show a MessageBox if there was an exception
                     //MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
@@ -317,6 +320,21 @@ namespace MFR_GUI.Pages
             double angle = (Math.Atan(value) * 180) / Math.PI;
 
             return image.Copy(detectedObject.Region).Rotate(-angle, new Gray(127));
+        }
+
+        private void set_training_status(string status, Brush color)
+        {
+            if (this.l_Fehler.Dispatcher.CheckAccess())
+            {
+                //We are on the thread that owns the control
+                l_Fehler.Content = status;
+                l_Fehler.Foreground = color;
+            }
+            else
+            {
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
+                this.Dispatcher.Invoke(new SetTrainingStatusDelegate(set_training_status), status, color);
+            }
         }
     }
 }
