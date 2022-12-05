@@ -4,22 +4,18 @@ using Emgu.CV.Face;
 using Emgu.CV.Structure;
 using System.Threading;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using static MFR_GUI.Pages.Globals;
 using Point = System.Drawing.Point;
 using Color = System.Drawing.Color;
 using Emgu.CV.UI;
-using System.Windows.Interop;
 using Emgu.CV.Models;
 using System.Collections.Generic;
 using Brushes = System.Windows.Media.Brushes;
 using Timer = System.Threading.Timer;
-using System.Diagnostics;
 using Emgu.CV.Util;
 using System.Drawing;
-using System.Xml.Linq;
 
 namespace MFR_GUI.Pages
 {
@@ -157,7 +153,7 @@ namespace MFR_GUI.Pages
             
             this.SizeChanged += hideScrollbars;
 
-            timer = new Timer(FrameGrabber, null, 200, 50);
+            timer = new Timer(FrameGrabber, null, 200, 20);
         }
 
         /// <summary>

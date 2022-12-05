@@ -241,7 +241,7 @@ namespace MFR_GUI.Pages
 
             this.SizeChanged += hideScrollbars;
 
-            timer = new Timer(FrameGrabber, null, 200, 50);
+            timer = new Timer(FrameGrabber, null, 200, 20);
         }
 
         /// <summary>
