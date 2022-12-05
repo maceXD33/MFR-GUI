@@ -81,8 +81,8 @@ namespace MFR_GUI.Pages
             }
             else
             {
-                BildHinzufuegen bh = new BildHinzufuegen();
-                this.NavigationService.Navigate(bh);
+                Passwort_BildHinzufuegen pbh = new Passwort_BildHinzufuegen();
+                this.NavigationService.Navigate(pbh);
             }
         }
 
