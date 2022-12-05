@@ -6,26 +6,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using static MFR_GUI.Pages.Globals;
-using System.Drawing;
 using Color = System.Drawing.Color;
 using Emgu.CV.UI;
-using System.Windows.Forms;
 using System.IO;
-using MessageBox = System.Windows.Forms.MessageBox;
 using System.Collections.Generic;
 using Emgu.CV.Models;
 using Timer = System.Threading.Timer;
 using Emgu.CV.Util;
-using System.Security.Cryptography.Xml;
 using Point = System.Drawing.Point;
-using Emgu.CV.Reg;
-using static System.Net.Mime.MediaTypeNames;
-using System.Windows.Shapes;
 using Rectangle = System.Drawing.Rectangle;
-using System.Windows.Threading;
-using System.Windows.Media;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
+using System.Windows.Input;
 
 namespace MFR_GUI.Pages
 {
@@ -118,6 +110,13 @@ namespace MFR_GUI.Pages
             else
             {
                 //Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Lock on syncObj couldn't be aquired");
+            }
+        }
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                btn_speichern_Click(sender, e);
             }
         }
 
