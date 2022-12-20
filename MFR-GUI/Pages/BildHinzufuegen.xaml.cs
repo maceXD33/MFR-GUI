@@ -17,7 +17,9 @@ using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
-using System.Windows.Input;
+using System.Windows.Forms.Integration;
+using System.Drawing;
+using System.Windows.Media.Imaging;
 
 namespace MFR_GUI.Pages
 {
@@ -62,52 +64,7 @@ namespace MFR_GUI.Pages
                     currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
 
-                /*
-                Bitmap bitmap = currentFrame.ToBitmap();
-                
-                if (Monitor.TryEnter(syncObj))
-                {
-                    //Detect rectangular regions which contain a face
-                    VectorOfVectorOfPointF vovp = fd.Detect(currentFrame, recs.ToArray());
-
-                    Monitor.Exit(syncObj);
-
-                    int i;
-                    for (i = 0; vovp.Size > i; i++)
-                    {
-                        Point Center = new Point(0, 0);
-                        for (int j = 36; j < 42; j++)
-                        {
-                            Point p = Point.Round(vovp[i][j]);
-                            //Logger.LogInfo((j + 1).ToString(), "X: " + vovp[i][j].X + " Y:" + vovp[i][j].Y);
-                            bitmap.SetPixel(p.X, p.Y, Color.Red);
-                            Center.Offset(p);
-                        }
-
-                        Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-                        Center = new Point(0, 0);
-
-                        for (int j = 42; j < 48; j++)
-                        {
-                            Point p = Point.Round(vovp[i][j]);
-                            //Logger.LogInfo((j + 1).ToString(), "X: " + vovp[i][j].X + " Y:" + vovp[i][j].Y);
-                            bitmap.SetPixel(p.X, p.Y, Color.Red);
-                            Center.Offset(p);
-                        }
-
-                        Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-
-                        bitmap.SetPixel(rightEyeCenter.X, rightEyeCenter.Y, Color.Red);
-                        bitmap.SetPixel(leftEyeCenter.X, leftEyeCenter.Y, Color.Red);
-                    }
-
-                    //Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Setting new image");
-                    //Show the image with the drawn face
-                    imgBoxKamera.Image = bitmap.ToImage<Bgr, Byte>();
-                }
-                */
-
-                imgBoxKamera.Image = currentFrame;
+                //imgBoxKamera.Image = currentFrame;
             }
             else
             {
@@ -221,12 +178,25 @@ namespace MFR_GUI.Pages
 
         private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
         {
+            
+            // Create an empty image
+            Bitmap bmp = new Bitmap(156, 128);
+            // Draw on it
+            Graphics.FromImage(bmp).FillRectangle(new SolidBrush(Color.White), new Rectangle(0, 0, bmp.Width, bmp.Height));
+            
             //Create the interop host control.
-            System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
+            WindowsFormsHost host = new WindowsFormsHost();
 
             //Create the ImageBox control.
             imgBoxKamera = new ImageBox();
-            imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+
+            imgBoxKamera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+
+            imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            //imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+
+            imgBoxKamera.BackgroundImage = bmp;
+
             imgBoxKamera.Enabled = false;
 
             Grid.SetColumn(host, 3);
@@ -236,12 +206,11 @@ namespace MFR_GUI.Pages
 
             // Assign the ImageBox control as the host control's child.
             host.Child = imgBoxKamera;
-            //Add the interop host control to the Grid
-            //control's collection of child controls.
+            //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
 
             this.SizeChanged += hideScrollbars;
-
+            
             timer = new Timer(FrameGrabber, null, 200, 20);
         }
 
