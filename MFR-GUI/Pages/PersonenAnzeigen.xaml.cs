@@ -15,6 +15,8 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
+            txt_NameSuchen.Focus();
+
             Uri u = new Uri(Globals.projectDirectory + "/TrainingFaces");
             explorer.Source = u;
         }

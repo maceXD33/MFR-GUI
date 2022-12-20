@@ -18,6 +18,8 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
+            alt_PasswordHidden.Focus();
+
             if (!File.Exists(Globals.projectDirectory + "/Image/passwort.txt"))
             {
                 alt_PasswordUnmask.Visibility = Visibility.Hidden;

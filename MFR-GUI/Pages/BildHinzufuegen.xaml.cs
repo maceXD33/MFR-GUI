@@ -32,6 +32,8 @@ namespace MFR_GUI.Pages
         public BildHinzufuegen()
         {
             InitializeComponent();
+
+            txt_Name.Focus();
         }
 
         public void FrameGrabber(object state)

@@ -17,6 +17,7 @@ namespace MFR_GUI.Pages
         public Passwort_PersonenAnzeigen()
         {
             InitializeComponent();
+            PasswordHidden.Focus();
         }
         private void ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPasswordFunction();
         private void ShowPassword_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePasswordFunction();
