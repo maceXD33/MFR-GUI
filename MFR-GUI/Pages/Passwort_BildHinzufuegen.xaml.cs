@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using static MFR_GUI.Pages.Globals;
@@ -21,7 +22,7 @@ namespace MFR_GUI.Pages
         }
         private void ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPasswordFunction();
         private void ShowPassword_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePasswordFunction();
-        private void ShowPassword_MouseLeave(object sender, MouseEventArgs e) => HidePasswordFunction();
+        private void ShowPassword_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) => HidePasswordFunction();
 
         private void ShowPasswordFunction()
         {
@@ -36,7 +37,7 @@ namespace MFR_GUI.Pages
             PasswordHidden.Visibility = Visibility.Visible;
         }
 
-        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        private void OnKeyDownHandler(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
