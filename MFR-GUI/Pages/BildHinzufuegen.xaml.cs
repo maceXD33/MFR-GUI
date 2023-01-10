@@ -18,8 +18,9 @@ using Rectangle = System.Drawing.Rectangle;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
 using System.Windows.Forms.Integration;
-using System.Drawing;
-using System.Windows.Media.Imaging;
+using System.Windows.Input;
+using System.Windows.Forms;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace MFR_GUI.Pages
 {
@@ -28,14 +29,19 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class BildHinzufuegen : Page
     {
-        ImageBox imgBoxKamera;
-        Timer timer;
+        private ImageBox _imgBoxKamera;
+        private Timer _timer;
+        private Logger _logger;
 
         public BildHinzufuegen()
         {
             InitializeComponent();
 
+            _logger = new Logger();
+
             txt_Name.Focus();
+
+            generateImageBox();
         }
 
         public void FrameGrabber(object state)
@@ -43,34 +49,44 @@ namespace MFR_GUI.Pages
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte> currentFrame;
-            
+
             //Get the current frame from capture device
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp");
+
 
             if (Monitor.TryEnter(syncObj))
             {
-                //Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Lock on syncObj aquired");
-
-                //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-
-                Monitor.Exit(syncObj);
-
-                List<Rectangle> recs = new List<Rectangle>();
-                foreach (DetectedObject d in fullFaceRegions)
+                try
                 {
-                    recs.Add(d.Region);
+                    //Detect rectangular regions which contain a face
+                    faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+                    
+                    _logger.LogInfo("fullFaceRegions: " + fullFaceRegions.Count);
 
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                    foreach (DetectedObject d in fullFaceRegions)
+                    {
+                        currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                        _logger.LogInfo("Rectangle: " + d.Region);
+                        _logger.LogInfo("confidence: " + d.Confident);
+                        _logger.LogInfo("confidence: " + d.Label);
+                        _logger.LogInfo("confidence: " + d.ClassId);
+                    }
+
+                    _imgBoxKamera.Image = currentFrame;
                 }
-
-                //imgBoxKamera.Image = currentFrame;
+                finally
+                {
+                    // Ensure that the lock is released.
+                    Monitor.Exit(syncObj);
+                }
             }
             else
             {
-                //Logger.LogInfo("BildHinzufuegen - FrameGrabber", "Lock on syncObj couldn't be aquired");
+                
             }
         }
+
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -89,14 +105,12 @@ namespace MFR_GUI.Pages
                 Image<Bgr, Byte> currentFrame;
 
                 string name = get_txt_Name();
-                
+
                 try
                 {
                     //Get the current frame from capture device
                     currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-
-                    gray = currentFrame.Convert<Gray, Byte>();
-
+                    
                     List<Rectangle> dedectedFaces = new List<Rectangle>();
 
                     //Enter critical region
@@ -114,47 +128,102 @@ namespace MFR_GUI.Pages
                             recs.Add(o.Region);
                         }
 
-                        //Detect rectangular regions which contain a face
                         VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
 
-                        TrainingFace = rotateAndAlignPicture(gray, vovop[0], fullFaceRegions[0]);
-
-                        //Resize the image of the detected face and add the image and label to the lists for training
-                        TrainingFace = TrainingFace.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
-                        trainingImagesMat.Add(TrainingFace.Mat);
-
-                        string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
-
-                        if (!labels.Contains(name))
+                        
+                        if(!ImageEditor.IsAngelOver15Degree(fullFaceRegions[0].Region))
                         {
-                            labels.Add(name);
-                            labelNr.Add(savedNamesCount++);
-                            File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
+                            _logger.LogInfo("Winkel is unter 15°");
+
+                            Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[0], fullFaceRegions[0], _logger);
+                            //allFaceFeatures(currentFrame, vovop[0], fullFaceRegions[0]);
+
+                            fullFaceRegions = new List<DetectedObject>();
+                            partialFaceRegions = new List<DetectedObject>();
+
+                            //Enter critical region
+                            lock (syncObj)
+                            {
+                                //Detect rectangular regions which contain a face
+                                faceDetector.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                            }
+
+                            _logger.LogInfo("DedectedFaces in tempTrainingFace: " + fullFaceRegions.Count);
+
+                            string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
+
+                            tempTrainingFace.ToBitmap().Save(trainingFacesDirectory + "test" + "/wholeFrame.bmp");
+
+                            int j = 0;
+                            foreach (DetectedObject o in fullFaceRegions)
+                            {
+                                Image<Bgr, Byte> image = tempTrainingFace.Copy(o.Region);
+                                image.ToBitmap().Save(trainingFacesDirectory + "test/frame" + j + ".bmp");
+                                j++;
+                            }
+
+                            if (fullFaceRegions.Count > 1)
+                            {
+                                Rectangle r = fullFaceRegions[1].Region;
+                                if(r.X < tempTrainingFace.Width / 3 && r.Y < tempTrainingFace.Height / 3)
+                                {
+                                    tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[1].Region);
+                                }
+                                else
+                                {
+                                    tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
+                                }
+                            }
+                            else
+                            {
+                                tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
+                            }
+
+                            tempTrainingFace.ToBitmap().Save(trainingFacesDirectory + "test/frame.bmp");
+
+                            Image<Gray, Byte> TrainingFace = tempTrainingFace.Convert<Gray, Byte>();
+
+                            //Resize the image of the detected face and add the image and label to the lists for training
+                            TrainingFace = TrainingFace.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
+                            trainingImagesMat.Add(TrainingFace.Mat);
+
+                            //string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
+
+                            if (!labels.Contains(name))
+                            {
+                                labels.Add(name);
+                                labelNr.Add(savedNamesCount++);
+                                File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
+                            }
+                            else
+                            {
+                                labelNr.Add(labels.IndexOf(name));
+                            }
+
+                            //Train the recognizer with all Images and Labels
+                            recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+
+                            //save the images as bitmap-file
+                            if (!Directory.Exists(trainingFacesDirectory + name + "/"))
+                            {
+                                Directory.CreateDirectory(trainingFacesDirectory + name + "/");
+                            }
+
+                            int i;
+                            for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++) ;
+
+                            trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
+
+                            fullFaceRegions = new List<DetectedObject>();
+                            partialFaceRegions = new List<DetectedObject>();
+
+                            //Show a MessageBox for confirmation of successful training
+                            set_training_status("Gesicht gespeichert", Brushes.Green);
                         }
                         else
                         {
-                            labelNr.Add(labels.IndexOf(name));
+                            set_training_status("Zu schräg!", Brushes.Red);
                         }
-
-                        //Train the recognizer with all Images and Labels
-                        recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
-
-                        //save the images as bitmap-file
-                        if (!Directory.Exists(trainingFacesDirectory + name + "/"))
-                        {
-                            Directory.CreateDirectory(trainingFacesDirectory + name + "/");
-                        }
-
-                        int i;
-                        for(i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++);
-
-                        trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
-
-                        fullFaceRegions = new List<DetectedObject>();
-                        partialFaceRegions = new List<DetectedObject>();
-
-                        //Show a MessageBox for confirmation of successful training
-                        set_training_status("Gesicht gespeichert", Brushes.Green);                      
                     }
                     else
                     {
@@ -164,54 +233,47 @@ namespace MFR_GUI.Pages
                 catch (Exception ex)
                 {
                     set_training_status("Nicht gespeichert!", Brushes.Red);
-                    //Show a MessageBox if there was an exception
-                    //MessageBox.Show("Enable the face detection first", "Training Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs","btnSpeichern");
                 }
             });
         }
 
         private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
         {
-            timer.Dispose();
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
             this.NavigationService.Navigate(new Menu());
         }
 
-        private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
+        private void generateImageBox()
         {
-            
-            // Create an empty image
-            Bitmap bmp = new Bitmap(156, 128);
-            // Draw on it
-            Graphics.FromImage(bmp).FillRectangle(new SolidBrush(Color.White), new Rectangle(0, 0, bmp.Width, bmp.Height));
-            
             //Create the interop host control.
             WindowsFormsHost host = new WindowsFormsHost();
 
             //Create the ImageBox control.
-            imgBoxKamera = new ImageBox();
+            _imgBoxKamera = new ImageBox();
 
-            imgBoxKamera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            _imgBoxKamera.BorderStyle = BorderStyle.FixedSingle;
+            _imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
+            _imgBoxKamera.Enabled = false;
 
-            imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            //imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-
-            imgBoxKamera.BackgroundImage = bmp;
-
-            imgBoxKamera.Enabled = false;
+            this.SizeChanged += hideScrollbars;
 
             Grid.SetColumn(host, 3);
             Grid.SetRow(host, 1);
             Grid.SetColumnSpan(host, 2);
             Grid.SetRowSpan(host, 6);
 
+            host.Background = Brushes.White;
+
             // Assign the ImageBox control as the host control's child.
-            host.Child = imgBoxKamera;
+            host.Child = _imgBoxKamera;
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
 
-            this.SizeChanged += hideScrollbars;
-            
-            timer = new Timer(FrameGrabber, null, 200, 20);
+            _timer = new Timer(FrameGrabber, null, 200, 20);
         }
 
         /// <summary>
@@ -221,8 +283,8 @@ namespace MFR_GUI.Pages
         /// <param name="e"></param>
         private void hideScrollbars(object sender, RoutedEventArgs e)
         {
-            imgBoxKamera.HorizontalScrollBar.Hide();
-            imgBoxKamera.VerticalScrollBar.Hide();
+            _imgBoxKamera.HorizontalScrollBar.Hide();
+            _imgBoxKamera.VerticalScrollBar.Hide();
         }
 
         //Threadsafe method
@@ -240,57 +302,23 @@ namespace MFR_GUI.Pages
             else
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                return (string) this.Dispatcher.Invoke(new GetTextFromTextBoxDelegate(this.get_txt_Name));
+                return (string)this.Dispatcher.Invoke(new GetTextFromTextBoxDelegate(this.get_txt_Name));
             }
         }
 
-        /*
-        private Point getIntersectionPoint(VectorOfPointF vop, int p1, int p2, int p3, int p4)
+        private void allFaceFeatures(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject)
         {
-            double k1 = (vop[p1 - 1].Y - vop[p2 - 1].Y) / (vop[p1 - 1].X - vop[p2 - 1].X);
-            double d1 = vop[p1 - 1].Y - k1 * vop[p1 - 1].X;
-
-            double k2 = (vop[p3 - 1].Y - vop[p4 - 1].Y) / (vop[p3 - 1].X - vop[p4 - 1].X);
-            double d2 = vop[p3 - 1].Y - k2 * vop[p3 - 1].X;
-
-            Logger.LogInfo("f1(x)", k1 + "*x + " + d1);
-            Logger.LogInfo("f2(x)", k2 + "*x + " + d2);
-
-            int intersectionX = (int)Math.Round((d2 - d1) / (k1 - k2));
-            int intersectionY = (int)Math.Round(k1 * intersectionX + d1);
-
-            return new Point(intersectionX, intersectionY);
-        }
-        */
-
-        private Image<Gray,byte> rotateAndAlignPicture(Image<Gray, byte> image, VectorOfPointF vop, DetectedObject detectedObject)
-        {
-            Point Center = new Point(0, 0);
-
-            for (int j = 36; j < 42; j++)
+            for (int j = 0; j < vop.Size; j++)
             {
                 Point p = Point.Round(vop[j]);
-                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
-                Center.Offset(p);
+                _logger.LogInfo((j + 1).ToString() + "X: " + vop[j].X + " Y:" + vop[j].Y);
+
+                //image[p.Y, p.X] = new Bgr(0, 0, 255);
             }
 
-            Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-            Center = new Point(0, 0);
-
-            for (int j = 42; j < 48; j++)
-            {
-                Point p = Point.Round(vop[j]);
-                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
-                Center.Offset(p);
-            }
-
-            Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-
-            double value = (double)(leftEyeCenter.Y - rightEyeCenter.Y) / (leftEyeCenter.X - rightEyeCenter.X);
-            double angle = (Math.Atan(value) * 180) / Math.PI;
-
-            return image.Copy(detectedObject.Region).Rotate(-angle, new Gray(127));
+            image.Save(projectDirectory + "/TrainingFaces/test/allfacefeatures.bmp");
         }
+
 
         private void set_training_status(string status, Brush color)
         {

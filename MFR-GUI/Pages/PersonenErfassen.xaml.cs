@@ -16,6 +16,8 @@ using Brushes = System.Windows.Media.Brushes;
 using Timer = System.Threading.Timer;
 using Emgu.CV.Util;
 using System.Drawing;
+using System.Windows.Forms.Integration;
+using System.Windows.Forms;
 
 namespace MFR_GUI.Pages
 {
@@ -24,15 +26,17 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class PersonenErfassen : Page
     {
-        ImageBox imgBoxKamera;
-        Timer timer;
-        int count = 0;
+        private ImageBox imgBoxKamera;
+        private Timer timer;
+        private Logger _logger;
 
         public PersonenErfassen()
         {
             InitializeComponent();
             Label1.Content = "Status";
             Label2.Content = "Name";
+            _logger = new Logger();
+            generateImageBox();
         }
 
         private void btn_Zurueck3_Click(object sender, RoutedEventArgs e)
@@ -46,13 +50,13 @@ namespace MFR_GUI.Pages
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte>? currentFrame;
+            Image<Bgr, byte>? result;
             string status = "nicht erkannt";
             string recognizedNames = "";
-
-            //Logger.LogInfo("PersonenErfassen - FrameGrabber", "FrameGrabber started");
-
+            
             //Get the current frame from capture device
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test1\\test.jpg");
 
             if (Monitor.TryEnter(syncObj))
             {
@@ -60,6 +64,9 @@ namespace MFR_GUI.Pages
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
                 Monitor.Exit(syncObj);
+
+
+                _logger.LogInfo("Anzahl kompletter Gesichter: " + fullFaceRegions.Count);
 
                 List<Rectangle> recs = new List<Rectangle>();
 
@@ -83,38 +90,56 @@ namespace MFR_GUI.Pages
                         //Check if there are any trained faces
                         if (savedNamesCount != 0)
                         {
-                            result = rotateAndAlignPicture(currentFrame, vovop[i], fullFaceRegions[i]);
-
-                            result = result.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
-
-                            if (Monitor.TryEnter(syncObj))
+                            //if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
+                            if(true)
                             {
-                                //Get the result of the prediction from the recognizer
-                                FaceRecognizer.PredictionResult res = recognizer.Predict(result);
+                                _logger.LogInfo(fullFaceRegions[i].Region.ToString());
+                                _logger.LogInfo(fullFaceRegions[i].Confident.ToString());
 
-                                Monitor.Exit(syncObj);
+                                result = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[i], fullFaceRegions[i], _logger);
 
-                                //res.Distance < n determs how familiar the faces must look
-                                if (res.Distance <= 35)
+                                if (result != null)
                                 {
-                                    //Draw the label for the detected face
-                                    currentFrame.Draw(labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                    result = result.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
-                                    //Add the label to the recognized faces
-                                    if (recognizedNames != "")
+                                    if (Monitor.TryEnter(syncObj))
                                     {
-                                        recognizedNames += ", ";
+                                        //Get the result of the prediction from the recognizer
+                                        FaceRecognizer.PredictionResult res = recognizer.Predict(result.Convert<Gray, Byte>());
+
+                                        Monitor.Exit(syncObj);
+
+                                        //res.Distance < n determs how familiar the faces must look
+                                        if (res.Distance <= 100)
+                                        {
+                                            //Draw the label for the detected face
+                                            currentFrame.Draw(labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+
+                                            //Add the label to the recognized faces
+                                            if (recognizedNames != "")
+                                            {
+                                                recognizedNames += ", ";
+                                            }
+
+                                            recognizedNames += labels[res.Label];
+
+                                            status = "erkannt";
+                                        }
+                                        else
+                                        {
+                                            //Draw the label "Unkown" as the criteria for same face was not met
+                                            currentFrame.Draw("Unbekannt, " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                        }
                                     }
-
-                                    recognizedNames += labels[res.Label];
-
-                                    status = "erkannt";
                                 }
                                 else
                                 {
-                                    //Draw the label "Unkown" as the criteria for same face was not met
-                                    currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+
                                 }
+                            }
+                            else
+                            {
+                                currentFrame.Draw("Zu schief!", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                             }
                         }
                         else
@@ -129,29 +154,31 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void i_Kamera_Loaded(object sender, RoutedEventArgs e)
+        private void generateImageBox()
         {
-            // Create the interop host control.
-            System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
+            //Create the interop host control.
+            WindowsFormsHost host = new WindowsFormsHost();
 
-            // Create the ImageBox control.
+            //Create the ImageBox control.
             imgBoxKamera = new ImageBox();
-            imgBoxKamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+
+            imgBoxKamera.BorderStyle = BorderStyle.FixedSingle;
+            imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
             imgBoxKamera.Enabled = false;
+
+            this.SizeChanged += hideScrollbars;
 
             Grid.SetColumn(host, 3);
             Grid.SetRow(host, 1);
             Grid.SetColumnSpan(host, 2);
             Grid.SetRowSpan(host, 6);
 
+            host.Background = Brushes.White;
+
             // Assign the ImageBox control as the host control's child.
             host.Child = imgBoxKamera;
-
-            // Add the interop host control to the Grid
-            // control's collection of child controls.
+            //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
-            
-            this.SizeChanged += hideScrollbars;
 
             timer = new Timer(FrameGrabber, null, 200, 20);
         }
@@ -201,35 +228,6 @@ namespace MFR_GUI.Pages
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
                 this.Dispatcher.Invoke(new SetGUIElementsDelegate(this.SetGUIElements), image, status, recognizedNames);
             }
-        }
-
-        private Image<Gray, byte> rotateAndAlignPicture(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject)
-        {
-            Point Center = new Point(0, 0);
-
-            for (int j = 36; j < 42; j++)
-            {
-                Point p = Point.Round(vop[j]);
-                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
-                Center.Offset(p);
-            }
-
-            Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-            Center = new Point(0, 0);
-
-            for (int j = 42; j < 48; j++)
-            {
-                Point p = Point.Round(vop[j]);
-                //Logger.LogInfo((j + 1).ToString(), "X: " + vop[j].X + " Y:" + vop[j].Y);
-                Center.Offset(p);
-            }
-
-            Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
-
-            double value = (double)(leftEyeCenter.Y - rightEyeCenter.Y) / (leftEyeCenter.X - rightEyeCenter.X);
-            double angle = (Math.Atan(value) * 180) / Math.PI;
-            
-            return image.Convert<Gray, byte>().Copy(detectedObject.Region).Rotate(-angle, new Gray(127));
         }
     }
 }

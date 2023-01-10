@@ -35,9 +35,6 @@ namespace MFR_GUI.Pages
         public static bool dataLoaded;
         public static VideoCapture grabber;
         public static FaceDetector faceDetector = new FaceDetector();
-        public static Image<Gray, byte>? gray;
-        public static Image<Gray, byte>? TrainingFace;
-        public static Image<Gray, byte>? result;
         public static int savedNamesCount = 0;
         public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer();
         public static List<Mat> trainingImagesMat = new List<Mat>();

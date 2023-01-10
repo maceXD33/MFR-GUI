@@ -33,8 +33,6 @@
             <ImageBrush ImageSource="\Image\Background.png"/>
         </Grid.Background>
 
-        <Image x:Name="i_Kamera" Grid.RowSpan="6" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="3" Loaded="i_Kamera_Loaded" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
-
         <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
             <TextBlock  Margin="10" FontWeight="Bold" FontFamily="Dubai" Foreground="#FF87888A">
                 Personen erfassen

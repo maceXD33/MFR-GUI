@@ -106,18 +106,6 @@ namespace MFR_GUI.Pages
             { 
                 grabber.Dispose();
             }
-            if (gray != null)
-            {
-                gray.Dispose();
-            }
-            if (TrainingFace != null)
-            {
-                TrainingFace.Dispose();
-            }
-            if (result != null)
-            {
-                result.Dispose();
-            }
             if (recognizer != null)
             {
                 recognizer.Dispose();
