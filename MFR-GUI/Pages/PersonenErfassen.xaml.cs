@@ -90,8 +90,7 @@ namespace MFR_GUI.Pages
                         //Check if there are any trained faces
                         if (savedNamesCount != 0)
                         {
-                            //if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
-                            if(true)
+                            if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
                             {
                                 _logger.LogInfo(fullFaceRegions[i].Region.ToString());
                                 _logger.LogInfo(fullFaceRegions[i].Confident.ToString());
