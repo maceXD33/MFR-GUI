@@ -17,7 +17,6 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            //fald.Init();
             fd.Init();
             faceDetector.Init();
 
@@ -28,7 +27,7 @@ namespace MFR_GUI.Pages
 
             List<string> cameraNames = new List<string>();
             
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image'OR PNPClass = 'Camera')"))
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
             {
                 foreach (var device in searcher.Get())
                 {

@@ -21,6 +21,7 @@ using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using static MFR_GUI.Pages.TrainingFacesLoader;
 
 namespace MFR_GUI.Pages
 {
@@ -33,11 +34,23 @@ namespace MFR_GUI.Pages
         private Timer _timer;
         private Logger _logger;
 
+        private List<Mat> _trainingImagesMat;
+        private List<string> _labels;
+        private List<int> _labelNr;
+        private int _savedNamesCount;
+
         public BildHinzufuegen()
         {
             InitializeComponent();
 
             _logger = new Logger();
+
+            Tuple<List<Mat>, List<string>, List<int>, int> tuple = LoadTrainingFacesFourReturns(_logger);
+
+            _trainingImagesMat = tuple.Item1;
+            _labels = tuple.Item2;
+            _labelNr = tuple.Item3;
+            _savedNamesCount = tuple.Item4;
 
             txt_Name.Focus();
 
@@ -185,23 +198,23 @@ namespace MFR_GUI.Pages
 
                             //Resize the image of the detected face and add the image and label to the lists for training
                             TrainingFace = TrainingFace.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
-                            trainingImagesMat.Add(TrainingFace.Mat);
+                            _trainingImagesMat.Add(TrainingFace.Mat);
 
                             //string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
 
-                            if (!labels.Contains(name))
+                            if (!_labels.Contains(name))
                             {
-                                labels.Add(name);
-                                labelNr.Add(savedNamesCount++);
+                                _labels.Add(name);
+                                _labelNr.Add(_savedNamesCount++);
                                 File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
                             }
                             else
                             {
-                                labelNr.Add(labels.IndexOf(name));
+                                _labelNr.Add(_labels.IndexOf(name));
                             }
 
                             //Train the recognizer with all Images and Labels
-                            recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
+                            recognizer.Train(_trainingImagesMat.ToArray(), _labelNr.ToArray());
 
                             //save the images as bitmap-file
                             if (!Directory.Exists(trainingFacesDirectory + name + "/"))
@@ -212,7 +225,7 @@ namespace MFR_GUI.Pages
                             int i;
                             for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++) ;
 
-                            trainingImagesMat[trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
+                            _trainingImagesMat[_trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
 
                             fullFaceRegions = new List<DetectedObject>();
                             partialFaceRegions = new List<DetectedObject>();
@@ -244,6 +257,27 @@ namespace MFR_GUI.Pages
             {
                 _timer.Dispose();
             }
+            if(_imgBoxKamera != null)
+            {
+                _imgBoxKamera.Dispose();
+            }
+            if (_labelNr != null)
+            {
+                _labelNr.Clear();
+            }
+            if (_labels != null)
+            {
+                _labels.Clear();
+            }
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
+            if (_trainingImagesMat != null)
+            {
+                _trainingImagesMat.Clear();
+            }
+
             this.NavigationService.Navigate(new Menu());
         }
 
@@ -318,7 +352,6 @@ namespace MFR_GUI.Pages
 
             image.Save(projectDirectory + "/TrainingFaces/test/allfacefeatures.bmp");
         }
-
 
         private void set_training_status(string status, Brush color)
         {

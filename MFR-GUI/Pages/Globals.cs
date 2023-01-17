@@ -27,7 +27,6 @@ namespace MFR_GUI.Pages
         public static string workingDirectory = Environment.CurrentDirectory;
         public static string projectDirectory = Directory.GetParent(Globals.workingDirectory).Parent.Parent.FullName;
         
-        public static FaceAndLandmarkDetector fald= new FaceAndLandmarkDetector();
         public static FacemarkDetector fd = new FacemarkDetector();
 
         //Declararation of all variables
@@ -35,11 +34,7 @@ namespace MFR_GUI.Pages
         public static bool dataLoaded;
         public static VideoCapture grabber;
         public static FaceDetector faceDetector = new FaceDetector();
-        public static int savedNamesCount = 0;
         public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer();
-        public static List<Mat> trainingImagesMat = new List<Mat>();
-        public static List<string> labels = new List<string>();
-        public static List<int> labelNr = new List<int>();
 
         public static bool password_checked;
     }

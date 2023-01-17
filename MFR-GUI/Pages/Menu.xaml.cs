@@ -1,16 +1,8 @@
-﻿using Emgu.CV;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using static MFR_GUI.Pages.Globals;
-using System.IO;
-using Emgu.CV.Structure;
-using System.Windows.Forms;
-using MessageBox = System.Windows.Forms.MessageBox;
+using static MFR_GUI.Pages.TrainingFacesLoader;
 
 namespace MFR_GUI.Pages
 {
@@ -19,52 +11,20 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class Menu : Page
     {
+        private Logger _logger;
+
         public Menu()
         {
             InitializeComponent();
 
-            Task t = Task.Factory.StartNew(() =>
+            _logger = new Logger();
+
+            if (!dataLoaded)
             {
-                if (!dataLoaded)
-                {
-                    try
-                    {
-                        //Load the file with the labels from previous trained faces and get the labels and the number of trained faces
-                        string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
-                        string[] Labels = allLabels.Split('%');
-                        
-                        List<string> distinctLabels = Labels.Distinct().ToList();
-                        distinctLabels.RemoveAt(0);
+                LoadTrainingFaces(_logger);
 
-                        //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
-                        foreach (string name in distinctLabels)
-                        {
-                            for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp"); i++)
-                            {
-                                Image<Gray, byte> image = new Image<Gray, byte>(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp");
-                                trainingImagesMat.Add(image.Mat);
-                                labelNr.Add(savedNamesCount);
-                            }
-
-                            labels.Add(name);
-                            savedNamesCount++;
-                        }
-
-                        lock (syncObj)
-                        {
-                            //Train the facerecognizer with the images and labelnumbers
-                            recognizer.Train(trainingImagesMat.ToArray(), labelNr.ToArray());
-                        }
-
-                        dataLoaded = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        //Show a MessageBox if there was an exception
-                        //MessageBox.Show("Nothing in binary database, please add at least a face!", "Trained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-            });
+                dataLoaded = true;
+            }
         }
 
         private void btn_erfassen_Click(object sender, RoutedEventArgs e)

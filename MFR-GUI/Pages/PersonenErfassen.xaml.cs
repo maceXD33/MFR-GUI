@@ -18,6 +18,8 @@ using Emgu.CV.Util;
 using System.Drawing;
 using System.Windows.Forms.Integration;
 using System.Windows.Forms;
+using static MFR_GUI.Pages.TrainingFacesLoader;
+using System.Reflection.Emit;
 
 namespace MFR_GUI.Pages
 {
@@ -26,9 +28,12 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class PersonenErfassen : Page
     {
-        private ImageBox imgBoxKamera;
-        private Timer timer;
+        private ImageBox _imgBoxKamera;
+        private Timer _timer;
         private Logger _logger;
+
+        private List<string> _labels;
+        private int _savedNamesCount;
 
         public PersonenErfassen()
         {
@@ -36,16 +41,38 @@ namespace MFR_GUI.Pages
             Label1.Content = "Status";
             Label2.Content = "Name";
             _logger = new Logger();
+
+            Tuple<List<string>, int> tuple = LoadTrainingFacesTwoReturns(_logger);
+
+            _labels = tuple.Item1;
+            _savedNamesCount = tuple.Item2;
+
             generateImageBox();
         }
 
         private void btn_Zurueck3_Click(object sender, RoutedEventArgs e)
         {
-            timer.Dispose();
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
+            if (_imgBoxKamera != null)
+            {
+                _imgBoxKamera.Dispose();
+            }
+            if (_labels != null)
+            {
+                _labels.Clear();
+            }
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
+            
             this.NavigationService.Navigate(new Menu());
         }
 
-        void FrameGrabber(object o)
+        private void FrameGrabber(object o)
         {
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
@@ -64,7 +91,6 @@ namespace MFR_GUI.Pages
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
 
                 Monitor.Exit(syncObj);
-
 
                 _logger.LogInfo("Anzahl kompletter Gesichter: " + fullFaceRegions.Count);
 
@@ -88,7 +114,7 @@ namespace MFR_GUI.Pages
                     for (int i = 0; i < vovop.Size; i++)
                     {
                         //Check if there are any trained faces
-                        if (savedNamesCount != 0)
+                        if (_savedNamesCount != 0)
                         {
                             if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
                             {
@@ -112,7 +138,7 @@ namespace MFR_GUI.Pages
                                         if (res.Distance <= 100)
                                         {
                                             //Draw the label for the detected face
-                                            currentFrame.Draw(labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                                            currentFrame.Draw(_labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
 
                                             //Add the label to the recognized faces
                                             if (recognizedNames != "")
@@ -120,7 +146,7 @@ namespace MFR_GUI.Pages
                                                 recognizedNames += ", ";
                                             }
 
-                                            recognizedNames += labels[res.Label];
+                                            recognizedNames += _labels[res.Label];
 
                                             status = "erkannt";
                                         }
@@ -159,11 +185,11 @@ namespace MFR_GUI.Pages
             WindowsFormsHost host = new WindowsFormsHost();
 
             //Create the ImageBox control.
-            imgBoxKamera = new ImageBox();
+            _imgBoxKamera = new ImageBox();
 
-            imgBoxKamera.BorderStyle = BorderStyle.FixedSingle;
-            imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
-            imgBoxKamera.Enabled = false;
+            _imgBoxKamera.BorderStyle = BorderStyle.FixedSingle;
+            _imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
+            _imgBoxKamera.Enabled = false;
 
             this.SizeChanged += hideScrollbars;
 
@@ -175,11 +201,11 @@ namespace MFR_GUI.Pages
             host.Background = Brushes.White;
 
             // Assign the ImageBox control as the host control's child.
-            host.Child = imgBoxKamera;
+            host.Child = _imgBoxKamera;
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
 
-            timer = new Timer(FrameGrabber, null, 200, 20);
+            _timer = new Timer(FrameGrabber, null, 200, 20);
         }
 
         /// <summary>
@@ -189,8 +215,8 @@ namespace MFR_GUI.Pages
         /// <param name="e"></param>
         private void hideScrollbars(object sender, RoutedEventArgs e)
         {
-            imgBoxKamera.HorizontalScrollBar.Hide();
-            imgBoxKamera.VerticalScrollBar.Hide();
+            _imgBoxKamera.HorizontalScrollBar.Hide();
+            _imgBoxKamera.VerticalScrollBar.Hide();
         }
 
         //Threadsafe method
@@ -216,7 +242,7 @@ namespace MFR_GUI.Pages
                 }
 
                 //Show the image with the drawn face
-                imgBoxKamera.Image = image;
+                _imgBoxKamera.Image = image;
                 //Show weither a face got recognized
                 Label1.Content = status;
                 //Show the labels of the faces that were recognized
