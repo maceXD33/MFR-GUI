@@ -133,7 +133,7 @@ namespace MFR_GUI.Pages
             Startseite s = new Startseite();
             this.NavigationService.Navigate(s);
         }
-
+            
         public void passwort_ändern()
         {
             //Create the salt value with a cryptographic PRNG

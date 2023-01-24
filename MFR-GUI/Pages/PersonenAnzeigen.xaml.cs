@@ -35,7 +35,8 @@ namespace MFR_GUI.Pages
             Uri u = new Uri(Globals.projectDirectory + "/TrainingFaces");
             explorer.Source = u;
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) 
         {
             int x = 600;
             int y = 500;
