@@ -76,7 +76,7 @@ namespace MFR_GUI.Pages
                 BildHinzufuegen bh = new BildHinzufuegen();
                 NavigationService.Navigate(bh);
 
-                password_checked = true;
+                passwordChecked = true;
             }
         }
 

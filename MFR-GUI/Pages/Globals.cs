@@ -31,11 +31,11 @@ namespace MFR_GUI.Pages
 
         //Declararation of all variables
         public static int cameraIndex;
-        public static bool dataLoaded;
         public static VideoCapture grabber;
         public static FaceDetector faceDetector = new FaceDetector();
         public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer();
 
-        public static bool password_checked;
+        public static bool dataLoaded;
+        public static bool passwordChecked;
     }
 }

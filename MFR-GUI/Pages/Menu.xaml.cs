@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Emgu.CV;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using static MFR_GUI.Pages.Globals;
@@ -21,7 +23,12 @@ namespace MFR_GUI.Pages
 
             if (!dataLoaded)
             {
-                LoadTrainingFaces(_logger);
+                Tuple<List<Mat>, List<int>> tuple = LoadTrainingFacesForMenu(_logger);
+
+                List<Mat> trainingImagesMat = tuple.Item1;
+                List<int> labelNumbers = tuple.Item2;
+
+                recognizer.Train(trainingImagesMat.ToArray(), labelNumbers.ToArray());
 
                 dataLoaded = true;
             }
@@ -34,7 +41,7 @@ namespace MFR_GUI.Pages
 
         private void btn_hinzufuegen_Click(object sender, RoutedEventArgs e)
         {
-            if (password_checked)
+            if (passwordChecked)
             {
                 BildHinzufuegen bh = new BildHinzufuegen();
                 this.NavigationService.Navigate(bh);
@@ -48,7 +55,7 @@ namespace MFR_GUI.Pages
 
         private void btn_anzeigen_Click(object sender, RoutedEventArgs e)
         {
-            if (password_checked)
+            if (passwordChecked)
             {
                 PersonenAnzeigen pa = new PersonenAnzeigen();
                 this.NavigationService.Navigate(pa);

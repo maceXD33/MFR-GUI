@@ -19,7 +19,6 @@ using System.Drawing;
 using System.Windows.Forms.Integration;
 using System.Windows.Forms;
 using static MFR_GUI.Pages.TrainingFacesLoader;
-using System.Reflection.Emit;
 
 namespace MFR_GUI.Pages
 {
@@ -135,7 +134,7 @@ namespace MFR_GUI.Pages
                                         Monitor.Exit(syncObj);
 
                                         //res.Distance < n determs how familiar the faces must look
-                                        if (res.Distance <= 100)
+                                        if (res.Distance <= 85)
                                         {
                                             //Draw the label for the detected face
                                             currentFrame.Draw(_labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);

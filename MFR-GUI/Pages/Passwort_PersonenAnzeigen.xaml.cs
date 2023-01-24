@@ -75,7 +75,7 @@ namespace MFR_GUI.Pages
                 PersonenAnzeigen pa = new PersonenAnzeigen();
                 NavigationService.Navigate(pa);
 
-                password_checked = true;
+                passwordChecked = true;
             }
         }
 

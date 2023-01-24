@@ -20,9 +20,9 @@ namespace MFR_GUI.Pages
             fd.Init();
             faceDetector.Init();
 
-            if (!password_checked)
+            if (!passwordChecked)
             {
-                password_checked = false;
+                passwordChecked = false;
             }
 
             List<string> cameraNames = new List<string>();

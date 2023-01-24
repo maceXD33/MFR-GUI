@@ -37,9 +37,7 @@ namespace MFR_GUI.Pages
         private Timer _timer;
         private Logger _logger;
 
-        private List<Mat> _trainingImagesMat;
         private List<string> _labels;
-        private List<int> _labelNr;
         private int _savedNamesCount;
 
         public BildHinzufuegen()
@@ -48,12 +46,10 @@ namespace MFR_GUI.Pages
 
             _logger = new Logger();
 
-            Tuple<List<Mat>, List<string>, List<int>, int> tuple = LoadTrainingFacesFourReturns(_logger);
+            Tuple<List<string>, int> tuple = LoadTrainingFacesTwoReturns(_logger);
 
-            _trainingImagesMat = tuple.Item1;
-            _labels = tuple.Item2;
-            _labelNr = tuple.Item3;
-            _savedNamesCount = tuple.Item4;
+            _labels = tuple.Item1;
+            _savedNamesCount = tuple.Item2;
 
             txt_Name.Focus();
 
@@ -119,15 +115,14 @@ namespace MFR_GUI.Pages
                 List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
                 List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
                 Image<Bgr, Byte> currentFrame;
-
+                List<Mat> training = new List<Mat>();
+                List<int> labelNr = new List<int>();
                 string name = get_txt_Name();
 
                 try
                 {
                     //Get the current frame from capture device
                     currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-                    
-                    List<Rectangle> dedectedFaces = new List<Rectangle>();
 
                     //Enter critical region
                     lock (syncObj)
@@ -145,14 +140,12 @@ namespace MFR_GUI.Pages
                         }
 
                         VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
-
                         
                         if(!ImageEditor.IsAngelOver15Degree(fullFaceRegions[0].Region))
                         {
                             _logger.LogInfo("Winkel is unter 15°");
 
                             Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[0], fullFaceRegions[0], _logger);
-                            //allFaceFeatures(currentFrame, vovop[0], fullFaceRegions[0]);
 
                             fullFaceRegions = new List<DetectedObject>();
                             partialFaceRegions = new List<DetectedObject>();
@@ -167,16 +160,6 @@ namespace MFR_GUI.Pages
                             _logger.LogInfo("DedectedFaces in tempTrainingFace: " + fullFaceRegions.Count);
 
                             string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
-
-                            tempTrainingFace.ToBitmap().Save(trainingFacesDirectory + "test" + "/wholeFrame.bmp");
-
-                            int j = 0;
-                            foreach (DetectedObject o in fullFaceRegions)
-                            {
-                                Image<Bgr, Byte> image = tempTrainingFace.Copy(o.Region);
-                                image.ToBitmap().Save(trainingFacesDirectory + "test/frame" + j + ".bmp");
-                                j++;
-                            }
 
                             if (fullFaceRegions.Count > 1)
                             {
@@ -195,60 +178,53 @@ namespace MFR_GUI.Pages
                                 tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
                             }
 
-                            tempTrainingFace.ToBitmap().Save(trainingFacesDirectory + "test/frame.bmp");
-
-                            Image<Gray, Byte> TrainingFace = tempTrainingFace.Convert<Gray, Byte>();
+                            Image<Gray, Byte> trainingFace = tempTrainingFace.Convert<Gray, Byte>();
 
                             //Resize the image of the detected face and add the image and label to the lists for training
-                            TrainingFace = TrainingFace.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
-                            _trainingImagesMat.Add(TrainingFace.Mat);
-
-                            //string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
+                            trainingFace = trainingFace.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
                             if (!_labels.Contains(name))
                             {
-                                _labels.Add(name);
-                                _labelNr.Add(_savedNamesCount++);
+                                labelNr.Add(_savedNamesCount++);
                                 File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
                             }
                             else
                             {
-                                _labelNr.Add(_labels.IndexOf(name));
+                                labelNr.Add(_labels.IndexOf(name));
                             }
+                            
+                            training.Add(trainingFace.Mat);
 
-                            //Train the recognizer with all Images and Labels
-                            recognizer.Train(_trainingImagesMat.ToArray(), _labelNr.ToArray());
+                            //Update the recognizer with the new Image and Label
+                            recognizer.Update(training.ToArray(), labelNr.ToArray());
 
-                            //save the images as bitmap-file
+                            //save the image as bitmap-file
                             if (!Directory.Exists(trainingFacesDirectory + name + "/"))
                             {
                                 Directory.CreateDirectory(trainingFacesDirectory + name + "/");
                             }
 
                             int i;
-                            for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++) ;
+                            for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++);
 
-                            _trainingImagesMat[_trainingImagesMat.Count - 1].Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
-
-                            fullFaceRegions = new List<DetectedObject>();
-                            partialFaceRegions = new List<DetectedObject>();
+                            trainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
 
                             //Show a MessageBox for confirmation of successful training
-                            set_training_status("Gesicht gespeichert", Brushes.Green);
+                            setTrainingStatus("Gesicht gespeichert", Brushes.Green);
                         }
                         else
                         {
-                            set_training_status("Zu schräg!", Brushes.Red);
+                            setTrainingStatus("Zu schräg!", Brushes.Red);
                         }
                     }
                     else
                     {
-                        set_training_status("Kein Gesicht!", Brushes.Red);
+                        setTrainingStatus("Kein Gesicht!", Brushes.Red);
                     }
                 }
                 catch (Exception ex)
                 {
-                    set_training_status("Nicht gespeichert!", Brushes.Red);
+                    setTrainingStatus("Nicht gespeichert!", Brushes.Red);
                     _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs","btnSpeichern");
                 }
             });
@@ -264,10 +240,6 @@ namespace MFR_GUI.Pages
             {
                 _imgBoxKamera.Dispose();
             }
-            if (_labelNr != null)
-            {
-                _labelNr.Clear();
-            }
             if (_labels != null)
             {
                 _labels.Clear();
@@ -275,10 +247,6 @@ namespace MFR_GUI.Pages
             if (_timer != null)
             {
                 _timer.Dispose();
-            }
-            if (_trainingImagesMat != null)
-            {
-                _trainingImagesMat.Clear();
             }
 
             this.NavigationService.Navigate(new Menu());
@@ -309,7 +277,7 @@ namespace MFR_GUI.Pages
             host.Child = _imgBoxKamera;
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
-
+            
             _timer = new Timer(FrameGrabber, null, 200, 20);
         }
 
@@ -356,7 +324,7 @@ namespace MFR_GUI.Pages
             image.Save(projectDirectory + "/TrainingFaces/test/allfacefeatures.bmp");
         }
 
-        private void set_training_status(string status, Brush color)
+        private void setTrainingStatus(string status, Brush color)
         {
             if (this.l_Fehler.Dispatcher.CheckAccess())
             {
@@ -367,7 +335,7 @@ namespace MFR_GUI.Pages
             else
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                this.Dispatcher.Invoke(new SetTrainingStatusDelegate(set_training_status), status, color);
+                this.Dispatcher.Invoke(new SetTrainingStatusDelegate(setTrainingStatus), status, color);
             }
         }
     }

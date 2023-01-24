@@ -108,7 +108,7 @@ namespace MFR_GUI.Pages
                         passwort_ändern();
                         l_Fehler.Foreground = Brushes.Green;
                         l_Fehler.Content = "Passwort gespeichert!";
-                        password_checked = true;
+                        passwordChecked = true;
                     }
                     else
                     {
@@ -123,7 +123,7 @@ namespace MFR_GUI.Pages
                 passwort_ändern();
                 l_Fehler.Foreground = Brushes.Green;
                 l_Fehler.Content = "Passwort gespeichert!";
-                password_checked = true;
+                passwordChecked = true;
 
             }
         }
