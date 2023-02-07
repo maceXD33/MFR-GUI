@@ -18,13 +18,11 @@ using Rectangle = System.Drawing.Rectangle;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
 using System.Windows.Forms.Integration;
-using System.Drawing;
-using System.Windows.Media.Imaging;
-using System.Windows.Input;
 using System.Windows.Input;
 using System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using static MFR_GUI.Pages.TrainingFacesLoader;
+using System.Diagnostics;
 
 namespace MFR_GUI.Pages
 {
@@ -71,18 +69,17 @@ namespace MFR_GUI.Pages
             {
                 try
                 {
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
                     //Detect rectangular regions which contain a face
                     faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-                    
-                    _logger.LogInfo("fullFaceRegions: " + fullFaceRegions.Count);
+                    sw.Stop();
+                    _logger.LogInfo("Detect: " + sw.ElapsedMilliseconds.ToString());
+                    //_logger.LogInfo("fullFaceRegions: " + fullFaceRegions.Count);
 
                     foreach (DetectedObject d in fullFaceRegions)
                     {
                         currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-                        _logger.LogInfo("Rectangle: " + d.Region);
-                        _logger.LogInfo("confidence: " + d.Confident);
-                        _logger.LogInfo("confidence: " + d.Label);
-                        _logger.LogInfo("confidence: " + d.ClassId);
                     }
 
                     _imgBoxKamera.Image = currentFrame;
@@ -128,7 +125,7 @@ namespace MFR_GUI.Pages
                     lock (syncObj)
                     {
                         //Detect rectangular regions which contain a face
-                        faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
+                        faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                     }
 
                     if (fullFaceRegions.Count != 0)
@@ -178,14 +175,13 @@ namespace MFR_GUI.Pages
                                 tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
                             }
 
-                            Image<Gray, Byte> trainingFace = tempTrainingFace.Convert<Gray, Byte>();
-
                             //Resize the image of the detected face and add the image and label to the lists for training
-                            trainingFace = trainingFace.Resize(240, 240, Emgu.CV.CvEnum.Inter.Cubic);
+                            tempTrainingFace = tempTrainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
 
                             if (!_labels.Contains(name))
                             {
                                 labelNr.Add(_savedNamesCount++);
+                                _labels.Add(name);
                                 File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
                             }
                             else
@@ -193,7 +189,7 @@ namespace MFR_GUI.Pages
                                 labelNr.Add(_labels.IndexOf(name));
                             }
                             
-                            training.Add(trainingFace.Mat);
+                            training.Add(tempTrainingFace.Convert<Gray, Byte>().Mat);
 
                             //Update the recognizer with the new Image and Label
                             recognizer.Update(training.ToArray(), labelNr.ToArray());
@@ -207,7 +203,7 @@ namespace MFR_GUI.Pages
                             int i;
                             for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++);
 
-                            trainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
+                            tempTrainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
 
                             //Show a MessageBox for confirmation of successful training
                             setTrainingStatus("Gesicht gespeichert", Brushes.Green);
@@ -244,10 +240,6 @@ namespace MFR_GUI.Pages
             {
                 _labels.Clear();
             }
-            if (_timer != null)
-            {
-                _timer.Dispose();
-            }
 
             this.NavigationService.Navigate(new Menu());
         }
@@ -278,7 +270,7 @@ namespace MFR_GUI.Pages
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
             
-            _timer = new Timer(FrameGrabber, null, 200, 20);
+            _timer = new Timer(FrameGrabber, null, 0, 20);
         }
 
         /// <summary>

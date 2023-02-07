@@ -33,7 +33,7 @@ namespace MFR_GUI.Pages
         public static int cameraIndex;
         public static VideoCapture grabber;
         public static FaceDetector faceDetector = new FaceDetector();
-        public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer();
+        public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer(radius: 1, neighbors: 8, gridX: 8, gridY: 8);
 
         public static bool dataLoaded;
         public static bool passwordChecked;

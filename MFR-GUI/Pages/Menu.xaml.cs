@@ -28,7 +28,10 @@ namespace MFR_GUI.Pages
                 List<Mat> trainingImagesMat = tuple.Item1;
                 List<int> labelNumbers = tuple.Item2;
 
-                recognizer.Train(trainingImagesMat.ToArray(), labelNumbers.ToArray());
+                if (trainingImagesMat != null && labelNumbers != null)
+                {
+                    recognizer.Train(trainingImagesMat.ToArray(), labelNumbers.ToArray());
+                }
 
                 dataLoaded = true;
             }

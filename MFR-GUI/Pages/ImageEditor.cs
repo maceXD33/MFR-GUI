@@ -16,7 +16,7 @@ namespace MFR_GUI.Pages
             Rectangle rec = detectedObject.Region;
             Point Center = new Point(0, 0);
 
-            if (rec.X >= 0 && rec.Y >= 10)
+            if (rec.X >= 0 && rec.Y >= 0)
             {
                 for (int j = 36; j < 42; j++)
                 {
@@ -63,17 +63,14 @@ namespace MFR_GUI.Pages
                 {
                     if (rightUnderCorner.X > image.Width && rightUnderCorner.Y > image.Height)
                     {
-                        logger.LogInfo("if");
                         frameRec = new Rectangle(x, y, image.Width - x, image.Height - y);
                     }
                     else if (rightUnderCorner.X > image.Width && rightUnderCorner.Y < image.Height)
                     {
-                        logger.LogInfo("else if");
                         frameRec = new Rectangle(x, y, image.Width - x, height);
                     }
                     else
                     {
-                        logger.LogInfo("else");
                         frameRec = new Rectangle(x, y, width, image.Height - y);
                     }
                 }
@@ -82,8 +79,8 @@ namespace MFR_GUI.Pages
                     frameRec = new Rectangle(x, y, width, height);
                 }
 
-                logger.LogInfo("frameRec: " + frameRec.ToString());
-
+                //logger.LogInfo("frameRec: " + frameRec.ToString());
+                
                 Image<Bgr, byte> frame = image.Copy(frameRec);
 
                 return frame.Rotate(-angle, new Bgr(255, 255, 255)).Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
@@ -107,9 +104,9 @@ namespace MFR_GUI.Pages
         {
             double d = (double) r.Width / r.Height;
 
-            logger.LogInfo("Width = " + r.Width);
-            logger.LogInfo("Height = " + r.Height);
-            logger.LogInfo("aspectRatio = " + d);
+            //logger.LogInfo("Width = " + r.Width);
+            //logger.LogInfo("Height = " + r.Height);
+            //logger.LogInfo("aspectRatio = " + d);
 
             if (d > 0.793)
             {
