@@ -5,24 +5,23 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using static MFR_GUI.Pages.Globals;
-using Color = System.Drawing.Color;
 using Emgu.CV.UI;
 using System.IO;
 using System.Collections.Generic;
 using Emgu.CV.Models;
-using Timer = System.Threading.Timer;
 using Emgu.CV.Util;
+using System.Windows.Forms.Integration;
+using System.Windows.Input;
+using System.Windows.Forms;
+using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
-using System.Windows.Forms.Integration;
-using System.Windows.Input;
-using System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using Timer = System.Timers.Timer;
+using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
-using System.Diagnostics;
 
 namespace MFR_GUI.Pages
 {
@@ -54,7 +53,7 @@ namespace MFR_GUI.Pages
             generateImageBox();
         }
 
-        public void FrameGrabber(object state)
+        public void FrameGrabber(object sender, EventArgs e)
         {
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
@@ -64,35 +63,26 @@ namespace MFR_GUI.Pages
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
             //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp");
 
-
             if (Monitor.TryEnter(syncObj))
             {
-                try
-                {
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
-                    //Detect rectangular regions which contain a face
-                    faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions);
-                    sw.Stop();
-                    _logger.LogInfo("Detect: " + sw.ElapsedMilliseconds.ToString());
-                    //_logger.LogInfo("fullFaceRegions: " + fullFaceRegions.Count);
+                _logger.LogInfo("Lock aquired!");
+                //Detect rectangular regions which contain a face
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+                //Monitor.Exit(syncObj);
 
-                    foreach (DetectedObject d in fullFaceRegions)
-                    {
-                        currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-                    }
-
-                    _imgBoxKamera.Image = currentFrame;
-                }
-                finally
+                foreach (DetectedObject d in fullFaceRegions)
                 {
-                    // Ensure that the lock is released.
-                    Monitor.Exit(syncObj);
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
+
+                _logger.LogInfo("FrameGrabber: Set Image");
+                setImageOfImageBox(currentFrame);
+                //_imgBoxKamera.Image = currentFrame;
+                Monitor.Exit(syncObj);
             }
             else
             {
-                
+                _logger.LogInfo("Lock not aquired!");
             }
         }
 
@@ -125,8 +115,10 @@ namespace MFR_GUI.Pages
                     lock (syncObj)
                     {
                         //Detect rectangular regions which contain a face
-                        faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                        faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
                     }
+
+                    _logger.LogInfo(fullFaceRegions.Count.ToString());
 
                     if (fullFaceRegions.Count != 0)
                     {
@@ -158,22 +150,7 @@ namespace MFR_GUI.Pages
 
                             string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
 
-                            if (fullFaceRegions.Count > 1)
-                            {
-                                Rectangle r = fullFaceRegions[1].Region;
-                                if(r.X < tempTrainingFace.Width / 3 && r.Y < tempTrainingFace.Height / 3)
-                                {
-                                    tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[1].Region);
-                                }
-                                else
-                                {
-                                    tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
-                                }
-                            }
-                            else
-                            {
-                                tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
-                            }
+                            tempTrainingFace = ImageEditor.CropImage(fullFaceRegions, tempTrainingFace);
 
                             //Resize the image of the detected face and add the image and label to the lists for training
                             tempTrainingFace = tempTrainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
@@ -230,15 +207,20 @@ namespace MFR_GUI.Pages
         {
             if (_timer != null)
             {
+                _timer.Stop();
                 _timer.Dispose();
             }
-            if(_imgBoxKamera != null)
-            {
-                _imgBoxKamera.Dispose();
-            }
+
+            recognizer.Write(projectDirectory + "/TrainingFaces/recognizer.txt");
+
             if (_labels != null)
             {
                 _labels.Clear();
+            }
+
+            if(_imgBoxKamera!= null)
+            {
+                _imgBoxKamera.Dispose();
             }
 
             this.NavigationService.Navigate(new Menu());
@@ -269,8 +251,42 @@ namespace MFR_GUI.Pages
             host.Child = _imgBoxKamera;
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
-            
-            _timer = new Timer(FrameGrabber, null, 0, 20);
+
+            _timer = new Timer();
+            _timer.Elapsed += FrameGrabber;
+            _timer.Interval = 20;
+            _timer.Start();
+        }
+
+        private void test(object state)
+        {
+            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+            Image<Bgr, Byte> currentFrame;
+
+            //Get the current frame from capture device
+            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp");
+
+            if (Monitor.TryEnter(syncObj))
+            {
+                //Detect rectangular regions which contain a face
+                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+
+                Monitor.Exit(syncObj);
+
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                }
+
+                //setTrainingStatus("Gesicht gespeichert", Brushes.Green);
+                setImageOfImageBox(currentFrame);
+            }
+            else
+            {
+                
+            }
         }
 
         /// <summary>
@@ -299,7 +315,7 @@ namespace MFR_GUI.Pages
             else
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                return (string)this.Dispatcher.Invoke(new GetTextFromTextBoxDelegate(this.get_txt_Name));
+                return (string)this.Dispatcher.Invoke(this.get_txt_Name);
             }
         }
 
@@ -309,8 +325,6 @@ namespace MFR_GUI.Pages
             {
                 Point p = Point.Round(vop[j]);
                 _logger.LogInfo((j + 1).ToString() + "X: " + vop[j].X + " Y:" + vop[j].Y);
-
-                //image[p.Y, p.X] = new Bgr(0, 0, 255);
             }
 
             image.Save(projectDirectory + "/TrainingFaces/test/allfacefeatures.bmp");
@@ -326,8 +340,39 @@ namespace MFR_GUI.Pages
             }
             else
             {
-                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                this.Dispatcher.Invoke(new SetTrainingStatusDelegate(setTrainingStatus), status, color);
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
+                this.Dispatcher.Invoke(setTrainingStatus, status, color);
+            }
+        }
+
+        private void setImageOfImageBox(Image<Bgr, byte> image)
+        {
+            _logger.LogInfo("Invoke: Set Image");
+            
+            /*
+            if (this.grid2.Dispatcher.CheckAccess())
+            {
+                //We are on the thread that owns the control
+                _imgBoxKamera.Image = image;
+            }
+            else
+            {
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
+                this.Dispatcher.Invoke(setImageOfImageBox, image);
+            }
+            */
+
+            
+            if (_imgBoxKamera.InvokeRequired)
+            {
+                //We are on the thread that owns the control
+                _imgBoxKamera.Image = image;
+            }
+            else
+            {
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
+                _imgBoxKamera.Invoke(setImageOfImageBox, image);
+
             }
         }
     }

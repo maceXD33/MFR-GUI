@@ -13,13 +13,14 @@ using Emgu.CV.UI;
 using Emgu.CV.Models;
 using System.Collections.Generic;
 using Brushes = System.Windows.Media.Brushes;
-using Timer = System.Threading.Timer;
+using Timer = System.Timers.Timer;
 using Emgu.CV.Util;
 using System.Drawing;
 using System.Windows.Forms.Integration;
 using System.Windows.Forms;
 using static MFR_GUI.Pages.TrainingFacesLoader;
-using System.Diagnostics;
+using System.Threading.Tasks;
+using static Emgu.CV.Face.FaceRecognizer;
 
 namespace MFR_GUI.Pages
 {
@@ -47,15 +48,22 @@ namespace MFR_GUI.Pages
             _labels = tuple.Item1;
             _savedNamesCount = tuple.Item2;
 
-            generateImageBox();
+            GenerateImageBox();
         }
 
-        private void btn_Zurueck3_Click(object sender, RoutedEventArgs e)
+        private void Btn_Zurueck3_Click(object sender, RoutedEventArgs e)
         {
-            if (_timer != null)
+            if(_timer != null)
             {
+                _timer.Stop();
                 _timer.Dispose();
             }
+
+            if (_labels != null)
+            {
+                _labels.Clear();
+            }
+
             if (_imgBoxKamera != null)
             {
                 _imgBoxKamera.Dispose();
@@ -64,10 +72,8 @@ namespace MFR_GUI.Pages
             this.NavigationService.Navigate(new Menu());
         }
 
-        private void FrameGrabber(object o)
+        private void FrameGrabber(object sender, EventArgs e)
         {
-            Stopwatch t = new Stopwatch();
-            //t.Start();
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte>? currentFrame;
@@ -77,16 +83,13 @@ namespace MFR_GUI.Pages
             
             //Get the current frame from capture device
             currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            //currentFrame = new Image<Bgr, byte>(@"C:\Users\HP\Dokumente\Visual Studio 2022\Projects\MFR-GUI\MFR-GUI\TrainingFaces\TestDataset\Recognize\image_80.jpg");
-
+            
             if (Monitor.TryEnter(syncObj))
             {
                 //Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
 
                 Monitor.Exit(syncObj);
-
-                //_logger.LogInfo("Anzahl kompletter Gesichter: " + fullFaceRegions.Count);
 
                 List<Rectangle> recs = new List<Rectangle>();
                 result = currentFrame.Copy();
@@ -107,70 +110,26 @@ namespace MFR_GUI.Pages
 
                 if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
                 {
-                    if(Monitor.TryEnter(syncObj))
-                    {
-                        VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
+                    VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
 
-                        Monitor.Exit(syncObj);
-
-                        //t.Stop();
-                        PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
-                        //t.Start();
-                    }
+                    PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
                 }
 
+                _logger.LogInfo("FrameGrabber: Set Image");
                 SetGUIElements(currentFrame, status, recognizedNames);
-
-                //t.Stop();
-                //_logger.LogInfo(DateTime.Now.ToString("hh:mm:ss.fff"));
-                //_logger.LogInfo("FrameGrabber: " + t.ElapsedMilliseconds.ToString());
             }
         }
 
         private void PrepareFaces(VectorOfVectorOfPointF vovop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, ref string status, ref string recognizedNames)
         {
-            Stopwatch sw = new Stopwatch();
-            Stopwatch sw1 = new Stopwatch();
-
             for (int i = 0; i < vovop.Size; i++)
             {
                 //Check if there are any trained faces
-                if (_savedNamesCount != 0)
+                if(_savedNamesCount != 0)
                 {
-                    sw.Start();
-                    if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
+                    if(fullFaceRegions.Count - 1 <= i)
                     {
-                        //_logger.LogInfo(fullFaceRegions[i].Region.ToString());
-                        //_logger.LogInfo(fullFaceRegions[i].Confident.ToString());
-
-                        result = ImageEditor.RotateAndAlignPicture(result, vovop[i], fullFaceRegions[i], _logger);
-
-                        fullFaceRegions = new List<DetectedObject>();
-                        partialFaceRegions = new List<DetectedObject>();
-
-                        if (result != null)
-                        {
-                            //Enter critical region
-                            lock (syncObj)
-                            {
-                                //Detect rectangular regions which contain a face
-                                faceDetector.Detect(result, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
-                            }
-
-                            if (fullFaceRegions.Count > 0)
-                            {
-                                result = CropImage(fullFaceRegions, result);
-
-                                RecognizeFaces(currentFrame, result, recs, i, ref status, ref recognizedNames);   
-                            }
-                        }
-
-                        sw.Stop();
-                        _logger.LogInfo("If-Abfrage: " + sw.ElapsedMilliseconds.ToString());
-                    }
-                    else
-                    {
-                        currentFrame.Draw("Zu schief!", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                        ProcessFace(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames, i);
                     }
                 }
                 else
@@ -181,32 +140,40 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private Image<Bgr, byte> CropImage(List<DetectedObject> fullFaceRegions, Image<Bgr, byte> result)
+        private void ProcessFace(VectorOfVectorOfPointF vovop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
         {
-            if (fullFaceRegions.Count > 1)
+            if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
             {
-                Rectangle r = fullFaceRegions[1].Region;
+                result = ImageEditor.RotateAndAlignPicture(result, vovop[i], fullFaceRegions[i], _logger);
 
-                if (r.X < result.Width / 3 && r.Y < result.Height / 3)
+                fullFaceRegions = new List<DetectedObject>();
+                partialFaceRegions = new List<DetectedObject>();
+
+                if (result != null)
                 {
-                    return result.Copy(fullFaceRegions[1].Region);
-                }
-                else
-                {
-                    return result.Copy(fullFaceRegions[0].Region);
+                    //Enter critical region
+                    lock (syncObj)
+                    {
+                        //Detect rectangular regions which contain a face
+                        faceDetector.Detect(result, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                    }
+
+                    if (fullFaceRegions.Count > 0)
+                    {
+                        result = ImageEditor.CropImage(fullFaceRegions, result);
+
+                        RecognizeFace(currentFrame, result, recs, i, ref status, ref recognizedNames);
+                    }
                 }
             }
             else
             {
-                return result.Copy(fullFaceRegions[0].Region);
+                currentFrame.Draw("Zu schief!", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
             }
         }
 
-        private void RecognizeFaces(Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, int i, ref string status, ref string recognizedNames)
+        private void RecognizeFace(Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, int i, ref string status, ref string recognizedNames)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
             if (result != null)
             {
                 result = result.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
@@ -214,43 +181,45 @@ namespace MFR_GUI.Pages
                 if (Monitor.TryEnter(syncObj))
                 {
                     //Get the result of the prediction from the recognizer
-                    FaceRecognizer.PredictionResult res = recognizer.Predict(result.Convert<Gray, Byte>());
+                    PredictionResult res = recognizer.Predict(result.Convert<Gray, Byte>());
 
                     Monitor.Exit(syncObj);
 
-                    //res.Distance < n determs how familiar the faces must look
-                    if (res.Distance <= 80)
-                    {
-                        //Draw the label for the detected face
-                        currentFrame.Draw(_labels[res.Label] + ", " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-
-                        //Add the label to the recognized faces
-                        if (recognizedNames != "")
-                        {
-                            recognizedNames += ", ";
-                        }
-
-                        recognizedNames += _labels[res.Label];
-
-                        status = "erkannt";
-                    }
-                    else
-                    {
-                        //Draw the label "Unkown" as the criteria for same face was not met
-                        currentFrame.Draw("Unbekannt, " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                    }
+                    EvaluateResult(currentFrame, recs, res, ref recognizedNames, ref status, i);
                 }
             }
             else
             {
 
             }
-
-            sw.Stop();
-            _logger.LogInfo("RecognizeFaces: " + sw.ElapsedMilliseconds.ToString());
         }
 
-        private void generateImageBox()
+        private void EvaluateResult(Image<Bgr, Byte>? currentFrame, List<Rectangle> recs, PredictionResult res, ref string recognizedNames, ref string status, int i)
+        {
+            //res.Distance <= n determs how familiar the faces must look
+            if (res.Distance <= 65)
+            {
+                //Draw the label for the detected face
+                currentFrame.Draw(_labels[res.Label] + ", " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+
+                //Add the label to the recognized faces
+                if (recognizedNames != "")
+                {
+                    recognizedNames += ", ";
+                }
+
+                recognizedNames += _labels[res.Label];
+
+                status = "erkannt";
+            }
+            else
+            {
+                //Draw the label "Unkown" as the criteria for same face was not met
+                currentFrame.Draw("Unbekannt, " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+            }
+        }
+
+        private void GenerateImageBox()
         {
             //Create the interop host control.
             WindowsFormsHost host = new WindowsFormsHost();
@@ -262,7 +231,7 @@ namespace MFR_GUI.Pages
             _imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
             _imgBoxKamera.Enabled = false;
 
-            this.SizeChanged += hideScrollbars;
+            this.SizeChanged += HideScrollbars;
 
             Grid.SetColumn(host, 3);
             Grid.SetRow(host, 1);
@@ -276,7 +245,10 @@ namespace MFR_GUI.Pages
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
 
-            _timer = new Timer(FrameGrabber, null, 200, 20);
+            _timer = new Timer();
+            _timer.Elapsed += FrameGrabber;
+            _timer.Interval = 50;
+            _timer.Start();
             //Testing();
         }
 
@@ -285,7 +257,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void hideScrollbars(object sender, RoutedEventArgs e)
+        private void HideScrollbars(object sender, RoutedEventArgs e)
         {
             _imgBoxKamera.HorizontalScrollBar.Hide();
             _imgBoxKamera.VerticalScrollBar.Hide();
@@ -301,7 +273,8 @@ namespace MFR_GUI.Pages
         /// <param name="recognizedNames">The string that will be written as the content for the Label Label2</param>
         private void SetGUIElements(Image<Bgr, byte> image, string status, string recognizedNames)
         {
-            if (this.Label1.Dispatcher.CheckAccess())
+            _logger.LogInfo("Invoke: Set Image");
+            if (this.grid2.Dispatcher.CheckAccess())
             {
                 //We are on the thread that owns the control
                 if (status == "erkannt")
@@ -323,7 +296,7 @@ namespace MFR_GUI.Pages
             else
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
-                this.Dispatcher.Invoke(new SetGUIElementsDelegate(this.SetGUIElements), image, status, recognizedNames);
+                this.Dispatcher.Invoke(this.SetGUIElements, image, status, recognizedNames);
             }
         }
 

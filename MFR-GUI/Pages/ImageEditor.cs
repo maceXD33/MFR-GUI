@@ -6,6 +6,7 @@ using Emgu.CV.Models;
 using Emgu.CV.Util;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
+using System.Collections.Generic;
 
 namespace MFR_GUI.Pages
 {
@@ -92,7 +93,7 @@ namespace MFR_GUI.Pages
         //Normales Kopfverhätnis: 2:3 (Breite : Länge)
         public static bool IsAngelOver15Degree(Rectangle r)
         {
-            if((double) r.Width/r.Height > 0.793)
+            if((double) r.Width/r.Height > 0.829)
             {
                 return true;
             }
@@ -102,18 +103,35 @@ namespace MFR_GUI.Pages
 
         public static bool IsAngelOver15Degree(Rectangle r, Logger logger)
         {
-            double d = (double) r.Width / r.Height;
+            double ratio = (double) r.Width / r.Height;
 
-            //logger.LogInfo("Width = " + r.Width);
-            //logger.LogInfo("Height = " + r.Height);
-            //logger.LogInfo("aspectRatio = " + d);
-
-            if (d > 0.793)
+            if (ratio > 0.829)
             {
                 return true;
             }
 
             return false;
+        }
+
+        public static Image<Bgr, byte> CropImage(List<DetectedObject> fullFaceRegions, Image<Bgr, byte> image)
+        {
+            if (fullFaceRegions.Count > 1)
+            {
+                Rectangle r = fullFaceRegions[1].Region;
+
+                if (r.X < image.Width / 3 && r.Y < image.Height / 3)
+                {
+                    return image.Copy(fullFaceRegions[1].Region);
+                }
+                else
+                {
+                    return image.Copy(fullFaceRegions[0].Region);
+                }
+            }
+            else
+            {
+                return image.Copy(fullFaceRegions[0].Region);
+            }
         }
     }
 }

@@ -14,11 +14,6 @@ using System.Windows.Media;
 
 namespace MFR_GUI.Pages
 {
-    public delegate void SetGrabberValuesDelegate();
-    public delegate string GetTextFromTextBoxDelegate();
-    public delegate void SetGUIElementsDelegate(Image<Bgr, byte> image, string status, string recognizedNames);
-    public delegate void SetTrainingStatusDelegate(string status, Brush color);
-
     static class Globals
     {
         //Declaration of synchronizing object for lock-statements
@@ -36,6 +31,7 @@ namespace MFR_GUI.Pages
         public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer(radius: 1, neighbors: 8, gridX: 8, gridY: 8);
 
         public static bool dataLoaded;
+        public static bool loadRecognizerFromFile = false;
         public static bool passwordChecked;
     }
 }

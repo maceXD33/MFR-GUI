@@ -136,6 +136,10 @@ namespace MFR_GUI.Pages
             }
         }
 
+        public static void LoadFaceRecognizer()
+        {
+            recognizer.Read(projectDirectory + "/TrainingFaces/recognizer.txt");
+        }
 
         public static Tuple<List<Mat>, List<Image<Bgr, byte>>, List<string>, List<int>> GetTestingData(Logger logger)
         {
@@ -187,7 +191,6 @@ namespace MFR_GUI.Pages
                 return new Tuple<List<Mat>, List<Image<Bgr, byte>>, List<string>, List<int>>(null, null, null, null);
             }
         }
-
 
         private static Mat Hope(Image<Bgr, Byte> image, Logger logger)
         {

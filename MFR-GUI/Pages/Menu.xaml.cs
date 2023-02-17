@@ -23,14 +23,21 @@ namespace MFR_GUI.Pages
 
             if (!dataLoaded)
             {
-                Tuple<List<Mat>, List<int>> tuple = LoadTrainingFacesForMenu(_logger);
-
-                List<Mat> trainingImagesMat = tuple.Item1;
-                List<int> labelNumbers = tuple.Item2;
-
-                if (trainingImagesMat != null && labelNumbers != null)
+                if (loadRecognizerFromFile)
                 {
-                    recognizer.Train(trainingImagesMat.ToArray(), labelNumbers.ToArray());
+                    TrainingFacesLoader.LoadFaceRecognizer();
+                }
+                else
+                {
+                    Tuple<List<Mat>, List<int>> tuple = LoadTrainingFacesForMenu(_logger);
+
+                    List<Mat> trainingImagesMat = tuple.Item1;
+                    List<int> labelNumbers = tuple.Item2;
+
+                    if (trainingImagesMat != null && labelNumbers != null)
+                    {
+                        recognizer.Train(trainingImagesMat.ToArray(), labelNumbers.ToArray());
+                    }
                 }
 
                 dataLoaded = true;

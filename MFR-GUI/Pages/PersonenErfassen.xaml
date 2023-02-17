@@ -52,7 +52,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="6" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Uniform">
-            <Button x:Name="btn_Zurueck3" Content="Zurück" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_Zurueck3_Click"/>
+            <Button x:Name="btn_Zurueck3" Content="Zurück" Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_Zurueck3_Click"/>
         </Viewbox>
 
     </Grid>
