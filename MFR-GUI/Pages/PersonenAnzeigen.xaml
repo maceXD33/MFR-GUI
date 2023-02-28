@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:MFR_GUI.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PersonenAnzeigen"
-      Loaded="Window_Loaded">
+      Title="PersonenAnzeigen">
 
     <Grid>
         <Grid.RowDefinitions>

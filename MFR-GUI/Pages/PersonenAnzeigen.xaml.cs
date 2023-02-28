@@ -16,7 +16,7 @@ namespace MFR_GUI.Pages
     /// Interaktionslogik für PersonenAnzeigen.xaml
     /// </summary>
     public partial class PersonenAnzeigen : Page
-    {
+    {/*
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
@@ -26,6 +26,7 @@ namespace MFR_GUI.Pages
         public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
         public const int MOUSEEVENTF_RIGHTUP = 0x10;
 
+        */
         public PersonenAnzeigen()
         {
             InitializeComponent();
@@ -36,6 +37,7 @@ namespace MFR_GUI.Pages
             explorer.Source = u;
         }
 
+        /*
         private void Window_Loaded(object sender, RoutedEventArgs e) 
         {
             int x = 600;
@@ -63,7 +65,8 @@ namespace MFR_GUI.Pages
             mouse_event(MOUSEEVENTF_RIGHTUP, xpos + 350, ypos + 40, 0, 0);
 
             SetCursorPos(current_x, current_y);
-        }       
+        }  
+        */
 
         private void btn_Zurueck2_Click(object sender, RoutedEventArgs e)
         {
