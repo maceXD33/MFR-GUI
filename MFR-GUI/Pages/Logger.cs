@@ -8,7 +8,7 @@ namespace MFR_GUI.Pages
     internal class Logger
     {
         private enum LogType { Info, Warning, Error };
-        private readonly string _filePath = Globals.projectDirectory + "/TrainingFaces/log.txt";
+        private readonly string _filePath = Globals.projectDirectory + "/Data/log.txt";
         private readonly BlockingCollection<Param> _blockingCollection = new BlockingCollection<Param>();
 
         public Logger()

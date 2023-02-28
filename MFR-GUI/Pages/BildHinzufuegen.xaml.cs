@@ -22,6 +22,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using Timer = System.Timers.Timer;
 using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
+using MFR_GUI.Pages;
 
 namespace MFR_GUI.Pages
 {
@@ -37,19 +38,27 @@ namespace MFR_GUI.Pages
         private List<string> _labels;
         private int _savedNamesCount;
 
+        private Timer _timer1;
+        private Timer _timer2;
+
         public BildHinzufuegen()
         {
             InitializeComponent();
 
             _logger = new Logger();
 
+            // Load the labels and the count of the saved names 
             Tuple<List<string>, int> tuple = LoadTrainingFacesTwoReturns(_logger);
 
+            // Assign the returned values to the members
             _labels = tuple.Item1;
             _savedNamesCount = tuple.Item2;
 
+            // Set the cursor into the TextBox so that the user can start writing his name
+            // without needing to click into it
             txt_Name.Focus();
 
+            // Generate a ImageBox and start a Timer 
             generateImageBox();
         }
 
@@ -59,44 +68,148 @@ namespace MFR_GUI.Pages
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte> currentFrame;
 
-            //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp");
+            // Get the next frame from the VideoCapture and resize it to 320x240
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
+            // Try to acquire a lock on the synchronizing object to use the FaceDetector, 
+            // because the .Detect() method can't handle multiple access and returns around
+            // 50 or more wrong rectangles
             if (Monitor.TryEnter(syncObj))
             {
-                _logger.LogInfo("Lock aquired!");
-                //Detect rectangular regions which contain a face
+                //_logger.LogInfo("syncObj Lock aquired!");
+
+                // Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
-                //Monitor.Exit(syncObj);
+
+                _logger.LogInfo(fullFaceRegions.Count.ToString());
+
+                // Release the lock
+                Monitor.Exit(syncObj);
+
+                _logger.LogInfo(fullFaceRegions.Count.ToString());
+
+                // Run through the fullFaceRegions list, which contains faces
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    // Draw a red rectangle on the image around the detected face
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                }
+
+                //_logger.LogInfo("FrameGrabber: Set Image");
+
+                // Acquire a lock on the synchronizing object
+                lock (syncObjImage)
+                {
+                    // Set the Image of the ImageBox (Threadsafe method)
+                    setImageOfImageBox(currentFrame);
+                }
+            }
+            else
+            {
+                // The lock couldn't be acquired so we do nothing
+                _logger.LogInfo("syncObj Lock not aquired!");
+            }
+        }
+
+        public void FrameGrabber1(object sender, EventArgs e)
+        {
+            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+            Image<Bgr, Byte> currentFrame;
+
+            //Get the current frame from capture device
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp
+
+            if (Monitor.TryEnter(syncObj1))
+            {
+                _logger.LogInfo("syncObj1 Lock aquired!");
+
+                //Detect rectangular regions which contain a face
+                faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+
+                Monitor.Exit(syncObj1);
+
+                _logger.LogInfo(fullFaceRegions.Count.ToString());
 
                 foreach (DetectedObject d in fullFaceRegions)
                 {
                     currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
 
-                _logger.LogInfo("FrameGrabber: Set Image");
-                setImageOfImageBox(currentFrame);
-                //_imgBoxKamera.Image = currentFrame;
-                Monitor.Exit(syncObj);
+                _logger.LogInfo("FrameGrabber1: Set Image");
+                lock (syncObjImage)
+                {
+                    setImageOfImageBox(currentFrame);
+                }
             }
             else
             {
-                _logger.LogInfo("Lock not aquired!");
+                _logger.LogInfo("syncObj1 Lock not aquired!");
             }
         }
 
+        public void FrameGrabber2(object sender, EventArgs e)
+        {
+            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+            Image<Bgr, Byte> currentFrame;
+
+            //Get the current frame from capture device
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp
+
+            if (Monitor.TryEnter(syncObj2))
+            {
+                _logger.LogInfo("syncObj2 Lock aquired!");
+
+                //Detect rectangular regions which contain a face
+                faceDetector2.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+
+                Monitor.Exit(syncObj2);
+
+                _logger.LogInfo(fullFaceRegions.Count.ToString());
+
+                foreach (DetectedObject d in fullFaceRegions)
+                {
+                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
+                }
+
+                _logger.LogInfo("FrameGrabber2: Set Image");
+                lock (syncObjImage)
+                {
+                    setImageOfImageBox(currentFrame);
+                }
+            }
+            else
+            {
+                _logger.LogInfo("syncObj2 Lock not aquired!");
+            }
+        }
+
+        /// <summary>
+        /// Gets called when the user presses any key
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
+            // Look if the pressed key is the return key
             if (e.Key == Key.Return)
             {
+                // Call the method, which is normally called when the button for saving is pressed
                 btn_speichern_Click(sender, e);
             }
         }
 
+        /// <summary>
+        /// Gets called when the button for saving is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
-            //Create and start a Task
+            //Create and start a Task so the UI-Thread isn't blocked
             Task t = Task.Factory.StartNew(() =>
             {
                 List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
@@ -108,10 +221,10 @@ namespace MFR_GUI.Pages
 
                 try
                 {
-                    //Get the current frame from capture device
-                    currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+                    // Get the next frame from the VideoCapture and resize it to 320x240
+                    currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
-                    //Enter critical region
+                    // Acquire a lock on the synchronizing object
                     lock (syncObj)
                     {
                         //Detect rectangular regions which contain a face
@@ -120,66 +233,84 @@ namespace MFR_GUI.Pages
 
                     _logger.LogInfo(fullFaceRegions.Count.ToString());
 
+                    // Check if the FaceDetector found a face 
                     if (fullFaceRegions.Count != 0)
                     {
-                        List<Rectangle> recs = new List<Rectangle>();
-                        foreach (DetectedObject o in fullFaceRegions)
+                        // Make a list of rectangles for the FacemarkDetector, which contains only
+                        // the first rectanlge as we only save one face
+                        List<Rectangle> recs = new List<Rectangle>
                         {
-                            recs.Add(o.Region);
-                        }
+                            fullFaceRegions[0].Region
+                        };
 
-                        VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
-                        
+                        // Check if the face is rotated more than 15°, because the FacemarkDetector
+                        // has problems correctly detecting Facemarks if the face is tilted
                         if(!ImageEditor.IsAngelOver15Degree(fullFaceRegions[0].Region))
                         {
+                            // Detect the facial landmarks inside the rectangles
+                            VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
+
                             _logger.LogInfo("Winkel is unter 15°");
 
+                            // Rotate the image depending on the postition of the eyes and return a cropped image containing the face and background
                             Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[0], fullFaceRegions[0], _logger);
 
+                            // Empty the Lists to use them again for the FaceDetector
                             fullFaceRegions = new List<DetectedObject>();
                             partialFaceRegions = new List<DetectedObject>();
 
-                            //Enter critical region
+                            // Acquire a lock on the synchronizing object
                             lock (syncObj)
                             {
-                                //Detect rectangular regions which contain a face
+                                // Detect faces in the cropped image again to get only the face alone
                                 faceDetector.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                             }
 
                             _logger.LogInfo("DedectedFaces in tempTrainingFace: " + fullFaceRegions.Count);
 
+                            // Declare the directory for saving the images of the training faces
                             string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
 
+                            // Crop the image of the face out of image also containing background
                             tempTrainingFace = ImageEditor.CropImage(fullFaceRegions, tempTrainingFace);
 
-                            //Resize the image of the detected face and add the image and label to the lists for training
+                            //Resize the image of the detected face
                             tempTrainingFace = tempTrainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
 
+                            // Check if the name of the face to save already exists
                             if (!_labels.Contains(name))
                             {
+                                // Add the count of saved names to labelNr and increase the count of saved names
                                 labelNr.Add(_savedNamesCount++);
+                                // Add the name to labels
                                 _labels.Add(name);
-                                File.AppendAllText(trainingFacesDirectory + "TrainedLabels.txt", "%" + name);
+                                // Save the name to a text file (Is used in the TrainingFacesLoader)
+                                File.AppendAllText(projectDirectory + "/Data/TrainedLabels.txt", "%" + name);
                             }
                             else
                             {
+                                // Add the index of the name in labels to labelNr
                                 labelNr.Add(_labels.IndexOf(name));
                             }
                             
+                            // Add the training image to a list of Mats
                             training.Add(tempTrainingFace.Convert<Gray, Byte>().Mat);
 
                             //Update the recognizer with the new Image and Label
                             recognizer.Update(training.ToArray(), labelNr.ToArray());
 
-                            //save the image as bitmap-file
+                            // Check if the directory of the name to save the training image exists
                             if (!Directory.Exists(trainingFacesDirectory + name + "/"))
                             {
+                                // Create the directory to save the training image exists
                                 Directory.CreateDirectory(trainingFacesDirectory + name + "/");
                             }
 
+                            // Run through the training images and get the count of training images for that name
                             int i;
                             for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++);
 
+                            // Save the training image with the count
                             tempTrainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
 
                             //Show a MessageBox for confirmation of successful training
@@ -197,8 +328,10 @@ namespace MFR_GUI.Pages
                 }
                 catch (Exception ex)
                 {
+                    // Show the user that the saving didn't work
                     setTrainingStatus("Nicht gespeichert!", Brushes.Red);
-                    _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs","btnSpeichern");
+                    // Log an error message
+                    _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs", "btnSpeichern");
                 }
             });
         }
@@ -211,7 +344,7 @@ namespace MFR_GUI.Pages
                 _timer.Dispose();
             }
 
-            recognizer.Write(projectDirectory + "/TrainingFaces/recognizer.txt");
+            recognizer.Write(projectDirectory + "/Data/recognizer.txt");
 
             if (_labels != null)
             {
@@ -256,37 +389,20 @@ namespace MFR_GUI.Pages
             _timer.Elapsed += FrameGrabber;
             _timer.Interval = 20;
             _timer.Start();
-        }
 
-        private void test(object state)
-        {
-            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte> currentFrame;
+            /*
+            _timer1 = new Timer();
+            _timer1.Elapsed += FrameGrabber1;
+            _timer1.Interval = 20;
+            Thread.Sleep(34);
+            _timer1.Start();
 
-            //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp");
-
-            if (Monitor.TryEnter(syncObj))
-            {
-                //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
-
-                Monitor.Exit(syncObj);
-
-                foreach (DetectedObject d in fullFaceRegions)
-                {
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-                }
-
-                //setTrainingStatus("Gesicht gespeichert", Brushes.Green);
-                setImageOfImageBox(currentFrame);
-            }
-            else
-            {
-                
-            }
+            _timer2 = new Timer();
+            _timer2.Elapsed += FrameGrabber2;
+            _timer2.Interval = 20;
+            Thread.Sleep(34);
+            _timer2.Start();
+            */
         }
 
         /// <summary>
@@ -314,7 +430,7 @@ namespace MFR_GUI.Pages
             }
             else
             {
-                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread onwing the control
+                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
                 return (string)this.Dispatcher.Invoke(this.get_txt_Name);
             }
         }
@@ -347,8 +463,6 @@ namespace MFR_GUI.Pages
 
         private void setImageOfImageBox(Image<Bgr, byte> image)
         {
-            _logger.LogInfo("Invoke: Set Image");
-            
             /*
             if (this.grid2.Dispatcher.CheckAccess())
             {
@@ -361,7 +475,6 @@ namespace MFR_GUI.Pages
                 this.Dispatcher.Invoke(setImageOfImageBox, image);
             }
             */
-
             
             if (_imgBoxKamera.InvokeRequired)
             {

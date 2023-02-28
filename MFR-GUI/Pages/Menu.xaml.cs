@@ -79,9 +79,9 @@ namespace MFR_GUI.Pages
 
         private void btn_beenden_Click(object sender, RoutedEventArgs e)
         {
-            if (grabber != null)
+            if (videoCapture != null)
             { 
-                grabber.Dispose();
+                videoCapture.Dispose();
             }
             if (recognizer != null)
             {

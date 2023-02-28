@@ -17,8 +17,10 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            fd.Init();
+            facemarkDetector.Init();
             faceDetector.Init();
+            faceDetector1.Init();
+            faceDetector2.Init();
 
             if (!passwordChecked)
             {
@@ -59,7 +61,7 @@ namespace MFR_GUI.Pages
                 lock (syncObj)
                 {
                     //Initialize the capture device
-                    grabber = new VideoCapture(cameraIndex, VideoCapture.API.DShow); //VideoCapture.API.DShow                
+                    videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow); //VideoCapture.API.DShow                
                 }
             });
             

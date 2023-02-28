@@ -25,7 +25,7 @@ namespace MFR_GUI.Pages
             try
             {
                 //Load the file with the labels from previous trained faces
-                string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
+                string allLabels = File.ReadAllText(projectDirectory + "/Data/TrainedLabels.txt");
                 string[] Labels = allLabels.Split('%');
 
                 List<string> distinctLabels = Labels.Distinct().ToList();
@@ -64,7 +64,7 @@ namespace MFR_GUI.Pages
             try
             {
                 //Load the file with the labels from previous trained faces
-                string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
+                string allLabels = File.ReadAllText(projectDirectory + "/Data/TrainedLabels.txt");
                 string[] Labels = allLabels.Split('%');
 
                 List<string> distinctLabels = Labels.Distinct().ToList();
@@ -107,7 +107,7 @@ namespace MFR_GUI.Pages
             try
             {
                 //Load the file with the labels from previous trained faces
-                string allLabels = File.ReadAllText(projectDirectory + "/TrainingFaces/TrainedLabels.txt");
+                string allLabels = File.ReadAllText(projectDirectory + "/Data/TrainedLabels.txt");
                 string[] Labels = allLabels.Split('%');
 
                 List<string> distinctLabels = Labels.Distinct().ToList();
@@ -138,7 +138,7 @@ namespace MFR_GUI.Pages
 
         public static void LoadFaceRecognizer()
         {
-            recognizer.Read(projectDirectory + "/TrainingFaces/recognizer.txt");
+            recognizer.Read(projectDirectory + "/Data/recognizer.txt");
         }
 
         public static Tuple<List<Mat>, List<Image<Bgr, byte>>, List<string>, List<int>> GetTestingData(Logger logger)
@@ -216,7 +216,7 @@ namespace MFR_GUI.Pages
                         recs.Add(o.Region);
                     }
 
-                    VectorOfVectorOfPointF vovop = fd.Detect(image, recs.ToArray());
+                    VectorOfVectorOfPointF vovop = facemarkDetector.Detect(image, recs.ToArray());
 
                     if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[0].Region))
                     {

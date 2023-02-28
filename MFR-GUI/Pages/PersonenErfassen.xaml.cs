@@ -82,7 +82,7 @@ namespace MFR_GUI.Pages
             string recognizedNames = "";
             
             //Get the current frame from capture device
-            currentFrame = grabber.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
             
             if (Monitor.TryEnter(syncObj))
             {
@@ -110,13 +110,15 @@ namespace MFR_GUI.Pages
 
                 if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
                 {
-                    VectorOfVectorOfPointF vovop = fd.Detect(currentFrame, recs.ToArray());
+                    VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
 
                     PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
                 }
 
-                _logger.LogInfo("FrameGrabber: Set Image");
-                SetGUIElements(currentFrame, status, recognizedNames);
+                lock (syncObjImage)
+                {
+                    SetGUIElements(currentFrame, status, recognizedNames);
+                }
             }
         }
 
@@ -124,12 +126,14 @@ namespace MFR_GUI.Pages
         {
             for (int i = 0; i < vovop.Size; i++)
             {
+                _logger.LogInfo(i.ToString());
+
                 //Check if there are any trained faces
                 if(_savedNamesCount != 0)
                 {
-                    if(fullFaceRegions.Count - 1 <= i)
+                    if (i <= fullFaceRegions.Count - 1)
                     {
-                        ProcessFace(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames, i);
+                        ProcessFace(vovop[i], fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames, i);
                     }
                 }
                 else
@@ -140,11 +144,11 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void ProcessFace(VectorOfVectorOfPointF vovop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
+        private void ProcessFace(VectorOfPointF vop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
         {
             if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[i].Region))
             {
-                result = ImageEditor.RotateAndAlignPicture(result, vovop[i], fullFaceRegions[i], _logger);
+                result = ImageEditor.RotateAndAlignPicture(result, vop, fullFaceRegions[i], _logger);
 
                 fullFaceRegions = new List<DetectedObject>();
                 partialFaceRegions = new List<DetectedObject>();
@@ -178,19 +182,19 @@ namespace MFR_GUI.Pages
             {
                 result = result.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
 
-                if (Monitor.TryEnter(syncObj))
+                PredictionResult res;
+
+                lock (syncObj)
                 {
                     //Get the result of the prediction from the recognizer
-                    PredictionResult res = recognizer.Predict(result.Convert<Gray, Byte>());
-
-                    Monitor.Exit(syncObj);
-
-                    EvaluateResult(currentFrame, recs, res, ref recognizedNames, ref status, i);
+                    res = recognizer.Predict(result.Convert<Gray, Byte>());
                 }
+
+                EvaluateResult(currentFrame, recs, res, ref recognizedNames, ref status, i);
             }
             else
             {
-
+                
             }
         }
 
@@ -273,7 +277,6 @@ namespace MFR_GUI.Pages
         /// <param name="recognizedNames">The string that will be written as the content for the Label Label2</param>
         private void SetGUIElements(Image<Bgr, byte> image, string status, string recognizedNames)
         {
-            _logger.LogInfo("Invoke: Set Image");
             if (this.grid2.Dispatcher.CheckAccess())
             {
                 //We are on the thread that owns the control
@@ -339,7 +342,7 @@ namespace MFR_GUI.Pages
 
                     if (Monitor.TryEnter(syncObj))
                     {
-                        VectorOfVectorOfPointF vovop = fd.Detect(result, recs.ToArray());
+                        VectorOfVectorOfPointF vovop = facemarkDetector.Detect(result, recs.ToArray());
 
                         Monitor.Exit(syncObj);
 

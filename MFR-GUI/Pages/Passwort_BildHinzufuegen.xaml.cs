@@ -50,8 +50,8 @@ namespace MFR_GUI.Pages
             //Bool for Correct Password
             bool password = true;
             //Get Hashcode from File
-            string trainingFacesDirectory = Globals.projectDirectory + "/Image/";
-            string savedPasswordHash = File.ReadAllText(trainingFacesDirectory + "passwort.txt");
+            string dataDirectory = Globals.projectDirectory + "/Data/";
+            string savedPasswordHash = File.ReadAllText(dataDirectory + "passwort.txt");
             // Extract the bytes 
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
             // Get the salt 
