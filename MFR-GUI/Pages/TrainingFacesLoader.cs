@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using static MFR_GUI.Pages.Globals;
-using System.Xml.Linq;
 using Emgu.CV.Models;
 using Emgu.CV.Util;
-using System.Linq.Expressions;
 using System.Drawing;
 
 namespace MFR_GUI.Pages
@@ -218,7 +216,7 @@ namespace MFR_GUI.Pages
 
                     VectorOfVectorOfPointF vovop = facemarkDetector.Detect(image, recs.ToArray());
 
-                    if (!ImageEditor.IsAngelOver15Degree(fullFaceRegions[0].Region))
+                    if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
                     {
                         Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(image, vovop[0], fullFaceRegions[0], logger);
 

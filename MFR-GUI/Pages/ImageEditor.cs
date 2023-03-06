@@ -91,9 +91,9 @@ namespace MFR_GUI.Pages
         }
 
         //Normales Kopfverhätnis: 2:3 (Breite : Länge)
-        public static bool IsAngelOver15Degree(Rectangle r)
+        public static bool IsAngelOver30Degree(Rectangle r)
         {
-            if((double) r.Width/r.Height > 0.829)
+            if((double) r.Width/r.Height > 0.8983)
             {
                 return true;
             }
@@ -101,11 +101,11 @@ namespace MFR_GUI.Pages
             return false;
         }
 
-        public static bool IsAngelOver15Degree(Rectangle r, Logger logger)
+        public static bool IsAngelOver30Degree(Rectangle r, Logger logger)
         {
             double ratio = (double) r.Width / r.Height;
 
-            if (ratio > 0.829)
+            if (ratio > 0.8983)
             {
                 return true;
             }
@@ -121,7 +121,7 @@ namespace MFR_GUI.Pages
 
                 if (r.X < image.Width / 3 && r.Y < image.Height / 3)
                 {
-                    return image.Copy(fullFaceRegions[1].Region);
+                    return image.Copy(r);
                 }
                 else
                 {
@@ -130,7 +130,16 @@ namespace MFR_GUI.Pages
             }
             else
             {
-                return image.Copy(fullFaceRegions[0].Region);
+                Rectangle r = fullFaceRegions[0].Region;
+
+                if (r.X < image.Width / 3 && r.Y < image.Height / 3)
+                {
+                    return image.Copy(r);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

@@ -3,7 +3,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using static MFR_GUI.Pages.Globals;

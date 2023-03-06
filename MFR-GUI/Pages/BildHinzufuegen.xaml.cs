@@ -76,17 +76,11 @@ namespace MFR_GUI.Pages
             // 50 or more wrong rectangles
             if (Monitor.TryEnter(syncObj))
             {
-                //_logger.LogInfo("syncObj Lock aquired!");
-
                 // Detect rectangular regions which contain a face
                 faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
 
-                _logger.LogInfo(fullFaceRegions.Count.ToString());
-
                 // Release the lock
                 Monitor.Exit(syncObj);
-
-                _logger.LogInfo(fullFaceRegions.Count.ToString());
 
                 // Run through the fullFaceRegions list, which contains faces
                 foreach (DetectedObject d in fullFaceRegions)
@@ -107,7 +101,6 @@ namespace MFR_GUI.Pages
             else
             {
                 // The lock couldn't be acquired so we do nothing
-                _logger.LogInfo("syncObj Lock not aquired!");
             }
         }
 
@@ -231,8 +224,6 @@ namespace MFR_GUI.Pages
                         faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
                     }
 
-                    _logger.LogInfo(fullFaceRegions.Count.ToString());
-
                     // Check if the FaceDetector found a face 
                     if (fullFaceRegions.Count != 0)
                     {
@@ -245,12 +236,10 @@ namespace MFR_GUI.Pages
 
                         // Check if the face is rotated more than 15°, because the FacemarkDetector
                         // has problems correctly detecting Facemarks if the face is tilted
-                        if(!ImageEditor.IsAngelOver15Degree(fullFaceRegions[0].Region))
+                        if(!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
                         {
                             // Detect the facial landmarks inside the rectangles
                             VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
-
-                            _logger.LogInfo("Winkel is unter 15°");
 
                             // Rotate the image depending on the postition of the eyes and return a cropped image containing the face and background
                             Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[0], fullFaceRegions[0], _logger);
@@ -274,47 +263,54 @@ namespace MFR_GUI.Pages
                             // Crop the image of the face out of image also containing background
                             tempTrainingFace = ImageEditor.CropImage(fullFaceRegions, tempTrainingFace);
 
-                            //Resize the image of the detected face
-                            tempTrainingFace = tempTrainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
-
-                            // Check if the name of the face to save already exists
-                            if (!_labels.Contains(name))
+                            if (tempTrainingFace != null)
                             {
-                                // Add the count of saved names to labelNr and increase the count of saved names
-                                labelNr.Add(_savedNamesCount++);
-                                // Add the name to labels
-                                _labels.Add(name);
-                                // Save the name to a text file (Is used in the TrainingFacesLoader)
-                                File.AppendAllText(projectDirectory + "/Data/TrainedLabels.txt", "%" + name);
+                                //Resize the image of the detected face
+                                tempTrainingFace = tempTrainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
+
+                                // Check if the name of the face to save already exists
+                                if (!_labels.Contains(name))
+                                {
+                                    // Add the count of saved names to labelNr and increase the count of saved names
+                                    labelNr.Add(_savedNamesCount++);
+                                    // Add the name to labels
+                                    _labels.Add(name);
+                                    // Save the name to a text file (Is used in the TrainingFacesLoader)
+                                    File.AppendAllText(projectDirectory + "/Data/TrainedLabels.txt", "%" + name);
+                                }
+                                else
+                                {
+                                    // Add the index of the name in labels to labelNr
+                                    labelNr.Add(_labels.IndexOf(name));
+                                }
+
+                                // Add the training image to a list of Mats
+                                training.Add(tempTrainingFace.Convert<Gray, Byte>().Mat);
+
+                                //Update the recognizer with the new Image and Label
+                                recognizer.Update(training.ToArray(), labelNr.ToArray());
+
+                                // Check if the directory of the name to save the training image exists
+                                if (!Directory.Exists(trainingFacesDirectory + name + "/"))
+                                {
+                                    // Create the directory to save the training image exists
+                                    Directory.CreateDirectory(trainingFacesDirectory + name + "/");
+                                }
+
+                                // Run through the training images and get the count of training images for that name
+                                int i;
+                                for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++) ;
+
+                                // Save the training image with the count
+                                tempTrainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
+
+                                //Show a MessageBox for confirmation of successful training
+                                setTrainingStatus("Gesicht gespeichert", Brushes.Green);
                             }
                             else
                             {
-                                // Add the index of the name in labels to labelNr
-                                labelNr.Add(_labels.IndexOf(name));
+                                setTrainingStatus("Falsch!", Brushes.Red);
                             }
-                            
-                            // Add the training image to a list of Mats
-                            training.Add(tempTrainingFace.Convert<Gray, Byte>().Mat);
-
-                            //Update the recognizer with the new Image and Label
-                            recognizer.Update(training.ToArray(), labelNr.ToArray());
-
-                            // Check if the directory of the name to save the training image exists
-                            if (!Directory.Exists(trainingFacesDirectory + name + "/"))
-                            {
-                                // Create the directory to save the training image exists
-                                Directory.CreateDirectory(trainingFacesDirectory + name + "/");
-                            }
-
-                            // Run through the training images and get the count of training images for that name
-                            int i;
-                            for (i = 0; File.Exists(trainingFacesDirectory + name + "/" + name + i + ".bmp"); i++);
-
-                            // Save the training image with the count
-                            tempTrainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
-
-                            //Show a MessageBox for confirmation of successful training
-                            setTrainingStatus("Gesicht gespeichert", Brushes.Green);
                         }
                         else
                         {
@@ -389,20 +385,6 @@ namespace MFR_GUI.Pages
             _timer.Elapsed += FrameGrabber;
             _timer.Interval = 20;
             _timer.Start();
-
-            /*
-            _timer1 = new Timer();
-            _timer1.Elapsed += FrameGrabber1;
-            _timer1.Interval = 20;
-            Thread.Sleep(34);
-            _timer1.Start();
-
-            _timer2 = new Timer();
-            _timer2.Elapsed += FrameGrabber2;
-            _timer2.Interval = 20;
-            Thread.Sleep(34);
-            _timer2.Start();
-            */
         }
 
         /// <summary>

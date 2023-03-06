@@ -17,21 +17,23 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            facemarkDetector.Init();
-            faceDetector.Init();
-            faceDetector1.Init();
-            faceDetector2.Init();
-
-            if (!passwordChecked)
+            // Initialize the Detectors if they haven't been already
+            if (!detectorsLoaded)
             {
-                passwordChecked = false;
+                facemarkDetector.Init();
+                faceDetector.Init();
+                faceDetector1.Init();
+                faceDetector2.Init();
+
+                // Set the detectorsLoaded to true so that they aren't initialized when returning from PasswortÄndern
+                detectorsLoaded = true;
             }
 
             List<string> cameraNames = new List<string>();
             
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
             {
-                foreach (var device in searcher.Get())
+                foreach (ManagementBaseObject device in searcher.Get())
                 {
                     cameraNames.Add(device["Caption"].ToString());
                 }
@@ -42,7 +44,7 @@ namespace MFR_GUI.Pages
                 kameraAuswahl.Items.Add(cameraName);
             }
 
-            //Assign default-values in case the user doesn't select a camera
+            // Assign default values in case the user doesn't select a camera
             kameraAuswahl.Text = cameraNames[0];
             cameraIndex = 0;
         }
@@ -57,11 +59,11 @@ namespace MFR_GUI.Pages
         {
             Task t = Task.Factory.StartNew(() =>
             {
-                //Enter critical region
+                // Acquire lock so other pages can't use the VideoCapture before it's initialized
                 lock (syncObj)
                 {
-                    //Initialize the capture device
-                    videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow); //VideoCapture.API.DShow                
+                    // Initialize the capture device
+                    videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow);              
                 }
             });
             

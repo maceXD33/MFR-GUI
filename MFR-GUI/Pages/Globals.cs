@@ -39,5 +39,6 @@ namespace MFR_GUI.Pages
         public static bool dataLoaded = false;
         public static bool loadRecognizerFromFile = false;
         public static bool passwordChecked = false;
+        public static bool detectorsLoaded = false;
     }
 }
