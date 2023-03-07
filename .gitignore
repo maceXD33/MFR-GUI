@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /MFR-GUI/TrainingFaces
+/MFR-GUI/Data/passwort.txt
+/MFR-GUI/Data/log.txt
+/MFR-GUI/Data/recognizer.txt
+/MFR-GUI/Data/TrainedLabels.txt
