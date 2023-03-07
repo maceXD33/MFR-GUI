@@ -75,61 +75,6 @@ namespace MFR_GUI.Pages
             this.NavigationService.Navigate(new Menu());
         }
 
-        private void trying()
-        {
-            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte>? currentFrame;
-            Image<Bgr, byte>? result;
-            string status = "nicht erkannt";
-            string recognizedNames = "";
-
-            while (true)
-            {
-                //Get the current frame from capture device
-                currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-
-                if (Monitor.TryEnter(syncObj1))
-                {
-                    //Detect rectangular regions which contain a face
-                    faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
-
-                    Monitor.Exit(syncObj1);
-
-                    List<Rectangle> recs = new List<Rectangle>();
-                    result = currentFrame.Copy();
-
-                    //Action for each region detected
-                    foreach (DetectedObject d in fullFaceRegions)
-                    {
-                        Rectangle r = d.Region;
-
-                        if (r.Right < 320 && r.Bottom < 240)
-                        {
-                            recs.Add(r);
-                        }
-
-                        //Draw a rectangle around the region
-                        currentFrame.Draw(r, new Bgr(Color.Red), 1);
-                    }
-
-                    if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
-                    {
-                        VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
-
-                        PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
-                    }
-
-                    SetGUIElements(currentFrame, status, recognizedNames);
-
-                    fullFaceRegions = new List<DetectedObject>();
-                    partialFaceRegions = new List<DetectedObject>();
-                    status = "nicht erkannt";
-                    recognizedNames = "";
-                }
-            }
-        }
-
         private void FrameGrabber(object sender, EventArgs e)
         {
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
@@ -301,17 +246,10 @@ namespace MFR_GUI.Pages
             //Add the interop host control to the Grid control's collection of child controls.
             this.grid2.Children.Add(host);
 
-            /*
             _timer = new Timer();
             _timer.Elapsed += FrameGrabber;
             _timer.Interval = 50;
             _timer.Start();
-            */
-
-            Task t = new Task(trying);
-            t.Start();
-            
-            //Testing();
         }
 
         /// <summary>

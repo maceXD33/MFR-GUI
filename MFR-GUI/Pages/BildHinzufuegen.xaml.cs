@@ -356,7 +356,6 @@ namespace MFR_GUI.Pages
 
         private void setImageOfImageBox(Image<Bgr, byte> image)
         {
-            /*
             if (this.grid2.Dispatcher.CheckAccess())
             {
                 //We are on the thread that owns the control
@@ -366,18 +365,6 @@ namespace MFR_GUI.Pages
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
                 this.Dispatcher.Invoke(setImageOfImageBox, image);
-            }
-            */
-            
-            if (_imgBoxKamera.InvokeRequired)
-            {
-                //We are on the thread that owns the control
-                _imgBoxKamera.Image = image;
-            }
-            else
-            {
-                //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
-                _imgBoxKamera.Invoke(setImageOfImageBox, image);
             }
         }
     }
