@@ -21,7 +21,6 @@ namespace MFR_GUI.Pages
             if (!detectorsLoaded)
             {
                 facemarkDetector.Init();
-                faceDetector.Init();
                 faceDetector1.Init();
                 faceDetector2.Init();
 
@@ -60,7 +59,7 @@ namespace MFR_GUI.Pages
             Task t = Task.Factory.StartNew(() =>
             {
                 // Acquire lock so other pages can't use the VideoCapture before it's initialized
-                lock (syncObj)
+                lock (syncObj1)
                 {
                     // Initialize the capture device
                     videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow);              

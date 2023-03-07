@@ -200,10 +200,10 @@ namespace MFR_GUI.Pages
             try
             {
                 //Enter critical region
-                lock (syncObj)
+                lock (syncObj1)
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector.Detect(image, fullFaceRegions, partialFaceRegions);
+                    faceDetector1.Detect(image, fullFaceRegions, partialFaceRegions);
                 }
 
                 if (fullFaceRegions.Count != 0)
@@ -224,10 +224,10 @@ namespace MFR_GUI.Pages
                         partialFaceRegions = new List<DetectedObject>();
 
                         //Enter critical region
-                        lock (syncObj)
+                        lock (syncObj1)
                         {
                             //Detect rectangular regions which contain a face
-                            faceDetector.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                            faceDetector1.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                         }
 
                         string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";

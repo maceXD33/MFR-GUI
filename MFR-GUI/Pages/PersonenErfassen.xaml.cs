@@ -20,6 +20,8 @@ using Timer = System.Timers.Timer;
 using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
 using static Emgu.CV.Face.FaceRecognizer;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MFR_GUI.Pages
 {
@@ -35,7 +37,7 @@ namespace MFR_GUI.Pages
         private List<string> _labels;
         private int _savedNamesCount;
 
-        private int a = 0;
+        private int a;
 
         public PersonenErfassen()
         {
@@ -73,6 +75,61 @@ namespace MFR_GUI.Pages
             this.NavigationService.Navigate(new Menu());
         }
 
+        private void trying()
+        {
+            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
+            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
+            Image<Bgr, Byte>? currentFrame;
+            Image<Bgr, byte>? result;
+            string status = "nicht erkannt";
+            string recognizedNames = "";
+
+            while (true)
+            {
+                //Get the current frame from capture device
+                currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+
+                if (Monitor.TryEnter(syncObj1))
+                {
+                    //Detect rectangular regions which contain a face
+                    faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+
+                    Monitor.Exit(syncObj1);
+
+                    List<Rectangle> recs = new List<Rectangle>();
+                    result = currentFrame.Copy();
+
+                    //Action for each region detected
+                    foreach (DetectedObject d in fullFaceRegions)
+                    {
+                        Rectangle r = d.Region;
+
+                        if (r.Right < 320 && r.Bottom < 240)
+                        {
+                            recs.Add(r);
+                        }
+
+                        //Draw a rectangle around the region
+                        currentFrame.Draw(r, new Bgr(Color.Red), 1);
+                    }
+
+                    if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
+                    {
+                        VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
+
+                        PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
+                    }
+
+                    SetGUIElements(currentFrame, status, recognizedNames);
+
+                    fullFaceRegions = new List<DetectedObject>();
+                    partialFaceRegions = new List<DetectedObject>();
+                    status = "nicht erkannt";
+                    recognizedNames = "";
+                }
+            }
+        }
+
         private void FrameGrabber(object sender, EventArgs e)
         {
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
@@ -85,12 +142,12 @@ namespace MFR_GUI.Pages
             //Get the current frame from capture device
             currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
             
-            if (Monitor.TryEnter(syncObj))
+            if (Monitor.TryEnter(syncObj1))
             {
                 //Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+                faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
 
-                Monitor.Exit(syncObj);
+                Monitor.Exit(syncObj1);
 
                 List<Rectangle> recs = new List<Rectangle>();
                 result = currentFrame.Copy();
@@ -153,16 +210,16 @@ namespace MFR_GUI.Pages
             if (result != null)
             {
                 //Enter critical region
-                lock (syncObj)
+                lock (syncObj1)
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector.Detect(result, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                    faceDetector1.Detect(result, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                 }
 
                 if (fullFaceRegions.Count > 0)
                 {
                     result = ImageEditor.CropImage(fullFaceRegions, result);
-
+                    
                     RecognizeFace(currentFrame, result, recs, i, ref status, ref recognizedNames);
                 }
             }
@@ -176,7 +233,7 @@ namespace MFR_GUI.Pages
 
                 PredictionResult res;
 
-                lock (syncObj)
+                lock (syncObj1)
                 {
                     //Get the result of the prediction from the recognizer
                     res = recognizer.Predict(result.Convert<Gray, Byte>());
@@ -184,10 +241,7 @@ namespace MFR_GUI.Pages
 
                 EvaluateResult(currentFrame, recs, res, ref recognizedNames, ref status, i);
 
-                if (true)
-                {
-                    result.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedRecognizeImages/" + _labels[res.Label] + i + a + ".bmp");
-                }
+                //result.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedRecognizeImages/" + _labels[res.Label] + i + a + ".bmp");
             }
             else
             {
@@ -253,7 +307,11 @@ namespace MFR_GUI.Pages
             _timer.Interval = 50;
             _timer.Start();
             */
-            Testing();
+
+            Task t = new Task(trying);
+            t.Start();
+            
+            //Testing();
         }
 
         /// <summary>
@@ -320,12 +378,12 @@ namespace MFR_GUI.Pages
 
             foreach (Image<Bgr, Byte> image in t.Item2)
             {
-                if (Monitor.TryEnter(syncObj))
+                if (Monitor.TryEnter(syncObj1))
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector.Detect(image, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+                    faceDetector1.Detect(image, fullFaceRegions, partialFaceRegions);
 
-                    Monitor.Exit(syncObj);
+                    Monitor.Exit(syncObj1);
 
                     List<Rectangle> recs = new List<Rectangle>();
                     result = image.Copy();
@@ -335,10 +393,7 @@ namespace MFR_GUI.Pages
                     {
                         Rectangle r = d.Region;
 
-                        if (r.Right < 320 && r.Bottom < 240)
-                        {
-                            recs.Add(r);
-                        }
+                        recs.Add(r);
 
                         //Draw a rectangle around the region
                         image.Draw(r, new Bgr(Color.Red), 1);

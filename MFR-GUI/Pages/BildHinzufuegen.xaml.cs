@@ -23,6 +23,7 @@ using Timer = System.Timers.Timer;
 using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
 using MFR_GUI.Pages;
+using System.Diagnostics;
 
 namespace MFR_GUI.Pages
 {
@@ -37,9 +38,6 @@ namespace MFR_GUI.Pages
 
         private List<string> _labels;
         private int _savedNamesCount;
-
-        private Timer _timer1;
-        private Timer _timer2;
 
         public BildHinzufuegen()
         {
@@ -74,13 +72,13 @@ namespace MFR_GUI.Pages
             // Try to acquire a lock on the synchronizing object to use the FaceDetector, 
             // because the .Detect() method can't handle multiple access and returns around
             // 50 or more wrong rectangles
-            if (Monitor.TryEnter(syncObj))
+            if (Monitor.TryEnter(syncObj2))
             {
                 // Detect rectangular regions which contain a face
-                faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+                faceDetector2.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
 
                 // Release the lock
-                Monitor.Exit(syncObj);
+                Monitor.Exit(syncObj2);
 
                 // Run through the fullFaceRegions list, which contains faces
                 foreach (DetectedObject d in fullFaceRegions)
@@ -101,82 +99,6 @@ namespace MFR_GUI.Pages
             else
             {
                 // The lock couldn't be acquired so we do nothing
-            }
-        }
-
-        public void FrameGrabber1(object sender, EventArgs e)
-        {
-            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte> currentFrame;
-
-            //Get the current frame from capture device
-            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp
-
-            if (Monitor.TryEnter(syncObj1))
-            {
-                _logger.LogInfo("syncObj1 Lock aquired!");
-
-                //Detect rectangular regions which contain a face
-                faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
-
-                Monitor.Exit(syncObj1);
-
-                _logger.LogInfo(fullFaceRegions.Count.ToString());
-
-                foreach (DetectedObject d in fullFaceRegions)
-                {
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-                }
-
-                _logger.LogInfo("FrameGrabber1: Set Image");
-                lock (syncObjImage)
-                {
-                    setImageOfImageBox(currentFrame);
-                }
-            }
-            else
-            {
-                _logger.LogInfo("syncObj1 Lock not aquired!");
-            }
-        }
-
-        public void FrameGrabber2(object sender, EventArgs e)
-        {
-            List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
-            List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte> currentFrame;
-
-            //Get the current frame from capture device
-            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            //currentFrame = new Image<Bgr, byte>("C:\\Users\\HP\\Dokumente\\Visual Studio 2022\\Projects\\MFR-GUI\\MFR-GUI\\TrainingFaces\\test\\wholeFrame.bmp
-
-            if (Monitor.TryEnter(syncObj2))
-            {
-                _logger.LogInfo("syncObj2 Lock aquired!");
-
-                //Detect rectangular regions which contain a face
-                faceDetector2.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
-
-                Monitor.Exit(syncObj2);
-
-                _logger.LogInfo(fullFaceRegions.Count.ToString());
-
-                foreach (DetectedObject d in fullFaceRegions)
-                {
-                    currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
-                }
-
-                _logger.LogInfo("FrameGrabber2: Set Image");
-                lock (syncObjImage)
-                {
-                    setImageOfImageBox(currentFrame);
-                }
-            }
-            else
-            {
-                _logger.LogInfo("syncObj2 Lock not aquired!");
             }
         }
 
@@ -218,10 +140,10 @@ namespace MFR_GUI.Pages
                     currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
 
                     // Acquire a lock on the synchronizing object
-                    lock (syncObj)
+                    lock (syncObj1)
                     {
                         //Detect rectangular regions which contain a face
-                        faceDetector.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
+                        faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
                     }
 
                     // Check if the FaceDetector found a face 
@@ -236,7 +158,7 @@ namespace MFR_GUI.Pages
 
                         // Check if the face is rotated more than 15°, because the FacemarkDetector
                         // has problems correctly detecting Facemarks if the face is tilted
-                        if(!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
+                        if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
                         {
                             // Detect the facial landmarks inside the rectangles
                             VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
@@ -249,10 +171,10 @@ namespace MFR_GUI.Pages
                             partialFaceRegions = new List<DetectedObject>();
 
                             // Acquire a lock on the synchronizing object
-                            lock (syncObj)
+                            lock (syncObj1)
                             {
                                 // Detect faces in the cropped image again to get only the face alone
-                                faceDetector.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                                faceDetector1.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                             }
 
                             _logger.LogInfo("DedectedFaces in tempTrainingFace: " + fullFaceRegions.Count);
@@ -417,17 +339,6 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void allFaceFeatures(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject)
-        {
-            for (int j = 0; j < vop.Size; j++)
-            {
-                Point p = Point.Round(vop[j]);
-                _logger.LogInfo((j + 1).ToString() + "X: " + vop[j].X + " Y:" + vop[j].Y);
-            }
-
-            image.Save(projectDirectory + "/TrainingFaces/test/allfacefeatures.bmp");
-        }
-
         private void setTrainingStatus(string status, Brush color)
         {
             if (this.l_Fehler.Dispatcher.CheckAccess())
@@ -467,7 +378,6 @@ namespace MFR_GUI.Pages
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
                 _imgBoxKamera.Invoke(setImageOfImageBox, image);
-
             }
         }
     }
