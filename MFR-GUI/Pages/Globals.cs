@@ -1,16 +1,8 @@
 ﻿using Emgu.CV.Face;
-using Emgu.CV.Structure;
 using Emgu.CV;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.RightsManagement;
 using Emgu.CV.Models;
 using System.IO;
-using System.Windows.Forms;
-using System.Windows.Media;
 
 namespace MFR_GUI.Pages
 {

@@ -1,6 +1,5 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
-using Emgu.CV.Face;
 using Emgu.CV.Structure;
 using System.Threading;
 using System;
@@ -20,8 +19,6 @@ using Timer = System.Timers.Timer;
 using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
 using static Emgu.CV.Face.FaceRecognizer;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace MFR_GUI.Pages
 {
@@ -30,6 +27,7 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class PersonenErfassen : Page
     {
+        // Declaration of fields
         private ImageBox _imgBoxKamera;
         private Timer _timer;
         private Logger _logger;
@@ -42,6 +40,7 @@ namespace MFR_GUI.Pages
         public PersonenErfassen()
         {
             InitializeComponent();
+
             Label1.Content = "Status";
             Label2.Content = "Name";
             _logger = new Logger();
@@ -51,7 +50,7 @@ namespace MFR_GUI.Pages
             _labels = tuple.Item1;
             _savedNamesCount = tuple.Item2;
 
-            GenerateImageBox();
+            //GenerateImageBox();
         }
 
         private void Btn_Zurueck3_Click(object sender, RoutedEventArgs e)
@@ -185,8 +184,6 @@ namespace MFR_GUI.Pages
                 }
 
                 EvaluateResult(currentFrame, recs, res, ref recognizedNames, ref status, i);
-
-                //result.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedRecognizeImages/" + _labels[res.Label] + i + a + ".bmp");
             }
             else
             {
@@ -266,7 +263,10 @@ namespace MFR_GUI.Pages
         //Threadsafe method
         /// <summary>
         /// Sets the Background of Label1 to Green when status is "erkannt". Sets the Background of Label1 to Red when status is "unbekannt".
-        /// 
+        /// Sets the Content-Property of Label1 to status.
+        /// Sets the Image-Property of _imgBoxKamera to image.
+        /// Sets the Content-Property of Label2 to recognizedNames.
+        /// This method can be called in a thread outside of the GUI-Thread.
         /// </summary>
         /// <param name="image">The Image that will be set for the ImageBox imgBoxKamera</param>
         /// <param name="status">The string that will determ the colour of the Background and it will be written as the Content for the Label Label1</param>
@@ -348,126 +348,6 @@ namespace MFR_GUI.Pages
                     a++;
                     fullFaceRegions = new List<DetectedObject>();
                     partialFaceRegions = new List<DetectedObject>();
-
-                    /*
-                    if (Monitor.TryEnter(syncObj))
-                    {
-                        //Detect rectangular regions which contain a face
-                        faceDetector.Detect(image, fullFaceRegions, partialFaceRegions);
-
-                        Monitor.Exit(syncObj);
-
-                        //_logger.LogInfo("Anzahl kompletter Gesichter: " + fullFaceRegions.Count);
-
-                        List<Rectangle> recs = new List<Rectangle>();
-                        result = image.Copy();
-
-                        //Action for each region detected
-                        foreach (DetectedObject d in fullFaceRegions)
-                        {
-                            recs.Add(d.Region);
-
-                            //Draw a rectangle around the region
-                            image.Draw(d.Region, new Bgr(Color.Red), 1);
-                        }
-
-                        if (Monitor.TryEnter(syncObj))
-                        {
-                            VectorOfVectorOfPointF vovop = facemarkDetector.Detect(result, recs.ToArray());
-
-                            Monitor.Exit(syncObj);
-
-                            for (int i = 0; i < vovop.Size; i++)
-                            {
-                                //Check if there are any trained faces
-                                if (_savedNamesCount != 0)
-                                {
-                                    if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[i].Region))
-                                    {
-                                        //_logger.LogInfo(fullFaceRegions[i].Region.ToString());
-                                        //_logger.LogInfo(fullFaceRegions[i].Confident.ToString());
-
-                                        result = ImageEditor.RotateAndAlignPicture(result, vovop[i], fullFaceRegions[i], _logger);
-
-                                        fullFaceRegions = new List<DetectedObject>();
-                                        partialFaceRegions = new List<DetectedObject>();
-
-                                        //Enter critical region
-                                        lock (syncObj)
-                                        {
-                                            //Detect rectangular regions which contain a face
-                                            faceDetector.Detect(result, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
-                                        }
-
-                                        string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
-
-                                        if (fullFaceRegions.Count > 1)
-                                        {
-                                            Rectangle r = fullFaceRegions[1].Region;
-                                            if (r.X < result.Width / 3 && r.Y < result.Height / 3)
-                                            {
-                                                result = result.Copy(fullFaceRegions[1].Region);
-                                            }
-                                            else
-                                            {
-                                                result = result.Copy(fullFaceRegions[0].Region);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            result = result.Copy(fullFaceRegions[0].Region);
-                                        }
-
-                                        if (result != null)
-                                        {
-                                            result = result.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
-
-                                            if (Monitor.TryEnter(syncObj))
-                                            {
-                                                //Get the result of the prediction from the recognizer
-                                                FaceRecognizer.PredictionResult res = recognizer.Predict(result.Convert<Gray, Byte>());
-
-                                                Monitor.Exit(syncObj);
-
-                                                //res.Distance < n determs how familiar the faces must look
-                                                if (res.Distance <= 160)
-                                                {
-                                                    //Draw the label for the detected face
-                                                    image.Draw(_labels[res.Label] + ", " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                                                }
-                                                else
-                                                {
-                                                    //Draw the label "Unkown" as the criteria for same face was not met
-                                                    image.Draw("Unbekannt, " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                                                }
-
-                                                result.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedRecognizeImages/" + _labels[res.Label] + i + a + ".bmp");
-                                            }
-                                        }
-                                        else
-                                        {
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        image.Draw("Zu schief!", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                                    }
-                                }
-                                else
-                                {
-                                    //Draw the label "Unkown" as there are no faces in the database
-                                    image.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyTriplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                                }
-                            }
-                        }
-
-                        image.Save(projectDirectory + "/TrainingFaces/TestDataset/Output/image_" + a + ".bmp");
-                        a++;
-                        fullFaceRegions = new List<DetectedObject>();
-                        partialFaceRegions = new List<DetectedObject>();
-                    }
-                    */
                 }
             }
         }
