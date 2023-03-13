@@ -11,7 +11,6 @@ namespace MFR_GUI.Pages
         // Definition of synchronizing objects
         public static readonly object syncObj1 = new object();
         public static readonly object syncObj2 = new object();
-        public static readonly object syncObjImage = new object();
 
         // Definition of different directories
         public static readonly string workingDirectory = Environment.CurrentDirectory;

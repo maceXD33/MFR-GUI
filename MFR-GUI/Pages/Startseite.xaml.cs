@@ -43,9 +43,16 @@ namespace MFR_GUI.Pages
                 kameraAuswahl.Items.Add(cameraName);
             }
 
-            // Assign default values in case the user doesn't select a camera
-            kameraAuswahl.Text = cameraNames[0];
-            cameraIndex = 0;
+            if (cameraNames.Count > 0)
+            {
+                // Assign default values in case the user doesn't select a camera
+                kameraAuswahl.Text = cameraNames[0];
+                cameraIndex = 0;
+            }
+            else
+            {
+                cameraIndex = -1;
+            }
         }
 
         private void btn_passwort_Click(object sender, RoutedEventArgs e)
@@ -56,18 +63,25 @@ namespace MFR_GUI.Pages
 
         private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
-            Task t = Task.Factory.StartNew(() =>
+            if (cameraIndex >= 0)
             {
-                // Acquire lock so other pages can't use the VideoCapture before it's initialized
-                lock (syncObj1)
+                Task t = Task.Factory.StartNew(() =>
                 {
-                    // Initialize the capture device
-                    videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow);              
-                }
-            });
-            
-            Menu m = new Menu();
-            this.NavigationService.Navigate(m);
+                    // Acquire lock so other pages can't use the VideoCapture before it's initialized
+                    lock (syncObj1)
+                    {
+                        // Initialize the capture device
+                        videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow);
+                    }
+                });
+
+                Menu m = new Menu();
+                this.NavigationService.Navigate(m);
+            }
+            else
+            {
+                l_Fehler.Content = "Keine Kamera!";
+            }
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)

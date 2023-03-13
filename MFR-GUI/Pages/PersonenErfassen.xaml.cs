@@ -50,7 +50,7 @@ namespace MFR_GUI.Pages
             _labels = tuple.Item1;
             _savedNamesCount = tuple.Item2;
 
-            //GenerateImageBox();
+            GenerateImageBox();
         }
 
         private void Btn_Zurueck3_Click(object sender, RoutedEventArgs e)
@@ -84,7 +84,7 @@ namespace MFR_GUI.Pages
             string recognizedNames = "";
             
             //Get the current frame from capture device
-            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.LinearExact);
             
             if (Monitor.TryEnter(syncObj1))
             {
@@ -92,6 +92,8 @@ namespace MFR_GUI.Pages
                 faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
 
                 Monitor.Exit(syncObj1);
+
+                _logger.LogInfo("captured Frame");
 
                 List<Rectangle> recs = new List<Rectangle>();
                 result = currentFrame.Copy();
@@ -104,10 +106,10 @@ namespace MFR_GUI.Pages
                     if(r.Right < 320 && r.Bottom < 240)
                     {
                         recs.Add(r);
-                    }
 
-                    //Draw a rectangle around the region
-                    currentFrame.Draw(r, new Bgr(Color.Red), 1);
+                        //Draw a rectangle around the region
+                        currentFrame.Draw(r, new Bgr(Color.Red), 1);
+                    }
                 }
 
                 if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
@@ -117,10 +119,12 @@ namespace MFR_GUI.Pages
                     PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
                 }
 
-                lock (syncObjImage)
+                lock (syncObj1)
                 {
                     SetGUIElements(currentFrame, status, recognizedNames);
                 }
+
+                _logger.LogInfo("Set Frame");
             }
         }
 
@@ -245,7 +249,7 @@ namespace MFR_GUI.Pages
 
             _timer = new Timer();
             _timer.Elapsed += FrameGrabber;
-            _timer.Interval = 50;
+            _timer.Interval = 20;
             _timer.Start();
         }
 

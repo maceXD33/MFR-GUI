@@ -75,7 +75,7 @@ namespace MFR_GUI.Pages
             Image<Bgr, Byte> currentFrame;
 
             // Get the next frame from the VideoCapture and resize it to 320x240
-            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.LinearExact);
 
             // Try to acquire a lock on the synchronizing object to use the FaceDetector, 
             // because the .Detect() method can't handle multiple access and returns around
@@ -96,7 +96,7 @@ namespace MFR_GUI.Pages
                 }
 
                 // Acquire a lock on the synchronizing object
-                lock (syncObjImage)
+                lock (syncObj2)
                 {
                     // Set the Image of the ImageBox (Threadsafe method)
                     setImageOfImageBox(currentFrame);
