@@ -41,50 +41,74 @@ namespace MFR_GUI.Pages
         {
             InitializeComponent();
 
-            Label1.Content = "Status";
-            Label2.Content = "Name";
+            // Create a new Logger-Object and assing it to the _logger-field
             _logger = new Logger();
 
+            // Load the labels and the count of the saved names 
             Tuple<List<string>, int> tuple = LoadTrainingFacesTwoReturns(_logger);
 
+            // Assign the returned values to the fields
             _labels = tuple.Item1;
             _savedNamesCount = tuple.Item2;
 
+            // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
             GenerateImageBox();
         }
 
+        /// <summary>
+        /// Gets called when the button for going back to the menu is clicked.
+        /// Disposes of resources and then navigates to the menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Zurueck3_Click(object sender, RoutedEventArgs e)
         {
             if(_timer != null)
             {
+                // _timer is not null, so it gets stopped and disposed afterwards
                 _timer.Stop();
                 _timer.Dispose();
             }
 
             if (_labels != null)
             {
+                // _labels is not null, so the list gets cleared
                 _labels.Clear();
             }
 
             if (_imgBoxKamera != null)
             {
+                // _imgBoxKamera is not null, so it gets disposed
                 _imgBoxKamera.Dispose();
             }
-            
+
+            // Create a new Menu-object and navigate to it
             this.NavigationService.Navigate(new Menu());
         }
 
+        /// <summary>
+        /// Grabs frames from the camera and looks for faces on the frame.
+        /// When it finds faces, a red rectangle gets drawn over the frame.
+        /// Afterwards the faces run through the AI and if they belong to a name
+        /// the name gets drawn above the red rectangle, else the word "Unbekannt" gets draw above.
+        /// The frame gets set as the Image property of _imgBoxKamera and depending on weither a
+        /// face was recognized or not the Content and Background of Label1 get set and the Content
+        /// of Label2 gets set.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrameGrabber(object sender, EventArgs e)
         {
+            // Declaration/Definition of method variables
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte>? currentFrame;
             Image<Bgr, byte>? result;
             string status = "nicht erkannt";
             string recognizedNames = "";
-            
-            //Get the current frame from capture device
-            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.LinearExact);
+
+            // Get the next frame from the VideoCapture and resize it to 320x240
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
             
             if (Monitor.TryEnter(syncObj1))
             {

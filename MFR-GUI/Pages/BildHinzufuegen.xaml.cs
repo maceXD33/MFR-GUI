@@ -264,7 +264,8 @@ namespace MFR_GUI.Pages
 
 
         /// <summary>
-        /// Gets called when the button for going back to the menu is clicked
+        /// Gets called when the button for going back to the menu is clicked.
+        /// Disposes of resources and then navigates to the menu
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
