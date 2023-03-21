@@ -15,27 +15,27 @@ namespace MFR_GUI.Pages
         public static Image<Bgr, byte>? RotateAndAlignPicture(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject, Logger logger)
         {
             Rectangle rec = detectedObject.Region;
-            Point Center = new Point(0, 0);
+            Point center = new Point(0, 0);
 
-            if (rec.X >= 0 && rec.Y >= 0)
+            //if (rec.X >= 0 && rec.Y >= 0)
             {
                 for (int j = 36; j < 42; j++)
                 {
                     Point p = Point.Round(vop[j]);
-                    Center.Offset(p);
+                    center.Offset(p);
                 }
 
-                Point rightEyeCenter = new Point(Center.X / 6, Center.Y / 6);
+                Point rightEyeCenter = new Point(center.X / 6, center.Y / 6);
                 
-                Center = new Point(0, 0);
+                center = new Point(0, 0);
 
                 for (int j = 42; j < 48; j++)
                 {
                     Point p = Point.Round(vop[j]);
-                    Center.Offset(p);
+                    center.Offset(p);
                 }
 
-                Point leftEyeCenter = new Point(Center.X / 6, Center.Y / 6);
+                Point leftEyeCenter = new Point(center.X / 6, center.Y / 6);
 
                 double value = (double)(leftEyeCenter.Y - rightEyeCenter.Y) / (leftEyeCenter.X - rightEyeCenter.X);
                 double angle = Math.Atan(value) * 180 / Math.PI;
@@ -87,7 +87,7 @@ namespace MFR_GUI.Pages
                 return frame.Rotate(-angle, new Bgr(255, 255, 255)).Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
             }
 
-            return null;
+            //return null;
         }
 
         //Normales Kopfverhätnis: 2:3 (Breite : Länge)

@@ -172,7 +172,7 @@ namespace MFR_GUI.Pages
                             VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
 
                             // Rotate the image depending on the postition of the eyes and return a cropped image containing the face and background
-                            Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[0], fullFaceRegions[0], _logger);
+                            Image<Bgr, Byte>? tempTrainingFace = ImageEditor.RotateAndAlignPicture(currentFrame, vovop[0], fullFaceRegions[0], _logger);
 
                             // Empty the Lists to use them again for the FaceDetector
                             fullFaceRegions = new List<DetectedObject>();

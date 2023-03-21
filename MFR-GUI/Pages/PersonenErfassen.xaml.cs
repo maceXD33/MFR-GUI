@@ -102,45 +102,65 @@ namespace MFR_GUI.Pages
             // Declaration/Definition of method variables
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            Image<Bgr, Byte>? currentFrame;
-            Image<Bgr, byte>? result;
+            Image<Bgr, Byte> currentFrame;
+            Image<Bgr, byte> result;
             string status = "nicht erkannt";
             string recognizedNames = "";
 
             // Get the next frame from the VideoCapture and resize it to 320x240
             currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
-            
+
+            // Try to acquire a lock on the synchronizing object to use the FaceDetector, 
+            // because the .Detect() method can't handle multiple access and returns around
+            // 50 or more wrong rectangles
             if (Monitor.TryEnter(syncObj1))
             {
                 //Detect rectangular regions which contain a face
                 faceDetector1.Detect(currentFrame, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
 
+                // Release the lock
                 Monitor.Exit(syncObj1);
 
-                _logger.LogInfo("captured Frame");
-
+                // Define a List of rectangles where the detected faces will be safed
                 List<Rectangle> recs = new List<Rectangle>();
+
+                // Copy the currentFrame to result to have the frame without anything drawn on it
                 result = currentFrame.Copy();
 
-                //Action for each region detected
+                // Run through the fullFaceRegions list, which contains faces
                 foreach (DetectedObject d in fullFaceRegions)
                 {
+                    // Define a rectangle with the Region of the DetectedObject
                     Rectangle r = d.Region;
 
+                    /*
                     if(r.Right < 320 && r.Bottom < 240)
                     {
                         recs.Add(r);
+                    }
+                    */
 
-                        //Draw a rectangle around the region
-                        currentFrame.Draw(r, new Bgr(Color.Red), 1);
+                    // Add the Rectangle to the list of Rectangles
+                    recs.Add(r);
+
+                    // Draw a red rectangle on the image around the detected face
+                    currentFrame.Draw(r, new Bgr(Color.Red), 1);
+
+                    if (_savedNamesCount > 0)
+                    {
+                        currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                     }
                 }
 
-                if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
+                // Check, if 
+                if (fullFaceRegions.Count > 0)
                 {
-                    VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
+                    if (_savedNamesCount > 0)
+                    {
+                        VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
 
-                    PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
+                        PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
+                    }
                 }
 
                 lock (syncObj1)
@@ -152,27 +172,29 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void PrepareFaces(VectorOfVectorOfPointF vovop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, ref string status, ref string recognizedNames)
+        private void PrepareFaces(VectorOfVectorOfPointF vovop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> result, List<Rectangle> recs, ref string status, ref string recognizedNames)
         {
             for (int i = 0; i < vovop.Size; i++)
             {
                 //Check if there are any trained faces
-                if(_savedNamesCount != 0)
+                //if(_savedNamesCount != 0)
                 {
-                    if (i <= fullFaceRegions.Count - 1)
+                    //if (i <= fullFaceRegions.Count - 1)
                     {
                         ProcessFace(vovop[i], fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames, i);
                     }
                 }
+                /*
                 else
                 {
                     //Draw the label "Unkown" as there are no faces in the database
                     currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                 }
+                */
             }
         }
 
-        private void ProcessFace(VectorOfPointF vop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
+        private void ProcessFace(VectorOfPointF vop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> result, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
         {
             result = ImageEditor.RotateAndAlignPicture(result, vop, fullFaceRegions[i], _logger);
 
@@ -197,7 +219,7 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void RecognizeFace(Image<Bgr, Byte>? currentFrame, Image<Bgr, byte>? result, List<Rectangle> recs, int i, ref string status, ref string recognizedNames)
+        private void RecognizeFace(Image<Bgr, Byte> currentFrame, Image<Bgr, byte> result, List<Rectangle> recs, int i, ref string status, ref string recognizedNames)
         {
             if (result != null)
             {
@@ -220,7 +242,7 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void EvaluateResult(Image<Bgr, Byte>? currentFrame, List<Rectangle> recs, PredictionResult res, ref string recognizedNames, ref string status, int i)
+        private void EvaluateResult(Image<Bgr, Byte> currentFrame, List<Rectangle> recs, PredictionResult res, ref string recognizedNames, ref string status, int i)
         {
             //res.Distance <= n determs how familiar the faces must look
             if (res.Distance <= 65)
