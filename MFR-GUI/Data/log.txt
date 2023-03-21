@@ -1,0 +1,2470 @@
+11:27:29.705[INFO] 0
+11:27:29.705[INFO] 0: savedNamesCount
+11:27:29.705[INFO] 0: fullFaceRegions.Count
+11:27:29.860[INFO] 0
+11:27:29.860[INFO] 0: savedNamesCount
+11:27:29.860[INFO] 0: fullFaceRegions.Count
+11:27:30.294[INFO] 0
+11:27:30.294[INFO] 0: savedNamesCount
+11:27:30.294[INFO] 0: fullFaceRegions.Count
+11:27:30.443[INFO] 0
+11:27:30.443[INFO] 0: savedNamesCount
+11:27:30.443[INFO] 0: fullFaceRegions.Count
+11:27:30.766[INFO] 0
+11:27:30.766[INFO] 0: savedNamesCount
+11:27:30.766[INFO] 0: fullFaceRegions.Count
+11:27:31.021[INFO] 0
+11:27:31.021[INFO] 0: savedNamesCount
+11:27:31.021[INFO] 0: fullFaceRegions.Count
+11:27:31.287[INFO] 0
+11:27:31.287[INFO] 0: savedNamesCount
+11:27:31.287[INFO] 0: fullFaceRegions.Count
+11:27:31.397[INFO] 0
+11:27:31.397[INFO] 0: savedNamesCount
+11:27:31.397[INFO] 0: fullFaceRegions.Count
+11:27:31.720[INFO] 0
+11:27:31.721[INFO] 0: savedNamesCount
+11:27:31.721[INFO] 0: fullFaceRegions.Count
+11:27:31.952[INFO] 0
+11:27:31.952[INFO] 0: savedNamesCount
+11:27:31.952[INFO] 0: fullFaceRegions.Count
+11:27:32.036[INFO] 0
+11:27:32.036[INFO] 0: savedNamesCount
+11:27:32.036[INFO] 0: fullFaceRegions.Count
+11:27:32.408[INFO] 0
+11:27:32.408[INFO] 0: savedNamesCount
+11:27:32.408[INFO] 0: fullFaceRegions.Count
+11:27:32.650[INFO] 0
+11:27:32.650[INFO] 0: savedNamesCount
+11:27:32.650[INFO] 1
+11:27:32.650[INFO] 1: savedNamesCount
+11:27:32.650[INFO] 1: fullFaceRegions.Count
+11:27:32.879[INFO] 0
+11:27:32.879[INFO] 0: savedNamesCount
+11:27:32.879[INFO] 1
+11:27:32.879[INFO] 1: savedNamesCount
+11:27:32.879[INFO] 1: fullFaceRegions.Count
+11:27:33.176[INFO] 0
+11:27:33.176[INFO] 0: savedNamesCount
+11:27:33.176[INFO] 1
+11:27:33.176[INFO] 1: savedNamesCount
+11:27:33.176[INFO] 1: fullFaceRegions.Count
+11:27:33.457[INFO] 0
+11:27:33.457[INFO] 0: savedNamesCount
+11:27:33.457[INFO] 1
+11:27:33.457[INFO] 1: savedNamesCount
+11:27:33.457[INFO] 1: fullFaceRegions.Count
+11:27:33.758[INFO] 0
+11:27:33.758[INFO] 0: savedNamesCount
+11:27:33.758[INFO] 1
+11:27:33.758[INFO] 1: savedNamesCount
+11:27:33.758[INFO] 1: fullFaceRegions.Count
+11:27:34.007[INFO] 0
+11:27:34.007[INFO] 0: savedNamesCount
+11:27:34.007[INFO] 1
+11:27:34.007[INFO] 1: savedNamesCount
+11:27:34.007[INFO] 1: fullFaceRegions.Count
+11:27:34.101[INFO] 0
+11:27:34.101[INFO] 0: savedNamesCount
+11:27:34.101[INFO] 1
+11:27:34.101[INFO] 1: savedNamesCount
+11:27:34.101[INFO] 1: fullFaceRegions.Count
+11:27:34.419[INFO] 0
+11:27:34.419[INFO] 0: savedNamesCount
+11:27:34.419[INFO] 1
+11:27:34.419[INFO] 1: savedNamesCount
+11:27:34.419[INFO] 1: fullFaceRegions.Count
+11:27:34.659[INFO] 0
+11:27:34.659[INFO] 0: savedNamesCount
+11:27:34.659[INFO] 1
+11:27:34.659[INFO] 1: savedNamesCount
+11:27:34.659[INFO] 1: fullFaceRegions.Count
+11:27:34.895[INFO] 0
+11:27:34.895[INFO] 0: savedNamesCount
+11:27:34.895[INFO] 1
+11:27:34.895[INFO] 1: savedNamesCount
+11:27:34.895[INFO] 1: fullFaceRegions.Count
+11:27:35.211[INFO] 0
+11:27:35.211[INFO] 0: savedNamesCount
+11:27:35.211[INFO] 1
+11:27:35.211[INFO] 1: savedNamesCount
+11:27:35.211[INFO] 1: fullFaceRegions.Count
+11:27:35.463[INFO] 0
+11:27:35.463[INFO] 0: savedNamesCount
+11:27:35.463[INFO] 1
+11:27:35.463[INFO] 1: savedNamesCount
+11:27:35.463[INFO] 1: fullFaceRegions.Count
+11:27:35.696[INFO] 0
+11:27:35.696[INFO] 0: savedNamesCount
+11:27:35.696[INFO] 1
+11:27:35.696[INFO] 1: savedNamesCount
+11:27:35.696[INFO] 1: fullFaceRegions.Count
+11:27:35.975[INFO] 0
+11:27:35.975[INFO] 0: savedNamesCount
+11:27:35.975[INFO] 1
+11:27:35.975[INFO] 1: savedNamesCount
+11:27:35.975[INFO] 1: fullFaceRegions.Count
+11:27:36.235[INFO] 0
+11:27:36.235[INFO] 0: savedNamesCount
+11:27:36.235[INFO] 1
+11:27:36.235[INFO] 1: savedNamesCount
+11:27:36.235[INFO] 1: fullFaceRegions.Count
+11:27:36.486[INFO] 0
+11:27:36.486[INFO] 0: savedNamesCount
+11:27:36.486[INFO] 1
+11:27:36.486[INFO] 1: savedNamesCount
+11:27:36.486[INFO] 1: fullFaceRegions.Count
+11:27:36.702[INFO] 0
+11:27:36.702[INFO] 0: savedNamesCount
+11:27:36.702[INFO] 1
+11:27:36.702[INFO] 1: savedNamesCount
+11:27:36.702[INFO] 1: fullFaceRegions.Count
+11:27:36.789[INFO] 0
+11:27:36.789[INFO] 0: savedNamesCount
+11:27:36.789[INFO] 1
+11:27:36.789[INFO] 1: savedNamesCount
+11:27:36.789[INFO] 1: fullFaceRegions.Count
+11:27:37.114[INFO] 0
+11:27:37.114[INFO] 0: savedNamesCount
+11:27:37.114[INFO] 1
+11:27:37.114[INFO] 1: savedNamesCount
+11:27:37.114[INFO] 1: fullFaceRegions.Count
+11:27:37.413[INFO] 0
+11:27:37.413[INFO] 0: savedNamesCount
+11:27:37.413[INFO] 1
+11:27:37.413[INFO] 1: savedNamesCount
+11:27:37.413[INFO] 1: fullFaceRegions.Count
+11:27:37.651[INFO] 0
+11:27:37.651[INFO] 0: savedNamesCount
+11:27:37.651[INFO] 1
+11:27:37.651[INFO] 1: savedNamesCount
+11:27:37.651[INFO] 1: fullFaceRegions.Count
+11:27:37.740[INFO] 0
+11:27:37.740[INFO] 0: savedNamesCount
+11:27:37.740[INFO] 1
+11:27:37.740[INFO] 1: savedNamesCount
+11:27:37.740[INFO] 1: fullFaceRegions.Count
+11:27:38.061[INFO] 0
+11:27:38.061[INFO] 0: savedNamesCount
+11:27:38.061[INFO] 1
+11:27:38.061[INFO] 1: savedNamesCount
+11:27:38.061[INFO] 1: fullFaceRegions.Count
+11:27:38.323[INFO] 0
+11:27:38.323[INFO] 0: savedNamesCount
+11:27:38.323[INFO] 1
+11:27:38.323[INFO] 1: savedNamesCount
+11:27:38.323[INFO] 1: fullFaceRegions.Count
+11:27:38.536[INFO] 0
+11:27:38.536[INFO] 0: savedNamesCount
+11:27:38.536[INFO] 1
+11:27:38.536[INFO] 1: savedNamesCount
+11:27:38.536[INFO] 1: fullFaceRegions.Count
+11:27:38.731[INFO] 0
+11:27:38.731[INFO] 0: savedNamesCount
+11:27:38.731[INFO] 1
+11:27:38.731[INFO] 1: savedNamesCount
+11:27:38.731[INFO] 1: fullFaceRegions.Count
+11:27:38.956[INFO] 0
+11:27:38.956[INFO] 0: savedNamesCount
+11:27:38.956[INFO] 1
+11:27:38.956[INFO] 1: savedNamesCount
+11:27:38.956[INFO] 1: fullFaceRegions.Count
+11:27:39.168[INFO] 0
+11:27:39.168[INFO] 0: savedNamesCount
+11:27:39.168[INFO] 0: fullFaceRegions.Count
+11:27:39.326[INFO] 0
+11:27:39.326[INFO] 0: savedNamesCount
+11:27:39.326[INFO] 0: fullFaceRegions.Count
+11:27:39.498[INFO] 0
+11:27:39.498[INFO] 0: savedNamesCount
+11:27:39.498[INFO] 0: fullFaceRegions.Count
+11:27:39.592[INFO] 0
+11:27:39.592[INFO] 0: savedNamesCount
+11:27:39.592[INFO] 0: fullFaceRegions.Count
+11:27:39.838[INFO] 0
+11:27:39.838[INFO] 0: savedNamesCount
+11:27:39.838[INFO] 0: fullFaceRegions.Count
+11:27:39.925[INFO] 0
+11:27:39.925[INFO] 0: savedNamesCount
+11:27:39.925[INFO] 0: fullFaceRegions.Count
+11:27:40.180[INFO] 0
+11:27:40.180[INFO] 0: savedNamesCount
+11:27:40.180[INFO] 0: fullFaceRegions.Count
+11:27:40.371[INFO] 0
+11:27:40.371[INFO] 0: savedNamesCount
+11:27:40.371[INFO] 0: fullFaceRegions.Count
+11:27:40.554[INFO] 0
+11:27:40.554[INFO] 0: savedNamesCount
+11:27:40.554[INFO] 0: fullFaceRegions.Count
+11:29:45.753[INFO] 0
+11:29:45.754[INFO] 0: savedNamesCount
+11:29:45.754[INFO] 0: fullFaceRegions.Count
+11:29:46.055[INFO] 0
+11:29:46.055[INFO] 0: savedNamesCount
+11:29:46.055[INFO] 0: fullFaceRegions.Count
+11:29:46.401[INFO] 0
+11:29:46.401[INFO] 0: savedNamesCount
+11:29:46.401[INFO] 0: fullFaceRegions.Count
+11:29:46.695[INFO] 0
+11:29:46.695[INFO] 0: savedNamesCount
+11:29:46.695[INFO] 0: fullFaceRegions.Count
+11:29:47.031[INFO] 0
+11:29:47.032[INFO] 0: savedNamesCount
+11:29:47.032[INFO] 0: fullFaceRegions.Count
+11:29:47.337[INFO] 0
+11:29:47.337[INFO] 0: savedNamesCount
+11:29:47.337[INFO] 0: fullFaceRegions.Count
+11:29:47.725[INFO] 0
+11:29:47.725[INFO] 0: savedNamesCount
+11:29:47.725[INFO] 0: fullFaceRegions.Count
+11:29:48.062[INFO] 0
+11:29:48.062[INFO] 0: savedNamesCount
+11:29:48.062[INFO] 0: fullFaceRegions.Count
+11:29:48.423[INFO] 0
+11:29:48.423[INFO] 0: savedNamesCount
+11:29:48.423[INFO] 0: fullFaceRegions.Count
+11:29:48.735[INFO] 0
+11:29:48.735[INFO] 0: savedNamesCount
+11:29:48.735[INFO] 0: fullFaceRegions.Count
+11:29:48.868[INFO] 0
+11:29:48.868[INFO] 0: savedNamesCount
+11:29:48.868[INFO] 0: fullFaceRegions.Count
+11:29:49.343[INFO] 0
+11:29:49.343[INFO] 0: savedNamesCount
+11:29:49.343[INFO] 0: fullFaceRegions.Count
+11:29:49.515[INFO] 0
+11:29:49.515[INFO] 0: savedNamesCount
+11:29:49.515[INFO] 0: fullFaceRegions.Count
+11:29:50.075[INFO] 0
+11:29:50.075[INFO] 0: savedNamesCount
+11:29:50.075[INFO] 0: fullFaceRegions.Count
+11:29:50.394[INFO] 0
+11:29:50.395[INFO] 0: savedNamesCount
+11:29:50.395[INFO] 0: fullFaceRegions.Count
+11:29:50.781[INFO] 0
+11:29:50.781[INFO] 0: savedNamesCount
+11:29:50.781[INFO] 0: fullFaceRegions.Count
+11:29:51.093[INFO] 0
+11:29:51.093[INFO] 0: savedNamesCount
+11:29:51.093[INFO] 0: fullFaceRegions.Count
+11:29:51.235[INFO] 0
+11:29:51.235[INFO] 0: savedNamesCount
+11:29:51.235[INFO] 0: fullFaceRegions.Count
+11:29:51.677[INFO] 0
+11:29:51.677[INFO] 0: savedNamesCount
+11:29:51.677[INFO] 0: fullFaceRegions.Count
+11:29:52.020[INFO] 0
+11:29:52.020[INFO] 0: savedNamesCount
+11:29:52.020[INFO] 0: fullFaceRegions.Count
+11:29:52.355[INFO] 0
+11:29:52.355[INFO] 0: savedNamesCount
+11:29:52.355[INFO] 0: fullFaceRegions.Count
+11:29:52.725[INFO] 0
+11:29:52.725[INFO] 0: savedNamesCount
+11:29:52.725[INFO] 0: fullFaceRegions.Count
+11:29:53.106[INFO] 0
+11:29:53.106[INFO] 0: savedNamesCount
+11:29:53.106[INFO] 0: fullFaceRegions.Count
+11:29:53.224[INFO] 1
+11:29:53.224[INFO] 1: savedNamesCount
+11:29:53.224[INFO] 1: fullFaceRegions.Count
+11:29:53.562[INFO] 0
+11:29:53.562[INFO] 0: savedNamesCount
+11:29:53.562[INFO] 0: fullFaceRegions.Count
+11:29:53.688[INFO] 1
+11:29:53.688[INFO] 1: savedNamesCount
+11:29:53.688[INFO] 1: fullFaceRegions.Count
+11:29:54.017[INFO] 0
+11:29:54.017[INFO] 0: savedNamesCount
+11:29:54.017[INFO] 0: fullFaceRegions.Count
+11:29:54.167[INFO] 1
+11:29:54.167[INFO] 1: savedNamesCount
+11:29:54.167[INFO] 1: fullFaceRegions.Count
+11:29:54.501[INFO] 0
+11:29:54.501[INFO] 0: savedNamesCount
+11:29:54.501[INFO] 0: fullFaceRegions.Count
+11:29:54.657[INFO] 1
+11:29:54.657[INFO] 1: savedNamesCount
+11:29:54.657[INFO] 1: fullFaceRegions.Count
+11:29:54.947[INFO] 0
+11:29:54.947[INFO] 0: savedNamesCount
+11:29:54.947[INFO] 0: fullFaceRegions.Count
+11:29:55.104[INFO] 1
+11:29:55.104[INFO] 1: savedNamesCount
+11:29:55.104[INFO] 1: fullFaceRegions.Count
+11:29:55.443[INFO] 0
+11:29:55.443[INFO] 0: savedNamesCount
+11:29:55.443[INFO] 0: fullFaceRegions.Count
+11:29:55.599[INFO] 0
+11:29:55.599[INFO] 0: savedNamesCount
+11:29:55.599[INFO] 0: fullFaceRegions.Count
+11:29:55.832[INFO] 1
+11:29:55.832[INFO] 1: savedNamesCount
+11:29:55.832[INFO] 1: fullFaceRegions.Count
+11:29:55.840[INFO] 1
+11:29:55.840[INFO] 1: savedNamesCount
+11:29:55.840[INFO] 1: fullFaceRegions.Count
+11:29:56.417[INFO] 0
+11:29:56.417[INFO] 0: savedNamesCount
+11:29:56.417[INFO] 0: fullFaceRegions.Count
+11:29:56.543[INFO] 1
+11:29:56.543[INFO] 1: savedNamesCount
+11:29:56.543[INFO] 1: fullFaceRegions.Count
+11:29:56.704[INFO] 0
+11:29:56.704[INFO] 0: savedNamesCount
+11:29:56.704[INFO] 0: fullFaceRegions.Count
+11:29:56.960[INFO] 1
+11:29:56.960[INFO] 1: savedNamesCount
+11:29:56.960[INFO] 1: fullFaceRegions.Count
+11:29:57.291[INFO] 0
+11:29:57.291[INFO] 0: savedNamesCount
+11:29:57.291[INFO] 0: fullFaceRegions.Count
+11:29:57.454[INFO] 0
+11:29:57.454[INFO] 0: savedNamesCount
+11:29:57.454[INFO] 0: fullFaceRegions.Count
+11:29:57.737[INFO] 1
+11:29:57.737[INFO] 1: savedNamesCount
+11:29:57.737[INFO] 1: fullFaceRegions.Count
+11:29:57.745[INFO] 1
+11:29:57.745[INFO] 1: savedNamesCount
+11:29:57.745[INFO] 1: fullFaceRegions.Count
+11:29:58.218[INFO] 0
+11:29:58.218[INFO] 0: savedNamesCount
+11:29:58.218[INFO] 0: fullFaceRegions.Count
+11:29:58.368[INFO] 1
+11:29:58.368[INFO] 1: savedNamesCount
+11:29:58.368[INFO] 1: fullFaceRegions.Count
+11:29:58.764[INFO] 0
+11:29:58.764[INFO] 0: savedNamesCount
+11:29:58.764[INFO] 0: fullFaceRegions.Count
+11:29:58.939[INFO] 1
+11:29:58.939[INFO] 1: savedNamesCount
+11:29:58.939[INFO] 1: fullFaceRegions.Count
+11:29:59.181[INFO] 0
+11:29:59.181[INFO] 0: savedNamesCount
+11:29:59.181[INFO] 0: fullFaceRegions.Count
+11:29:59.433[INFO] 1
+11:29:59.433[INFO] 1: savedNamesCount
+11:29:59.433[INFO] 1: fullFaceRegions.Count
+11:29:59.791[INFO] 0
+11:29:59.791[INFO] 0: savedNamesCount
+11:29:59.791[INFO] 0: fullFaceRegions.Count
+11:29:59.926[INFO] 1
+11:29:59.926[INFO] 1: savedNamesCount
+11:29:59.926[INFO] 1: fullFaceRegions.Count
+11:30:00.300[INFO] 0
+11:30:00.300[INFO] 0: savedNamesCount
+11:30:00.300[INFO] 0: fullFaceRegions.Count
+11:30:00.415[INFO] 0
+11:30:00.415[INFO] 0: savedNamesCount
+11:30:00.415[INFO] 0: fullFaceRegions.Count
+11:30:00.659[INFO] 1
+11:30:00.659[INFO] 1: savedNamesCount
+11:30:00.659[INFO] 1: fullFaceRegions.Count
+11:30:00.669[INFO] 1
+11:30:00.669[INFO] 1: savedNamesCount
+11:30:00.669[INFO] 1: fullFaceRegions.Count
+11:30:01.155[INFO] 0
+11:30:01.155[INFO] 0: savedNamesCount
+11:30:01.155[INFO] 0: fullFaceRegions.Count
+11:30:01.303[INFO] 1
+11:30:01.303[INFO] 1: savedNamesCount
+11:30:01.303[INFO] 1: fullFaceRegions.Count
+11:30:01.727[INFO] 0
+11:30:01.728[INFO] 0: savedNamesCount
+11:30:01.728[INFO] 0: fullFaceRegions.Count
+11:30:01.891[INFO] 1
+11:30:01.891[INFO] 1: savedNamesCount
+11:30:01.891[INFO] 1: fullFaceRegions.Count
+11:30:02.027[INFO] 0
+11:30:02.027[INFO] 0: savedNamesCount
+11:30:02.027[INFO] 0: fullFaceRegions.Count
+11:30:02.331[INFO] 1
+11:30:02.331[INFO] 1: savedNamesCount
+11:30:02.331[INFO] 1: fullFaceRegions.Count
+11:30:02.735[INFO] 0
+11:30:02.735[INFO] 0: savedNamesCount
+11:30:02.735[INFO] 0: fullFaceRegions.Count
+11:30:02.904[INFO] 0
+11:30:02.904[INFO] 0: savedNamesCount
+11:30:02.904[INFO] 0: fullFaceRegions.Count
+11:30:03.210[INFO] 1
+11:30:03.210[INFO] 1: savedNamesCount
+11:30:03.210[INFO] 1: fullFaceRegions.Count
+11:30:03.218[INFO] 1
+11:30:03.218[INFO] 1: savedNamesCount
+11:30:03.218[INFO] 1: fullFaceRegions.Count
+11:30:03.773[INFO] 0
+11:30:03.773[INFO] 0: savedNamesCount
+11:30:03.773[INFO] 0: fullFaceRegions.Count
+11:30:03.910[INFO] 1
+11:30:03.910[INFO] 1: savedNamesCount
+11:30:03.910[INFO] 1: fullFaceRegions.Count
+11:30:04.208[INFO] 0
+11:30:04.208[INFO] 0: savedNamesCount
+11:30:04.208[INFO] 0: fullFaceRegions.Count
+11:30:04.367[INFO] 1
+11:30:04.367[INFO] 1: savedNamesCount
+11:30:04.367[INFO] 1: fullFaceRegions.Count
+11:30:04.780[INFO] 0
+11:30:04.780[INFO] 0: savedNamesCount
+11:30:04.780[INFO] 0: fullFaceRegions.Count
+11:30:04.952[INFO] 1
+11:30:04.952[INFO] 1: savedNamesCount
+11:30:04.952[INFO] 1: fullFaceRegions.Count
+11:30:05.272[INFO] 0
+11:30:05.272[INFO] 0: savedNamesCount
+11:30:05.272[INFO] 0: fullFaceRegions.Count
+11:30:05.424[INFO] 1
+11:30:05.424[INFO] 1: savedNamesCount
+11:30:05.424[INFO] 1: fullFaceRegions.Count
+11:30:05.726[INFO] 0
+11:30:05.726[INFO] 0: savedNamesCount
+11:30:05.726[INFO] 0: fullFaceRegions.Count
+11:30:05.897[INFO] 1
+11:30:05.897[INFO] 1: savedNamesCount
+11:30:05.897[INFO] 1: fullFaceRegions.Count
+11:30:06.182[INFO] 0
+11:30:06.182[INFO] 0: savedNamesCount
+11:30:06.182[INFO] 0: fullFaceRegions.Count
+11:30:06.337[INFO] 1
+11:30:06.337[INFO] 1: savedNamesCount
+11:30:06.337[INFO] 1: fullFaceRegions.Count
+11:30:06.755[INFO] 0
+11:30:06.755[INFO] 0: savedNamesCount
+11:30:06.755[INFO] 0: fullFaceRegions.Count
+11:30:06.920[INFO] 1
+11:30:06.920[INFO] 1: savedNamesCount
+11:30:06.920[INFO] 1: fullFaceRegions.Count
+11:30:07.262[INFO] 0
+11:30:07.262[INFO] 0: savedNamesCount
+11:30:07.262[INFO] 0: fullFaceRegions.Count
+11:30:07.437[INFO] 1
+11:30:07.437[INFO] 1: savedNamesCount
+11:30:07.437[INFO] 1: fullFaceRegions.Count
+11:30:07.564[INFO] 0
+11:30:07.564[INFO] 0: savedNamesCount
+11:30:07.564[INFO] 0: fullFaceRegions.Count
+11:30:07.874[INFO] 1
+11:30:07.874[INFO] 1: savedNamesCount
+11:30:07.874[INFO] 1: fullFaceRegions.Count
+11:30:08.229[INFO] 0
+11:30:08.229[INFO] 0: savedNamesCount
+11:30:08.229[INFO] 0: fullFaceRegions.Count
+11:30:08.385[INFO] 1
+11:30:08.385[INFO] 1: savedNamesCount
+11:30:08.385[INFO] 1: fullFaceRegions.Count
+11:30:08.703[INFO] 0
+11:30:08.703[INFO] 0: savedNamesCount
+11:30:08.703[INFO] 0: fullFaceRegions.Count
+11:30:08.849[INFO] 1
+11:30:08.849[INFO] 1: savedNamesCount
+11:30:08.849[INFO] 1: fullFaceRegions.Count
+11:30:09.148[INFO] 0
+11:30:09.148[INFO] 0: savedNamesCount
+11:30:09.148[INFO] 0: fullFaceRegions.Count
+11:30:09.276[INFO] 1
+11:30:09.276[INFO] 1: savedNamesCount
+11:30:09.276[INFO] 1: fullFaceRegions.Count
+11:30:09.595[INFO] 0
+11:30:09.595[INFO] 0: savedNamesCount
+11:30:09.595[INFO] 0: fullFaceRegions.Count
+11:30:09.712[INFO] 0
+11:30:09.712[INFO] 0: savedNamesCount
+11:30:09.712[INFO] 0: fullFaceRegions.Count
+11:30:09.990[INFO] 1
+11:30:09.990[INFO] 1: savedNamesCount
+11:30:09.990[INFO] 1: fullFaceRegions.Count
+11:30:09.999[INFO] 1
+11:30:09.999[INFO] 1: savedNamesCount
+11:30:09.999[INFO] 1: fullFaceRegions.Count
+11:30:10.515[INFO] 0
+11:30:10.515[INFO] 0: savedNamesCount
+11:30:10.515[INFO] 0: fullFaceRegions.Count
+11:30:10.872[INFO] 0
+11:30:10.872[INFO] 0: savedNamesCount
+11:30:10.872[INFO] 0: fullFaceRegions.Count
+11:30:11.181[INFO] 0
+11:30:11.181[INFO] 0: savedNamesCount
+11:30:11.181[INFO] 0: fullFaceRegions.Count
+11:30:11.502[INFO] 0
+11:30:11.502[INFO] 0: savedNamesCount
+11:30:11.502[INFO] 0: fullFaceRegions.Count
+11:30:11.802[INFO] 0
+11:30:11.802[INFO] 0: savedNamesCount
+11:30:11.802[INFO] 0: fullFaceRegions.Count
+11:30:12.132[INFO] 0
+11:30:12.132[INFO] 0: savedNamesCount
+11:30:12.132[INFO] 0: fullFaceRegions.Count
+11:30:12.459[INFO] 0
+11:30:12.459[INFO] 0: savedNamesCount
+11:30:12.459[INFO] 0: fullFaceRegions.Count
+11:30:12.801[INFO] 0
+11:30:12.801[INFO] 0: savedNamesCount
+11:30:12.801[INFO] 0: fullFaceRegions.Count
+11:30:13.099[INFO] 0
+11:30:13.099[INFO] 0: savedNamesCount
+11:30:13.099[INFO] 0: fullFaceRegions.Count
+11:30:13.519[INFO] 0
+11:30:13.519[INFO] 0: savedNamesCount
+11:30:13.519[INFO] 0: fullFaceRegions.Count
+11:30:13.862[INFO] 0
+11:30:13.862[INFO] 0: savedNamesCount
+11:30:13.862[INFO] 0: fullFaceRegions.Count
+11:30:14.281[INFO] 0
+11:30:14.281[INFO] 0: savedNamesCount
+11:30:14.281[INFO] 0: fullFaceRegions.Count
+11:30:14.640[INFO] 0
+11:30:14.640[INFO] 0: savedNamesCount
+11:30:14.640[INFO] 0: fullFaceRegions.Count
+11:30:14.878[INFO] 0
+11:30:14.878[INFO] 0: savedNamesCount
+11:30:14.878[INFO] 0: fullFaceRegions.Count
+11:30:15.385[INFO] 0
+11:30:15.385[INFO] 0: savedNamesCount
+11:30:15.385[INFO] 0: fullFaceRegions.Count
+11:30:15.700[INFO] 0
+11:30:15.700[INFO] 0: savedNamesCount
+11:30:15.700[INFO] 0: fullFaceRegions.Count
+11:30:16.012[INFO] 0
+11:30:16.012[INFO] 0: savedNamesCount
+11:30:16.012[INFO] 0: fullFaceRegions.Count
+11:30:16.373[INFO] 0
+11:30:16.373[INFO] 0: savedNamesCount
+11:30:16.373[INFO] 0: fullFaceRegions.Count
+11:30:16.690[INFO] 0
+11:30:16.691[INFO] 0: savedNamesCount
+11:30:16.691[INFO] 0: fullFaceRegions.Count
+11:30:16.830[INFO] 0
+11:30:16.830[INFO] 0: savedNamesCount
+11:30:16.830[INFO] 0: fullFaceRegions.Count
+11:30:17.313[INFO] 0
+11:30:17.313[INFO] 0: savedNamesCount
+11:30:17.313[INFO] 0: fullFaceRegions.Count
+11:30:17.697[INFO] 0
+11:30:17.697[INFO] 0: savedNamesCount
+11:30:17.697[INFO] 0: fullFaceRegions.Count
+11:30:17.834[INFO] 0
+11:30:17.834[INFO] 0: savedNamesCount
+11:30:17.834[INFO] 0: fullFaceRegions.Count
+11:30:18.336[INFO] 0
+11:30:18.336[INFO] 0: savedNamesCount
+11:30:18.336[INFO] 0: fullFaceRegions.Count
+11:30:18.469[INFO] 0
+11:30:18.469[INFO] 0: savedNamesCount
+11:30:18.469[INFO] 0: fullFaceRegions.Count
+11:30:18.957[INFO] 0
+11:30:18.957[INFO] 0: savedNamesCount
+11:30:18.957[INFO] 0: fullFaceRegions.Count
+11:30:19.286[INFO] 0
+11:30:19.287[INFO] 0: savedNamesCount
+11:30:19.287[INFO] 0: fullFaceRegions.Count
+11:30:19.592[INFO] 0
+11:30:19.592[INFO] 0: savedNamesCount
+11:30:19.592[INFO] 0: fullFaceRegions.Count
+11:32:15.224[INFO] 0
+11:32:15.372[INFO] 0
+11:32:15.513[INFO] 0
+11:32:15.681[INFO] 0
+11:32:15.861[INFO] 0
+11:32:16.048[INFO] 0
+11:32:16.209[INFO] 0
+11:32:16.371[INFO] 0
+11:32:16.532[INFO] 0
+11:32:16.657[INFO] 0
+11:32:16.844[INFO] 0
+11:32:17.015[INFO] 0
+11:32:17.123[INFO] 0
+11:32:17.254[INFO] 0
+11:32:17.324[INFO] 0
+11:32:17.526[INFO] 0
+11:32:17.702[INFO] 0
+11:32:17.849[INFO] 0
+11:32:18.029[INFO] 0
+11:32:18.163[INFO] 0
+11:32:18.335[INFO] 0
+11:32:18.517[INFO] 0
+11:32:18.681[INFO] 0
+11:32:18.811[INFO] 0
+11:32:18.990[INFO] 0
+11:32:19.154[INFO] 0
+11:32:19.310[INFO] 0
+11:32:19.458[INFO] 0
+11:32:19.628[INFO] 0
+11:32:19.749[INFO] 0
+11:32:19.898[INFO] 0
+11:32:20.082[INFO] 0
+11:32:20.205[INFO] 0
+11:32:20.375[INFO] 0
+11:32:20.512[INFO] 0
+11:32:20.672[INFO] 0
+11:32:20.814[INFO] 0
+11:32:20.986[INFO] 0
+11:32:21.148[INFO] 0
+11:32:21.338[INFO] 0
+11:32:21.499[INFO] 0
+11:32:21.654[INFO] 0
+11:32:21.707[INFO] 0
+11:32:21.907[INFO] 0
+11:32:22.052[INFO] 0
+11:32:22.164[INFO] 0
+11:32:22.328[INFO] 0
+11:32:22.459[INFO] 0
+11:32:22.636[INFO] 0
+11:32:22.803[INFO] 0
+11:32:22.976[INFO] 0
+11:32:23.096[INFO] 0
+11:32:23.210[INFO] 0
+11:32:23.368[INFO] 0
+11:32:23.498[INFO] 0
+11:32:23.694[INFO] 0
+11:32:23.861[INFO] 0
+11:32:24.029[INFO] 0
+11:32:24.161[INFO] 0
+11:32:24.344[INFO] 0
+11:32:24.500[INFO] 0
+11:32:24.670[INFO] 0
+11:32:24.850[INFO] 0
+11:32:25.041[INFO] 0
+11:32:25.205[INFO] 0
+11:32:25.379[INFO] 0
+11:32:25.503[INFO] 0
+11:32:25.556[INFO] 0
+11:32:25.773[INFO] 0
+11:32:25.909[INFO] 0
+11:32:26.087[INFO] 0
+11:32:26.214[INFO] 0
+11:32:26.386[INFO] 0
+11:32:26.554[INFO] 0
+11:32:26.732[INFO] 0
+11:32:26.880[INFO] 0
+11:32:27.016[INFO] 0
+11:32:27.147[INFO] 0
+11:32:27.264[INFO] 0
+11:32:27.417[INFO] 0
+11:32:27.557[INFO] 0
+11:32:27.753[INFO] 0
+11:32:27.904[INFO] 0
+11:32:27.969[INFO] 0
+11:32:28.193[INFO] 0
+11:32:28.356[INFO] 0
+11:32:28.528[INFO] 0
+11:32:28.705[INFO] 0
+11:32:28.849[INFO] 0
+11:32:29.041[INFO] 0
+11:32:29.194[INFO] 0
+11:32:29.308[INFO] 0
+11:32:29.456[INFO] 0
+11:32:29.509[INFO] 0
+11:32:29.725[INFO] 0
+11:32:29.857[INFO] 0
+11:32:29.999[INFO] 0
+11:32:30.172[INFO] 0
+11:32:30.309[INFO] 0
+11:32:30.454[INFO] 0
+11:32:30.630[INFO] 0
+11:32:30.804[INFO] 0
+11:32:30.967[INFO] 0
+11:32:31.107[INFO] 0
+11:32:31.284[INFO] 0
+11:32:31.463[INFO] 0
+11:32:31.621[INFO] 0
+11:32:31.757[INFO] 0
+11:32:31.935[INFO] 0
+11:32:32.058[INFO] 0
+11:32:32.204[INFO] 0
+11:32:32.370[INFO] 0
+11:32:32.505[INFO] 0
+11:32:32.657[INFO] 0
+11:32:32.810[INFO] 0
+11:32:32.973[INFO] 0
+11:32:33.106[INFO] 0
+11:32:33.280[INFO] 0
+11:32:33.411[INFO] 0
+11:32:33.584[INFO] 0
+11:32:33.753[INFO] 0
+11:32:33.813[INFO] 0
+11:32:34.022[INFO] 0
+11:32:34.189[INFO] 0
+11:32:34.349[INFO] 0
+11:32:34.521[INFO] 0
+11:32:34.661[INFO] 0
+11:32:34.841[INFO] 0
+11:32:35.003[INFO] 0
+11:32:35.066[INFO] 0
+11:32:35.289[INFO] 0
+11:32:35.455[INFO] 0
+11:32:35.614[INFO] 0
+11:32:35.752[INFO] 0
+11:32:35.808[INFO] 0
+11:32:36.017[INFO] 0
+11:32:36.160[INFO] 0
+11:32:36.358[INFO] 0
+11:32:36.509[INFO] 0
+11:32:36.665[INFO] 0
+11:32:36.804[INFO] 0
+11:32:36.975[INFO] 0
+11:32:37.096[INFO] 0
+11:32:37.260[INFO] 0
+11:32:37.418[INFO] 0
+11:32:37.591[INFO] 0
+11:32:37.660[INFO] 0
+11:32:37.857[INFO] 0
+11:32:38.017[INFO] 0
+11:32:38.201[INFO] 0
+11:32:38.355[INFO] 0
+11:32:38.503[INFO] 0
+11:32:38.556[INFO] 0
+11:32:38.783[INFO] 0
+11:32:38.966[INFO] 0
+11:32:39.101[INFO] 0
+11:32:39.290[INFO] 0
+11:32:39.469[INFO] 0
+11:32:39.619[INFO] 0
+11:32:39.760[INFO] 0
+11:32:39.936[INFO] 0
+11:32:40.101[INFO] 0
+11:32:40.279[INFO] 0
+11:32:40.465[INFO] 0
+11:32:40.607[INFO] 0
+11:32:40.674[INFO] 0
+11:32:40.859[INFO] 0
+11:32:41.007[INFO] 0
+11:32:41.169[INFO] 0
+11:32:41.303[INFO] 0
+11:32:41.472[INFO] 0
+11:32:41.611[INFO] 0
+11:32:41.769[INFO] 0
+11:32:41.909[INFO] 0
+11:32:42.057[INFO] 0
+11:32:42.226[INFO] 0
+11:32:42.412[INFO] 0
+11:32:42.580[INFO] 0
+11:32:42.648[INFO] 1
+11:32:42.805[INFO] 0
+11:32:42.868[INFO] 1
+11:32:43.017[INFO] 0
+11:32:43.079[INFO] 1
+11:32:43.229[INFO] 0
+11:32:43.290[INFO] 1
+11:32:43.508[INFO] 0
+11:32:43.569[INFO] 0
+11:32:43.671[INFO] 1
+11:32:43.675[INFO] 1
+11:32:43.932[INFO] 0
+11:32:43.998[INFO] 1
+11:32:44.186[INFO] 0
+11:32:44.246[INFO] 1
+11:32:44.394[INFO] 0
+11:32:44.460[INFO] 1
+11:32:44.596[INFO] 0
+11:32:44.650[INFO] 0
+11:32:44.758[INFO] 1
+11:32:44.763[INFO] 1
+11:32:44.996[INFO] 0
+11:32:45.064[INFO] 1
+11:32:45.208[INFO] 0
+11:32:45.265[INFO] 1
+11:32:45.402[INFO] 0
+11:32:45.461[INFO] 0
+11:32:45.592[INFO] 1
+11:32:45.597[INFO] 1
+11:32:45.840[INFO] 0
+11:32:45.897[INFO] 1
+11:32:46.061[INFO] 0
+11:32:46.119[INFO] 1
+11:32:46.261[INFO] 0
+11:32:46.320[INFO] 1
+11:32:46.493[INFO] 0
+11:32:46.567[INFO] 1
+11:32:46.706[INFO] 0
+11:32:46.769[INFO] 1
+11:32:46.936[INFO] 0
+11:32:47.017[INFO] 1
+11:32:47.151[INFO] 0
+11:32:47.217[INFO] 0
+11:32:47.329[INFO] 1
+11:32:47.334[INFO] 1
+11:32:47.522[INFO] 0
+11:32:47.589[INFO] 1
+11:32:47.713[INFO] 0
+11:32:47.771[INFO] 1
+11:32:47.944[INFO] 0
+11:32:48.017[INFO] 1
+11:32:48.159[INFO] 0
+11:32:48.218[INFO] 1
+11:32:48.349[INFO] 0
+11:32:48.426[INFO] 1
+11:32:48.575[INFO] 0
+11:32:48.631[INFO] 1
+11:32:48.760[INFO] 0
+11:32:48.815[INFO] 1
+11:32:48.971[INFO] 0
+11:32:49.036[INFO] 1
+11:32:49.233[INFO] 0
+11:32:49.300[INFO] 1
+11:32:49.443[INFO] 0
+11:32:49.503[INFO] 1
+11:32:49.662[INFO] 0
+11:32:49.723[INFO] 1
+11:32:49.877[INFO] 0
+11:32:49.940[INFO] 1
+11:32:50.076[INFO] 0
+11:32:50.135[INFO] 1
+11:32:50.328[INFO] 0
+11:32:50.394[INFO] 1
+11:32:50.591[INFO] 0
+11:32:50.651[INFO] 0
+11:32:50.755[INFO] 1
+11:32:50.759[INFO] 1
+11:32:50.986[INFO] 0
+11:32:51.062[INFO] 1
+11:32:51.213[INFO] 0
+11:32:51.272[INFO] 1
+11:32:51.449[INFO] 0
+11:32:51.517[INFO] 0
+11:32:51.636[INFO] 1
+11:32:51.639[INFO] 1
+11:32:51.866[INFO] 0
+11:32:51.923[INFO] 1
+11:32:52.099[INFO] 0
+11:32:52.166[INFO] 1
+11:32:52.311[INFO] 0
+11:32:52.377[INFO] 1
+11:32:52.515[INFO] 0
+11:32:52.584[INFO] 1
+11:32:52.714[INFO] 0
+11:32:52.772[INFO] 1
+11:32:52.931[INFO] 0
+11:32:53.001[INFO] 1
+11:32:53.150[INFO] 0
+11:32:53.207[INFO] 1
+11:32:53.370[INFO] 0
+11:32:53.428[INFO] 1
+11:32:53.590[INFO] 0
+11:32:53.648[INFO] 1
+11:32:53.843[INFO] 0
+11:32:53.907[INFO] 0
+11:32:54.024[INFO] 1
+11:32:54.028[INFO] 1
+11:32:54.277[INFO] 0
+11:32:54.335[INFO] 1
+11:32:54.474[INFO] 0
+11:32:54.531[INFO] 1
+11:32:54.673[INFO] 0
+11:32:54.730[INFO] 1
+11:32:54.858[INFO] 0
+11:32:54.915[INFO] 1
+11:32:55.095[INFO] 0
+11:32:55.160[INFO] 1
+11:32:55.312[INFO] 0
+11:32:55.369[INFO] 1
+11:32:55.535[INFO] 0
+11:32:55.606[INFO] 1
+11:32:55.766[INFO] 0
+11:32:55.824[INFO] 1
+11:32:56.011[INFO] 0
+11:32:56.088[INFO] 1
+11:32:56.210[INFO] 0
+11:32:56.392[INFO] 0
+11:32:56.557[INFO] 0
+11:32:56.753[INFO] 0
+11:32:56.830[INFO] 0
+11:32:57.017[INFO] 0
+11:32:57.159[INFO] 0
+11:32:57.306[INFO] 0
+11:32:57.491[INFO] 0
+11:32:57.669[INFO] 0
+11:32:57.832[INFO] 0
+11:32:58.004[INFO] 0
+11:32:58.175[INFO] 0
+11:32:58.309[INFO] 0
+11:32:58.475[INFO] 0
+11:33:25.019[INFO] 0
+11:33:25.201[INFO] 0
+11:33:25.372[INFO] 0
+11:33:25.545[INFO] 0
+11:33:25.721[INFO] 0
+11:33:25.901[INFO] 0
+11:33:26.051[INFO] 0
+11:33:26.227[INFO] 0
+11:33:26.390[INFO] 0
+11:33:26.456[INFO] 0
+11:33:26.683[INFO] 0
+11:33:26.752[INFO] 0
+11:33:26.965[INFO] 0
+11:33:27.096[INFO] 0
+11:33:27.267[INFO] 0
+11:33:27.406[INFO] 0
+11:33:27.562[INFO] 0
+11:33:27.699[INFO] 0
+11:33:27.866[INFO] 0
+11:33:28.038[INFO] 0
+11:33:28.201[INFO] 0
+11:33:28.341[INFO] 0
+11:33:28.515[INFO] 0
+11:33:28.656[INFO] 0
+11:33:28.822[INFO] 0
+11:33:28.987[INFO] 0
+11:33:29.038[INFO] 0
+11:33:29.256[INFO] 0
+11:33:29.391[INFO] 0
+11:33:29.560[INFO] 0
+11:33:29.697[INFO] 0
+11:33:29.863[INFO] 0
+11:33:30.005[INFO] 0
+11:33:30.169[INFO] 0
+11:33:30.300[INFO] 0
+11:33:30.463[INFO] 0
+11:33:30.595[INFO] 0
+11:33:30.781[INFO] 0
+11:33:30.949[INFO] 0
+11:33:31.117[INFO] 0
+11:33:31.252[INFO] 0
+11:33:31.423[INFO] 0
+11:33:31.597[INFO] 0
+11:33:31.771[INFO] 0
+11:33:31.939[INFO] 0
+11:33:31.988[INFO] 0
+11:33:32.227[INFO] 0
+11:33:32.408[INFO] 0
+11:33:32.545[INFO] 0
+11:33:32.730[INFO] 0
+11:33:32.894[INFO] 0
+11:33:32.948[INFO] 0
+11:33:33.164[INFO] 0
+11:33:33.299[INFO] 0
+11:33:33.458[INFO] 0
+11:33:33.590[INFO] 0
+11:33:33.655[INFO] 0
+11:33:33.874[INFO] 0
+11:33:34.041[INFO] 0
+11:33:34.210[INFO] 0
+11:33:34.341[INFO] 0
+11:33:34.396[INFO] 0
+11:33:34.614[INFO] 0
+11:33:34.745[INFO] 0
+11:33:34.909[INFO] 0
+11:33:35.051[INFO] 0
+11:33:35.224[INFO] 0
+11:33:35.387[INFO] 0
+11:33:35.443[INFO] 0
+11:33:35.665[INFO] 0
+11:33:35.799[INFO] 0
+11:33:35.964[INFO] 0
+11:33:36.093[INFO] 0
+11:33:36.270[INFO] 0
+11:33:36.406[INFO] 0
+11:33:36.462[INFO] 1
+11:33:36.595[INFO] 0
+11:33:36.648[INFO] 1
+11:33:36.824[INFO] 0
+11:33:36.883[INFO] 1
+11:33:37.047[INFO] 0
+11:33:37.102[INFO] 1
+11:33:37.286[INFO] 0
+11:33:37.357[INFO] 1
+11:33:37.500[INFO] 0
+11:33:37.557[INFO] 1
+11:33:37.725[INFO] 0
+11:33:37.792[INFO] 1
+11:33:37.938[INFO] 0
+11:33:37.993[INFO] 0
+11:33:38.104[INFO] 1
+11:33:38.109[INFO] 1
+11:33:38.313[INFO] 0
+11:33:38.370[INFO] 1
+11:33:38.506[INFO] 0
+11:33:38.566[INFO] 1
+11:33:38.716[INFO] 0
+11:33:38.770[INFO] 1
+11:33:38.903[INFO] 0
+11:33:38.958[INFO] 1
+11:33:39.122[INFO] 0
+11:33:39.188[INFO] 1
+11:33:39.335[INFO] 0
+11:33:39.391[INFO] 1
+11:33:39.566[INFO] 0
+11:33:39.622[INFO] 1
+11:33:39.809[INFO] 0
+11:33:39.871[INFO] 1
+11:33:40.000[INFO] 0
+11:33:40.058[INFO] 1
+11:33:40.208[INFO] 0
+11:33:40.264[INFO] 1
+11:33:40.432[INFO] 0
+11:33:40.495[INFO] 0
+11:33:40.600[INFO] 1
+11:33:40.604[INFO] 1
+11:33:40.821[INFO] 0
+11:33:40.876[INFO] 1
+11:33:41.006[INFO] 0
+11:33:41.061[INFO] 1
+11:33:41.228[INFO] 0
+11:33:41.292[INFO] 1
+11:33:41.449[INFO] 0
+11:33:41.507[INFO] 1
+11:33:41.701[INFO] 0
+11:33:41.775[INFO] 1
+11:33:41.950[INFO] 0
+11:33:42.005[INFO] 1
+11:33:42.190[INFO] 0
+11:33:42.261[INFO] 1
+11:33:42.402[INFO] 0
+11:33:42.456[INFO] 1
+11:33:42.619[INFO] 0
+11:33:42.673[INFO] 1
+11:33:42.805[INFO] 0
+11:33:42.863[INFO] 1
+11:33:43.004[INFO] 0
+11:33:43.059[INFO] 1
+11:33:43.228[INFO] 0
+11:33:43.297[INFO] 1
+11:33:43.446[INFO] 0
+11:33:43.501[INFO] 1
+11:33:43.673[INFO] 0
+11:33:43.736[INFO] 1
+11:33:43.895[INFO] 0
+11:33:43.950[INFO] 1
+11:33:44.123[INFO] 0
+11:33:44.185[INFO] 1
+11:33:44.244[INFO] 0
+11:33:44.354[INFO] 1
+11:33:44.510[INFO] 0
+11:33:44.571[INFO] 1
+11:33:44.720[INFO] 0
+11:33:44.775[INFO] 1
+11:33:44.972[INFO] 0
+11:33:45.043[INFO] 1
+11:33:45.193[INFO] 0
+11:33:45.248[INFO] 1
+11:33:45.418[INFO] 0
+11:33:45.473[INFO] 1
+11:33:45.678[INFO] 0
+11:33:45.752[INFO] 1
+11:33:45.902[INFO] 0
+11:33:45.958[INFO] 1
+11:33:46.098[INFO] 0
+11:33:46.155[INFO] 1
+11:33:46.315[INFO] 0
+11:33:46.369[INFO] 1
+11:33:46.507[INFO] 0
+11:33:46.570[INFO] 1
+11:33:46.702[INFO] 0
+11:33:46.759[INFO] 1
+11:33:46.949[INFO] 0
+11:33:47.019[INFO] 1
+11:33:47.155[INFO] 0
+11:33:47.211[INFO] 1
+11:33:47.374[INFO] 0
+11:33:47.440[INFO] 1
+11:33:47.594[INFO] 0
+11:33:47.648[INFO] 0
+11:33:47.749[INFO] 1
+11:33:47.753[INFO] 1
+11:33:47.983[INFO] 0
+11:33:48.046[INFO] 1
+11:33:48.199[INFO] 0
+11:33:48.256[INFO] 1
+11:33:48.419[INFO] 0
+11:33:48.485[INFO] 1
+11:33:48.648[INFO] 0
+11:33:48.706[INFO] 1
+11:33:48.871[INFO] 0
+11:33:48.938[INFO] 1
+11:33:49.094[INFO] 0
+11:33:49.149[INFO] 1
+11:33:49.317[INFO] 0
+11:33:49.375[INFO] 1
+11:33:49.508[INFO] 0
+11:33:49.569[INFO] 1
+11:33:49.706[INFO] 0
+11:33:49.764[INFO] 1
+11:33:49.918[INFO] 0
+11:33:49.975[INFO] 1
+11:33:50.180[INFO] 0
+11:33:50.247[INFO] 1
+11:33:50.403[INFO] 0
+11:33:50.459[INFO] 1
+11:33:50.597[INFO] 0
+11:33:50.652[INFO] 1
+11:33:50.828[INFO] 0
+11:33:50.891[INFO] 1
+11:33:51.045[INFO] 0
+11:33:51.221[INFO] 0
+11:33:51.390[INFO] 0
+11:33:51.461[INFO] 0
+11:33:51.669[INFO] 0
+11:33:51.806[INFO] 0
+11:33:51.992[INFO] 0
+11:33:52.155[INFO] 0
+11:33:52.333[INFO] 0
+11:33:52.500[INFO] 0
+11:33:52.664[INFO] 0
+11:33:52.808[INFO] 0
+11:33:52.954[INFO] 0
+11:37:14.016[INFO] syncObj Lock not aquired!
+11:37:14.051[INFO] syncObj Lock not aquired!
+11:37:14.077[INFO] syncObj Lock not aquired!
+11:37:14.078[INFO] syncObj Lock not aquired!
+11:37:14.102[INFO] 1
+11:37:14.102[INFO] 1
+11:37:14.139[INFO] syncObj Lock not aquired!
+11:37:14.171[INFO] syncObj Lock not aquired!
+11:37:14.172[INFO] syncObj Lock not aquired!
+11:37:14.190[INFO] 1
+11:37:14.190[INFO] 1
+11:37:14.203[INFO] syncObj Lock not aquired!
+11:37:14.237[INFO] syncObj Lock not aquired!
+11:37:14.264[INFO] 1
+11:37:14.264[INFO] 1
+11:37:14.268[INFO] syncObj Lock not aquired!
+11:37:14.314[INFO] syncObj Lock not aquired!
+11:37:14.315[INFO] syncObj Lock not aquired!
+11:37:14.340[INFO] 1
+11:37:14.340[INFO] 1
+11:37:14.347[INFO] syncObj Lock not aquired!
+11:37:14.378[INFO] syncObj Lock not aquired!
+11:37:14.379[INFO] syncObj Lock not aquired!
+11:37:14.411[INFO] syncObj Lock not aquired!
+11:37:14.417[INFO] 1
+11:37:14.417[INFO] 1
+11:37:14.443[INFO] syncObj Lock not aquired!
+11:37:14.474[INFO] syncObj Lock not aquired!
+11:37:14.507[INFO] syncObj Lock not aquired!
+11:37:14.507[INFO] syncObj Lock not aquired!
+11:37:14.519[INFO] 1
+11:37:14.519[INFO] 1
+11:37:14.572[INFO] syncObj Lock not aquired!
+11:37:14.572[INFO] syncObj Lock not aquired!
+11:37:14.603[INFO] syncObj Lock not aquired!
+11:37:14.635[INFO] syncObj Lock not aquired!
+11:37:14.635[INFO] syncObj Lock not aquired!
+11:37:14.677[INFO] 1
+11:37:14.677[INFO] 1
+11:37:14.683[INFO] syncObj Lock not aquired!
+11:37:14.715[INFO] syncObj Lock not aquired!
+11:37:14.716[INFO] syncObj Lock not aquired!
+11:37:14.987[INFO] 1
+11:37:14.987[INFO] 1
+11:37:14.999[INFO] syncObj Lock not aquired!
+11:37:15.019[INFO] syncObj Lock not aquired!
+11:37:15.052[INFO] syncObj Lock not aquired!
+11:37:15.052[INFO] syncObj Lock not aquired!
+11:37:15.083[INFO] syncObj Lock not aquired!
+11:37:15.084[INFO] syncObj Lock not aquired!
+11:37:15.090[INFO] 1
+11:37:15.090[INFO] 1
+11:37:15.147[INFO] syncObj Lock not aquired!
+11:37:15.147[INFO] syncObj Lock not aquired!
+11:37:15.179[INFO] syncObj Lock not aquired!
+11:37:15.179[INFO] 1
+11:37:15.179[INFO] 1
+11:37:15.217[INFO] syncObj Lock not aquired!
+11:37:15.243[INFO] syncObj Lock not aquired!
+11:37:15.243[INFO] syncObj Lock not aquired!
+11:37:15.246[INFO] 1
+11:37:15.246[INFO] 1
+11:37:15.308[INFO] syncObj Lock not aquired!
+11:37:15.309[INFO] syncObj Lock not aquired!
+11:37:15.339[INFO] syncObj Lock not aquired!
+11:37:15.341[INFO] 1
+11:37:15.341[INFO] 1
+11:37:15.394[INFO] syncObj Lock not aquired!
+11:37:15.394[INFO] syncObj Lock not aquired!
+11:37:15.420[INFO] syncObj Lock not aquired!
+11:37:15.447[INFO] 1
+11:37:15.447[INFO] 1
+11:37:15.452[INFO] syncObj Lock not aquired!
+11:37:15.453[INFO] syncObj Lock not aquired!
+11:37:15.482[INFO] syncObj Lock not aquired!
+11:37:15.514[INFO] syncObj Lock not aquired!
+11:37:15.519[INFO] 1
+11:37:15.519[INFO] 1
+11:37:15.547[INFO] syncObj Lock not aquired!
+11:37:15.582[INFO] syncObj Lock not aquired!
+11:37:15.604[INFO] 1
+11:37:15.604[INFO] 1
+11:37:15.612[INFO] syncObj Lock not aquired!
+11:37:15.643[INFO] syncObj Lock not aquired!
+11:37:15.643[INFO] syncObj Lock not aquired!
+11:37:15.675[INFO] syncObj Lock not aquired!
+11:37:15.675[INFO] syncObj Lock not aquired!
+11:37:15.677[INFO] 1
+11:37:15.677[INFO] 1
+11:37:15.755[INFO] syncObj Lock not aquired!
+11:37:15.755[INFO] syncObj Lock not aquired!
+11:37:15.774[INFO] 1
+11:37:15.774[INFO] 1
+11:37:15.787[INFO] syncObj Lock not aquired!
+11:37:15.818[INFO] syncObj Lock not aquired!
+11:37:15.819[INFO] syncObj Lock not aquired!
+11:37:15.851[INFO] syncObj Lock not aquired!
+11:37:15.855[INFO] 1
+11:37:15.855[INFO] 1
+11:37:15.884[INFO] syncObj Lock not aquired!
+11:37:15.915[INFO] syncObj Lock not aquired!
+11:37:15.943[INFO] 1
+11:37:15.943[INFO] 1
+11:37:15.948[INFO] syncObj Lock not aquired!
+11:37:15.979[INFO] syncObj Lock not aquired!
+11:37:15.980[INFO] syncObj Lock not aquired!
+11:37:16.011[INFO] syncObj Lock not aquired!
+11:37:16.011[INFO] syncObj Lock not aquired!
+11:37:16.015[INFO] 1
+11:37:16.015[INFO] 1
+11:37:16.092[INFO] syncObj Lock not aquired!
+11:37:16.092[INFO] syncObj Lock not aquired!
+11:37:16.123[INFO] syncObj Lock not aquired!
+11:37:16.123[INFO] syncObj Lock not aquired!
+11:37:16.148[INFO] 1
+11:37:16.148[INFO] 1
+11:37:16.155[INFO] syncObj Lock not aquired!
+11:37:16.186[INFO] syncObj Lock not aquired!
+11:37:16.218[INFO] syncObj Lock not aquired!
+11:37:16.220[INFO] 1
+11:37:16.220[INFO] 1
+11:37:16.253[INFO] syncObj Lock not aquired!
+11:37:16.282[INFO] syncObj Lock not aquired!
+11:37:16.283[INFO] syncObj Lock not aquired!
+11:37:16.315[INFO] syncObj Lock not aquired!
+11:37:16.315[INFO] syncObj Lock not aquired!
+11:37:16.319[INFO] 1
+11:37:16.319[INFO] 1
+11:37:16.379[INFO] syncObj Lock not aquired!
+11:37:16.379[INFO] syncObj Lock not aquired!
+11:37:16.411[INFO] syncObj Lock not aquired!
+11:37:16.414[INFO] 1
+11:37:16.414[INFO] 1
+11:37:16.460[INFO] syncObj Lock not aquired!
+11:37:16.461[INFO] syncObj Lock not aquired!
+11:37:16.491[INFO] syncObj Lock not aquired!
+11:37:16.516[INFO] 1
+11:37:16.516[INFO] 1
+11:37:16.523[INFO] syncObj Lock not aquired!
+11:37:16.555[INFO] syncObj Lock not aquired!
+11:37:16.587[INFO] syncObj Lock not aquired!
+11:37:16.587[INFO] syncObj Lock not aquired!
+11:37:16.590[INFO] 1
+11:37:16.590[INFO] 1
+11:37:16.650[INFO] syncObj Lock not aquired!
+11:37:16.651[INFO] syncObj Lock not aquired!
+11:37:16.683[INFO] syncObj Lock not aquired!
+11:37:16.685[INFO] syncObj Lock not aquired!
+11:37:16.708[INFO] 1
+11:37:16.708[INFO] 1
+11:37:16.715[INFO] syncObj Lock not aquired!
+11:37:16.746[INFO] syncObj Lock not aquired!
+11:37:16.782[INFO] 1
+11:37:16.782[INFO] 1
+11:37:16.796[INFO] syncObj Lock not aquired!
+11:37:16.828[INFO] syncObj Lock not aquired!
+11:37:16.829[INFO] syncObj Lock not aquired!
+11:37:16.859[INFO] 1
+11:37:16.859[INFO] 1
+11:37:16.891[INFO] syncObj Lock not aquired!
+11:37:16.891[INFO] syncObj Lock not aquired!
+11:37:16.923[INFO] syncObj Lock not aquired!
+11:37:16.924[INFO] syncObj Lock not aquired!
+11:37:16.932[INFO] 1
+11:37:16.932[INFO] 1
+11:37:16.956[INFO] syncObj Lock not aquired!
+11:37:16.986[INFO] syncObj Lock not aquired!
+11:37:17.018[INFO] 1
+11:37:17.018[INFO] 1
+11:37:17.020[INFO] syncObj Lock not aquired!
+11:37:17.050[INFO] syncObj Lock not aquired!
+11:37:17.083[INFO] syncObj Lock not aquired!
+11:37:17.083[INFO] 1
+11:37:17.083[INFO] 1
+11:37:17.118[INFO] syncObj Lock not aquired!
+11:37:17.153[INFO] 1
+11:37:17.153[INFO] 1
+11:37:17.163[INFO] syncObj Lock not aquired!
+11:37:17.164[INFO] syncObj Lock not aquired!
+11:37:17.195[INFO] syncObj Lock not aquired!
+11:37:17.227[INFO] syncObj Lock not aquired!
+11:37:17.227[INFO] syncObj Lock not aquired!
+11:37:17.231[INFO] 1
+11:37:17.231[INFO] 1
+11:37:17.293[INFO] syncObj Lock not aquired!
+11:37:17.294[INFO] syncObj Lock not aquired!
+11:37:17.323[INFO] syncObj Lock not aquired!
+11:37:17.323[INFO] syncObj Lock not aquired!
+11:37:17.324[INFO] 1
+11:37:17.324[INFO] 1
+11:37:17.387[INFO] syncObj Lock not aquired!
+11:37:17.387[INFO] syncObj Lock not aquired!
+11:37:17.410[INFO] 1
+11:37:17.410[INFO] 1
+11:37:17.420[INFO] syncObj Lock not aquired!
+11:37:17.451[INFO] syncObj Lock not aquired!
+11:37:17.483[INFO] syncObj Lock not aquired!
+11:37:17.483[INFO] syncObj Lock not aquired!
+11:37:17.484[INFO] 1
+11:37:17.484[INFO] 1
+11:37:17.533[INFO] syncObj Lock not aquired!
+11:37:17.573[INFO] syncObj Lock not aquired!
+11:37:17.573[INFO] syncObj Lock not aquired!
+11:37:17.594[INFO] syncObj Lock not aquired!
+11:37:17.595[INFO] syncObj Lock not aquired!
+11:37:17.626[INFO] 1
+11:37:17.626[INFO] 1
+11:37:17.659[INFO] syncObj Lock not aquired!
+11:37:17.660[INFO] syncObj Lock not aquired!
+11:37:17.692[INFO] syncObj Lock not aquired!
+11:37:17.697[INFO] 1
+11:37:17.697[INFO] 1
+11:37:17.724[INFO] syncObj Lock not aquired!
+11:37:17.758[INFO] syncObj Lock not aquired!
+11:37:17.783[INFO] 1
+11:37:17.783[INFO] 1
+11:37:17.788[INFO] syncObj Lock not aquired!
+11:37:17.819[INFO] syncObj Lock not aquired!
+11:37:17.820[INFO] syncObj Lock not aquired!
+11:37:17.853[INFO] 1
+11:37:17.853[INFO] 1
+11:37:17.868[INFO] syncObj Lock not aquired!
+11:37:17.899[INFO] syncObj Lock not aquired!
+11:37:17.928[INFO] 1
+11:37:17.928[INFO] 1
+11:37:17.932[INFO] syncObj Lock not aquired!
+11:37:17.963[INFO] syncObj Lock not aquired!
+11:37:17.964[INFO] syncObj Lock not aquired!
+11:37:17.995[INFO] syncObj Lock not aquired!
+11:37:17.995[INFO] syncObj Lock not aquired!
+11:37:18.000[INFO] 1
+11:37:18.000[INFO] 1
+11:37:18.059[INFO] syncObj Lock not aquired!
+11:37:18.059[INFO] syncObj Lock not aquired!
+11:37:18.091[INFO] syncObj Lock not aquired!
+11:37:18.091[INFO] syncObj Lock not aquired!
+11:37:18.103[INFO] 1
+11:37:18.103[INFO] 1
+11:37:18.155[INFO] syncObj Lock not aquired!
+11:37:18.155[INFO] syncObj Lock not aquired!
+11:37:18.186[INFO] syncObj Lock not aquired!
+11:37:18.188[INFO] 1
+11:37:18.188[INFO] 1
+11:37:18.237[INFO] syncObj Lock not aquired!
+11:37:18.237[INFO] syncObj Lock not aquired!
+11:37:18.269[INFO] syncObj Lock not aquired!
+11:37:18.292[INFO] 1
+11:37:18.292[INFO] 1
+11:37:18.300[INFO] syncObj Lock not aquired!
+11:37:18.330[INFO] syncObj Lock not aquired!
+11:37:18.363[INFO] syncObj Lock not aquired!
+11:37:18.363[INFO] syncObj Lock not aquired!
+11:37:18.363[INFO] 1
+11:37:18.363[INFO] 1
+11:37:18.427[INFO] syncObj Lock not aquired!
+11:37:18.462[INFO] syncObj Lock not aquired!
+11:37:18.462[INFO] syncObj Lock not aquired!
+11:37:18.491[INFO] syncObj Lock not aquired!
+11:37:18.491[INFO] syncObj Lock not aquired!
+11:37:18.494[INFO] 1
+11:37:18.494[INFO] 1
+11:37:18.523[INFO] syncObj Lock not aquired!
+11:37:18.555[INFO] syncObj Lock not aquired!
+11:37:18.589[INFO] 1
+11:37:18.589[INFO] 1
+11:37:18.604[INFO] syncObj Lock not aquired!
+11:37:18.605[INFO] syncObj Lock not aquired!
+11:37:18.645[INFO] syncObj Lock not aquired!
+11:37:18.667[INFO] syncObj Lock not aquired!
+11:37:18.668[INFO] syncObj Lock not aquired!
+11:37:18.677[INFO] 1
+11:37:18.677[INFO] 1
+11:37:18.730[INFO] syncObj Lock not aquired!
+11:37:18.731[INFO] syncObj Lock not aquired!
+11:37:18.731[INFO] syncObj Lock not aquired!
+11:37:18.762[INFO] syncObj Lock not aquired!
+11:37:18.777[INFO] 1
+11:37:18.777[INFO] 1
+11:37:18.827[INFO] syncObj Lock not aquired!
+11:37:18.829[INFO] syncObj Lock not aquired!
+11:37:18.859[INFO] syncObj Lock not aquired!
+11:37:18.864[INFO] 1
+11:37:18.864[INFO] 1
+11:37:18.891[INFO] syncObj Lock not aquired!
+11:37:18.940[INFO] syncObj Lock not aquired!
+11:37:18.941[INFO] syncObj Lock not aquired!
+11:37:18.952[INFO] 1
+11:37:18.952[INFO] 1
+11:37:18.971[INFO] syncObj Lock not aquired!
+11:37:19.002[INFO] syncObj Lock not aquired!
+11:37:19.004[INFO] syncObj Lock not aquired!
+11:37:19.034[INFO] syncObj Lock not aquired!
+11:37:19.066[INFO] syncObj Lock not aquired!
+11:37:19.067[INFO] syncObj Lock not aquired!
+11:37:19.069[INFO] 1
+11:37:19.069[INFO] 1
+11:37:19.101[INFO] syncObj Lock not aquired!
+11:37:19.134[INFO] syncObj Lock not aquired!
+11:37:19.159[INFO] 1
+11:37:19.159[INFO] 1
+11:37:19.164[INFO] syncObj Lock not aquired!
+11:37:19.195[INFO] syncObj Lock not aquired!
+11:37:19.227[INFO] syncObj Lock not aquired!
+11:37:19.227[INFO] syncObj Lock not aquired!
+11:37:19.233[INFO] 1
+11:37:19.233[INFO] 1
+11:37:19.307[INFO] syncObj Lock not aquired!
+11:37:19.307[INFO] syncObj Lock not aquired!
+11:37:19.339[INFO] syncObj Lock not aquired!
+11:37:19.340[INFO] syncObj Lock not aquired!
+11:37:19.370[INFO] syncObj Lock not aquired!
+11:37:19.371[INFO] syncObj Lock not aquired!
+11:37:19.384[INFO] 1
+11:37:19.384[INFO] 1
+11:37:19.438[INFO] syncObj Lock not aquired!
+11:37:19.438[INFO] syncObj Lock not aquired!
+11:37:19.466[INFO] syncObj Lock not aquired!
+11:37:19.471[INFO] 1
+11:37:19.471[INFO] 1
+11:37:19.499[INFO] syncObj Lock not aquired!
+11:37:19.530[INFO] syncObj Lock not aquired!
+11:37:19.532[INFO] syncObj Lock not aquired!
+11:37:19.563[INFO] syncObj Lock not aquired!
+11:37:19.563[INFO] syncObj Lock not aquired!
+11:37:19.570[INFO] 1
+11:37:19.570[INFO] 1
+11:37:19.627[INFO] syncObj Lock not aquired!
+11:37:19.627[INFO] syncObj Lock not aquired!
+11:37:19.660[INFO] 1
+11:37:19.660[INFO] 1
+11:37:19.675[INFO] syncObj Lock not aquired!
+11:37:19.706[INFO] syncObj Lock not aquired!
+11:37:19.708[INFO] syncObj Lock not aquired!
+11:37:19.736[INFO] 1
+11:37:19.736[INFO] 1
+11:37:19.771[INFO] syncObj Lock not aquired!
+11:37:19.771[INFO] syncObj Lock not aquired!
+11:37:19.802[INFO] syncObj Lock not aquired!
+11:37:19.807[INFO] 1
+11:37:19.807[INFO] 1
+11:37:19.835[INFO] syncObj Lock not aquired!
+11:37:19.866[INFO] syncObj Lock not aquired!
+11:37:19.867[INFO] syncObj Lock not aquired!
+11:37:19.899[INFO] syncObj Lock not aquired!
+11:37:19.924[INFO] 1
+11:37:19.924[INFO] 1
+11:37:19.931[INFO] syncObj Lock not aquired!
+11:37:19.963[INFO] syncObj Lock not aquired!
+11:37:19.999[INFO] 1
+11:37:19.999[INFO] 1
+11:37:20.011[INFO] syncObj Lock not aquired!
+11:37:20.045[INFO] syncObj Lock not aquired!
+11:37:20.046[INFO] syncObj Lock not aquired!
+11:37:20.070[INFO] 1
+11:37:20.070[INFO] 1
+11:37:20.075[INFO] syncObj Lock not aquired!
+11:37:20.106[INFO] syncObj Lock not aquired!
+11:37:20.139[INFO] syncObj Lock not aquired!
+11:37:20.139[INFO] syncObj Lock not aquired!
+11:37:20.140[INFO] 1
+11:37:20.140[INFO] 1
+11:37:20.171[INFO] syncObj Lock not aquired!
+11:37:20.202[INFO] syncObj Lock not aquired!
+11:37:20.202[INFO] syncObj Lock not aquired!
+11:37:20.241[INFO] syncObj Lock not aquired!
+11:37:20.267[INFO] syncObj Lock not aquired!
+11:37:20.267[INFO] syncObj Lock not aquired!
+11:37:20.279[INFO] 1
+11:37:20.279[INFO] 1
+11:37:20.330[INFO] syncObj Lock not aquired!
+11:37:20.363[INFO] 1
+11:37:20.363[INFO] 1
+11:37:20.379[INFO] syncObj Lock not aquired!
+11:37:20.379[INFO] syncObj Lock not aquired!
+11:37:20.410[INFO] syncObj Lock not aquired!
+11:37:20.411[INFO] syncObj Lock not aquired!
+11:37:20.443[INFO] syncObj Lock not aquired!
+11:37:20.449[INFO] 1
+11:37:20.449[INFO] 1
+11:37:20.476[INFO] syncObj Lock not aquired!
+11:37:20.507[INFO] syncObj Lock not aquired!
+11:37:20.537[INFO] 1
+11:37:20.537[INFO] 1
+11:37:20.539[INFO] syncObj Lock not aquired!
+11:37:20.571[INFO] syncObj Lock not aquired!
+11:37:20.602[INFO] syncObj Lock not aquired!
+11:37:20.603[INFO] syncObj Lock not aquired!
+11:37:20.608[INFO] 1
+11:37:20.608[INFO] 1
+11:37:20.635[INFO] syncObj Lock not aquired!
+11:37:20.667[INFO] syncObj Lock not aquired!
+11:37:20.698[INFO] syncObj Lock not aquired!
+11:37:20.699[INFO] syncObj Lock not aquired!
+11:37:20.700[INFO] 1
+11:37:20.700[INFO] 1
+11:37:20.747[INFO] syncObj Lock not aquired!
+11:37:20.779[INFO] syncObj Lock not aquired!
+11:37:20.780[INFO] syncObj Lock not aquired!
+11:37:20.810[INFO] syncObj Lock not aquired!
+11:37:20.810[INFO] syncObj Lock not aquired!
+11:37:20.830[INFO] 1
+11:37:20.830[INFO] 1
+11:37:20.843[INFO] syncObj Lock not aquired!
+11:37:20.875[INFO] syncObj Lock not aquired!
+11:37:20.907[INFO] syncObj Lock not aquired!
+11:37:20.907[INFO] syncObj Lock not aquired!
+11:37:20.911[INFO] 1
+11:37:20.911[INFO] 1
+11:37:20.970[INFO] syncObj Lock not aquired!
+11:37:20.971[INFO] syncObj Lock not aquired!
+11:37:21.002[INFO] 1
+11:37:21.002[INFO] 1
+11:37:21.034[INFO] syncObj Lock not aquired!
+11:37:21.035[INFO] syncObj Lock not aquired!
+11:37:21.072[INFO] 1
+11:37:21.072[INFO] 1
+11:37:21.083[INFO] syncObj Lock not aquired!
+11:37:21.114[INFO] syncObj Lock not aquired!
+11:37:21.116[INFO] syncObj Lock not aquired!
+11:37:21.147[INFO] syncObj Lock not aquired!
+11:37:21.149[INFO] 1
+11:37:21.149[INFO] 1
+11:37:21.179[INFO] syncObj Lock not aquired!
+11:37:21.211[INFO] syncObj Lock not aquired!
+11:37:21.211[INFO] syncObj Lock not aquired!
+11:37:21.243[INFO] syncObj Lock not aquired!
+11:37:21.258[INFO] 1
+11:37:21.258[INFO] 1
+11:37:21.275[INFO] syncObj Lock not aquired!
+11:37:21.306[INFO] syncObj Lock not aquired!
+11:37:21.338[INFO] 1
+11:37:21.338[INFO] 1
+11:37:21.340[INFO] syncObj Lock not aquired!
+11:37:21.373[INFO] syncObj Lock not aquired!
+11:37:21.397[INFO] 1
+11:37:21.397[INFO] 1
+11:37:21.402[INFO] syncObj Lock not aquired!
+11:37:21.403[INFO] syncObj Lock not aquired!
+11:37:21.450[INFO] syncObj Lock not aquired!
+11:37:21.451[INFO] syncObj Lock not aquired!
+11:37:21.474[INFO] 1
+11:37:21.474[INFO] 1
+11:37:21.484[INFO] syncObj Lock not aquired!
+11:37:21.514[INFO] syncObj Lock not aquired!
+11:37:21.547[INFO] syncObj Lock not aquired!
+11:37:21.547[INFO] syncObj Lock not aquired!
+11:37:21.560[INFO] 1
+11:37:21.560[INFO] 1
+11:37:21.610[INFO] syncObj Lock not aquired!
+11:37:21.643[INFO] syncObj Lock not aquired!
+11:37:21.643[INFO] syncObj Lock not aquired!
+11:37:21.645[INFO] 1
+11:37:21.645[INFO] 1
+11:37:21.675[INFO] syncObj Lock not aquired!
+11:37:21.707[INFO] syncObj Lock not aquired!
+11:37:21.708[INFO] syncObj Lock not aquired!
+11:37:21.738[INFO] syncObj Lock not aquired!
+11:37:21.740[INFO] 1
+11:37:21.740[INFO] 1
+11:37:21.771[INFO] syncObj Lock not aquired!
+11:37:21.818[INFO] syncObj Lock not aquired!
+11:37:21.818[INFO] syncObj Lock not aquired!
+11:37:21.828[INFO] 1
+11:37:21.828[INFO] 1
+11:37:21.851[INFO] syncObj Lock not aquired!
+11:37:21.882[INFO] syncObj Lock not aquired!
+11:37:21.914[INFO] syncObj Lock not aquired!
+11:37:21.914[INFO] syncObj Lock not aquired!
+11:37:21.936[INFO] 1
+11:37:21.936[INFO] 1
+11:37:21.948[INFO] syncObj Lock not aquired!
+11:37:21.978[INFO] syncObj Lock not aquired!
+11:37:22.011[INFO] syncObj Lock not aquired!
+11:37:22.011[INFO] syncObj Lock not aquired!
+11:37:22.012[INFO] 1
+11:37:22.012[INFO] 1
+11:37:22.075[INFO] syncObj Lock not aquired!
+11:37:22.076[INFO] syncObj Lock not aquired!
+11:37:22.107[INFO] syncObj Lock not aquired!
+11:37:22.108[INFO] 1
+11:37:22.108[INFO] 1
+11:37:22.154[INFO] syncObj Lock not aquired!
+11:37:22.155[INFO] syncObj Lock not aquired!
+11:37:22.186[INFO] syncObj Lock not aquired!
+11:37:22.218[INFO] syncObj Lock not aquired!
+11:37:22.219[INFO] syncObj Lock not aquired!
+11:37:22.232[INFO] 1
+11:37:22.232[INFO] 1
+11:37:22.283[INFO] syncObj Lock not aquired!
+11:37:22.284[INFO] syncObj Lock not aquired!
+11:37:22.315[INFO] syncObj Lock not aquired!
+11:37:22.315[INFO] 1
+11:37:22.315[INFO] 1
+11:37:22.349[INFO] syncObj Lock not aquired!
+11:37:22.349[INFO] syncObj Lock not aquired!
+11:37:22.378[INFO] syncObj Lock not aquired!
+11:37:22.385[INFO] 1
+11:37:22.385[INFO] 1
+11:37:22.411[INFO] syncObj Lock not aquired!
+11:37:22.442[INFO] syncObj Lock not aquired!
+11:37:22.475[INFO] syncObj Lock not aquired!
+11:37:22.476[INFO] syncObj Lock not aquired!
+11:37:22.489[INFO] 1
+11:37:22.489[INFO] 1
+11:37:22.523[INFO] syncObj Lock not aquired!
+11:37:22.558[INFO] syncObj Lock not aquired!
+11:37:22.558[INFO] syncObj Lock not aquired!
+11:37:22.584[INFO] 1
+11:37:22.584[INFO] 1
+11:37:22.623[INFO] syncObj Lock not aquired!
+11:37:22.623[INFO] syncObj Lock not aquired!
+11:37:22.623[INFO] syncObj Lock not aquired!
+11:37:22.647[INFO] 1
+11:37:22.647[INFO] 1
+11:37:22.683[INFO] syncObj Lock not aquired!
+11:37:22.715[INFO] syncObj Lock not aquired!
+11:37:22.716[INFO] syncObj Lock not aquired!
+11:37:22.725[INFO] 1
+11:37:22.725[INFO] 1
+11:37:22.780[INFO] syncObj Lock not aquired!
+11:37:22.781[INFO] syncObj Lock not aquired!
+11:37:22.802[INFO] 1
+11:37:22.802[INFO] 1
+11:37:22.811[INFO] syncObj Lock not aquired!
+11:37:22.842[INFO] syncObj Lock not aquired!
+11:37:22.843[INFO] syncObj Lock not aquired!
+11:37:22.875[INFO] 1
+11:37:22.875[INFO] 1
+11:37:22.891[INFO] syncObj Lock not aquired!
+11:37:22.923[INFO] syncObj Lock not aquired!
+11:37:22.954[INFO] syncObj Lock not aquired!
+11:37:22.956[INFO] syncObj Lock not aquired!
+11:37:22.957[INFO] 1
+11:37:22.957[INFO] 1
+11:37:22.987[INFO] syncObj Lock not aquired!
+11:37:23.019[INFO] syncObj Lock not aquired!
+11:37:23.051[INFO] syncObj Lock not aquired!
+11:37:23.052[INFO] syncObj Lock not aquired!
+11:37:23.062[INFO] 1
+11:37:23.062[INFO] 1
+11:37:23.115[INFO] syncObj Lock not aquired!
+11:37:23.115[INFO] syncObj Lock not aquired!
+11:37:23.147[INFO] syncObj Lock not aquired!
+11:37:23.147[INFO] syncObj Lock not aquired!
+11:37:23.150[INFO] 1
+11:37:23.150[INFO] 1
+11:37:23.227[INFO] syncObj Lock not aquired!
+11:37:23.227[INFO] syncObj Lock not aquired!
+11:37:23.239[INFO] 1
+11:37:23.239[INFO] 1
+11:37:23.260[INFO] syncObj Lock not aquired!
+11:37:23.290[INFO] syncObj Lock not aquired!
+11:37:23.323[INFO] syncObj Lock not aquired!
+11:37:23.323[INFO] syncObj Lock not aquired!
+11:37:23.355[INFO] syncObj Lock not aquired!
+11:37:23.355[INFO] syncObj Lock not aquired!
+11:37:23.355[INFO] 1
+11:37:23.355[INFO] 1
+11:37:23.422[INFO] syncObj Lock not aquired!
+11:37:23.423[INFO] syncObj Lock not aquired!
+11:37:23.446[INFO] 1
+11:37:23.446[INFO] 1
+11:37:23.451[INFO] syncObj Lock not aquired!
+11:37:23.482[INFO] syncObj Lock not aquired!
+11:37:23.483[INFO] syncObj Lock not aquired!
+11:37:23.514[INFO] 1
+11:37:23.514[INFO] 1
+11:37:23.546[INFO] syncObj Lock not aquired!
+11:37:23.586[INFO] 1
+11:37:23.586[INFO] 1
+11:37:23.596[INFO] syncObj Lock not aquired!
+11:37:23.597[INFO] syncObj Lock not aquired!
+11:37:23.627[INFO] syncObj Lock not aquired!
+11:37:23.627[INFO] syncObj Lock not aquired!
+11:37:23.658[INFO] syncObj Lock not aquired!
+11:37:23.664[INFO] 1
+11:37:23.664[INFO] 1
+11:37:23.723[INFO] syncObj Lock not aquired!
+11:37:23.724[INFO] syncObj Lock not aquired!
+11:37:23.755[INFO] syncObj Lock not aquired!
+11:37:23.755[INFO] syncObj Lock not aquired!
+11:37:23.757[INFO] 1
+11:37:23.757[INFO] 1
+11:37:23.819[INFO] syncObj Lock not aquired!
+11:37:23.820[INFO] syncObj Lock not aquired!
+11:37:23.846[INFO] 1
+11:37:23.846[INFO] 1
+11:37:23.851[INFO] syncObj Lock not aquired!
+11:37:23.884[INFO] syncObj Lock not aquired!
+11:37:23.915[INFO] syncObj Lock not aquired!
+11:37:23.916[INFO] syncObj Lock not aquired!
+11:37:23.923[INFO] 1
+11:37:23.923[INFO] 1
+11:37:23.963[INFO] syncObj Lock not aquired!
+11:37:23.994[INFO] syncObj Lock not aquired!
+11:37:23.994[INFO] syncObj Lock not aquired!
+11:37:24.032[INFO] syncObj Lock not aquired!
+11:37:24.032[INFO] syncObj Lock not aquired!
+11:37:24.058[INFO] syncObj Lock not aquired!
+11:37:24.065[INFO] 1
+11:37:24.065[INFO] 1
+11:37:24.091[INFO] syncObj Lock not aquired!
+11:37:24.124[INFO] syncObj Lock not aquired!
+11:37:24.124[INFO] syncObj Lock not aquired!
+11:37:24.154[INFO] syncObj Lock not aquired!
+11:37:24.157[INFO] 1
+11:37:24.157[INFO] 1
+11:37:24.219[INFO] syncObj Lock not aquired!
+11:37:24.219[INFO] syncObj Lock not aquired!
+11:37:24.250[INFO] 1
+11:37:24.250[INFO] 1
+11:37:24.251[INFO] syncObj Lock not aquired!
+11:37:24.298[INFO] syncObj Lock not aquired!
+11:37:24.299[INFO] syncObj Lock not aquired!
+11:37:24.317[INFO] 1
+11:37:24.317[INFO] 1
+11:37:24.363[INFO] syncObj Lock not aquired!
+11:37:24.363[INFO] syncObj Lock not aquired!
+11:37:24.390[INFO] 1
+11:37:24.390[INFO] 1
+11:37:24.395[INFO] syncObj Lock not aquired!
+11:37:24.426[INFO] syncObj Lock not aquired!
+11:37:24.459[INFO] syncObj Lock not aquired!
+11:37:24.460[INFO] syncObj Lock not aquired!
+11:37:24.464[INFO] 1
+11:37:24.464[INFO] 1
+11:37:24.491[INFO] syncObj Lock not aquired!
+11:37:24.523[INFO] syncObj Lock not aquired!
+11:37:24.555[INFO] syncObj Lock not aquired!
+11:37:24.555[INFO] syncObj Lock not aquired!
+11:37:24.568[INFO] 1
+11:37:24.568[INFO] 1
+11:37:24.587[INFO] syncObj Lock not aquired!
+11:37:24.618[INFO] syncObj Lock not aquired!
+11:37:24.660[INFO] 1
+11:37:24.660[INFO] 1
+11:37:24.667[INFO] syncObj Lock not aquired!
+11:37:24.698[INFO] syncObj Lock not aquired!
+11:37:24.699[INFO] syncObj Lock not aquired!
+11:37:24.731[INFO] syncObj Lock not aquired!
+11:37:24.731[INFO] syncObj Lock not aquired!
+11:37:24.733[INFO] 1
+11:37:24.733[INFO] 1
+11:37:24.794[INFO] syncObj Lock not aquired!
+11:37:24.832[INFO] syncObj Lock not aquired!
+11:37:24.834[INFO] syncObj Lock not aquired!
+11:37:24.858[INFO] syncObj Lock not aquired!
+11:37:24.859[INFO] syncObj Lock not aquired!
+11:37:24.879[INFO] 1
+11:37:24.879[INFO] 1
+11:37:24.923[INFO] syncObj Lock not aquired!
+11:37:24.956[INFO] syncObj Lock not aquired!
+11:37:24.957[INFO] syncObj Lock not aquired!
+11:37:24.961[INFO] 1
+11:37:24.961[INFO] 1
+11:37:25.004[INFO] syncObj Lock not aquired!
+11:37:25.005[INFO] syncObj Lock not aquired!
+11:37:25.035[INFO] syncObj Lock not aquired!
+11:37:25.056[INFO] 1
+11:37:25.056[INFO] 1
+11:37:25.068[INFO] syncObj Lock not aquired!
+11:37:25.099[INFO] syncObj Lock not aquired!
+11:37:25.131[INFO] syncObj Lock not aquired!
+11:37:25.131[INFO] syncObj Lock not aquired!
+11:37:25.133[INFO] 1
+11:37:25.133[INFO] 1
+11:37:25.195[INFO] syncObj Lock not aquired!
+11:37:25.195[INFO] syncObj Lock not aquired!
+11:37:25.226[INFO] syncObj Lock not aquired!
+11:37:25.227[INFO] syncObj Lock not aquired!
+11:37:25.227[INFO] 1
+11:37:25.227[INFO] 1
+11:37:25.291[INFO] syncObj Lock not aquired!
+11:37:25.293[INFO] syncObj Lock not aquired!
+11:37:25.322[INFO] syncObj Lock not aquired!
+11:37:25.326[INFO] 1
+11:37:25.326[INFO] 1
+11:37:25.372[INFO] syncObj Lock not aquired!
+11:37:25.372[INFO] syncObj Lock not aquired!
+11:37:25.403[INFO] syncObj Lock not aquired!
+11:37:25.435[INFO] syncObj Lock not aquired!
+11:37:25.435[INFO] syncObj Lock not aquired!
+11:37:25.444[INFO] 1
+11:37:25.444[INFO] 1
+11:37:25.467[INFO] syncObj Lock not aquired!
+11:37:25.499[INFO] syncObj Lock not aquired!
+11:37:25.499[INFO] syncObj Lock not aquired!
+11:37:25.531[INFO] syncObj Lock not aquired!
+11:37:25.532[INFO] 1
+11:37:25.532[INFO] 1
+11:37:25.598[INFO] syncObj Lock not aquired!
+11:37:25.599[INFO] syncObj Lock not aquired!
+11:37:25.619[INFO] 1
+11:37:25.619[INFO] 1
+11:37:25.628[INFO] syncObj Lock not aquired!
+11:37:25.661[INFO] syncObj Lock not aquired!
+11:37:25.686[INFO] 1
+11:37:25.686[INFO] 1
+11:37:25.692[INFO] syncObj Lock not aquired!
+11:37:25.739[INFO] syncObj Lock not aquired!
+11:37:25.740[INFO] syncObj Lock not aquired!
+11:37:25.762[INFO] 1
+11:37:25.762[INFO] 1
+11:37:25.772[INFO] syncObj Lock not aquired!
+11:37:25.808[INFO] syncObj Lock not aquired!
+11:37:25.808[INFO] syncObj Lock not aquired!
+11:37:25.835[INFO] syncObj Lock not aquired!
+11:37:25.835[INFO] 1
+11:37:25.835[INFO] 1
+11:37:25.867[INFO] syncObj Lock not aquired!
+11:37:25.898[INFO] syncObj Lock not aquired!
+11:37:25.931[INFO] syncObj Lock not aquired!
+11:37:25.932[INFO] syncObj Lock not aquired!
+11:37:25.962[INFO] 1
+11:37:25.962[INFO] 1
+11:37:25.964[INFO] syncObj Lock not aquired!
+11:37:25.995[INFO] syncObj Lock not aquired!
+11:37:26.027[INFO] syncObj Lock not aquired!
+11:37:26.028[INFO] syncObj Lock not aquired!
+11:37:26.034[INFO] 1
+11:37:26.034[INFO] 1
+11:37:26.076[INFO] syncObj Lock not aquired!
+11:37:26.076[INFO] syncObj Lock not aquired!
+11:37:26.107[INFO] syncObj Lock not aquired!
+11:37:26.131[INFO] 1
+11:37:26.131[INFO] 1
+11:37:26.139[INFO] syncObj Lock not aquired!
+11:37:26.173[INFO] syncObj Lock not aquired!
+11:37:26.200[INFO] 1
+11:37:26.200[INFO] 1
+11:37:26.238[INFO] syncObj Lock not aquired!
+11:37:26.238[INFO] syncObj Lock not aquired!
+11:37:26.267[INFO] syncObj Lock not aquired!
+11:37:26.267[INFO] syncObj Lock not aquired!
+11:37:26.269[INFO] 1
+11:37:26.269[INFO] 1
+11:37:26.330[INFO] syncObj Lock not aquired!
+11:37:26.363[INFO] syncObj Lock not aquired!
+11:37:26.363[INFO] syncObj Lock not aquired!
+11:37:26.363[INFO] syncObj Lock not aquired!
+11:37:26.397[INFO] syncObj Lock not aquired!
+11:37:26.398[INFO] syncObj Lock not aquired!
+11:37:26.415[INFO] 1
+11:37:26.415[INFO] 1
+11:37:26.443[INFO] syncObj Lock not aquired!
+11:37:26.475[INFO] syncObj Lock not aquired!
+11:37:26.506[INFO] syncObj Lock not aquired!
+11:37:26.507[INFO] syncObj Lock not aquired!
+11:37:26.507[INFO] 1
+11:37:26.507[INFO] 1
+11:37:26.571[INFO] syncObj Lock not aquired!
+11:37:26.571[INFO] syncObj Lock not aquired!
+11:37:26.603[INFO] syncObj Lock not aquired!
+11:37:26.609[INFO] 1
+11:37:26.609[INFO] 1
+11:37:26.635[INFO] syncObj Lock not aquired!
+11:37:26.667[INFO] syncObj Lock not aquired!
+11:37:26.667[INFO] syncObj Lock not aquired!
+11:37:26.699[INFO] syncObj Lock not aquired!
+11:37:26.713[INFO] 1
+11:37:26.713[INFO] 1
+11:37:26.732[INFO] syncObj Lock not aquired!
+11:37:26.767[INFO] syncObj Lock not aquired!
+11:37:26.767[INFO] syncObj Lock not aquired!
+11:37:26.796[INFO] 1
+11:37:26.796[INFO] 1
+11:37:26.811[INFO] syncObj Lock not aquired!
+11:37:26.843[INFO] syncObj Lock not aquired!
+11:37:26.875[INFO] 1
+11:37:26.875[INFO] 1
+11:37:26.876[INFO] syncObj Lock not aquired!
+11:37:26.910[INFO] syncObj Lock not aquired!
+11:37:26.912[INFO] syncObj Lock not aquired!
+11:37:26.938[INFO] 1
+11:37:26.938[INFO] 1
+11:37:26.940[INFO] syncObj Lock not aquired!
+11:37:26.971[INFO] syncObj Lock not aquired!
+11:37:27.003[INFO] syncObj Lock not aquired!
+11:37:27.004[INFO] syncObj Lock not aquired!
+11:37:27.018[INFO] 1
+11:37:27.018[INFO] 1
+11:37:27.067[INFO] syncObj Lock not aquired!
+11:37:27.067[INFO] syncObj Lock not aquired!
+11:37:27.098[INFO] 1
+11:37:27.098[INFO] 1
+11:37:27.147[INFO] syncObj Lock not aquired!
+11:37:27.148[INFO] syncObj Lock not aquired!
+11:37:27.150[INFO] syncObj Lock not aquired!
+11:37:27.169[INFO] 1
+11:37:27.169[INFO] 1
+11:37:27.212[INFO] syncObj Lock not aquired!
+11:37:27.212[INFO] syncObj Lock not aquired!
+11:37:27.244[INFO] syncObj Lock not aquired!
+11:37:27.245[INFO] syncObj Lock not aquired!
+11:37:27.255[INFO] 1
+11:37:27.255[INFO] 1
+11:37:27.307[INFO] syncObj Lock not aquired!
+11:37:27.308[INFO] syncObj Lock not aquired!
+11:37:27.338[INFO] 1
+11:37:27.338[INFO] 1
+11:37:27.372[INFO] syncObj Lock not aquired!
+11:37:27.372[INFO] syncObj Lock not aquired!
+11:37:27.403[INFO] syncObj Lock not aquired!
+11:37:27.413[INFO] 1
+11:37:27.413[INFO] 1
+11:37:27.436[INFO] syncObj Lock not aquired!
+11:37:27.436[INFO] syncObj Lock not aquired!
+11:37:27.466[INFO] syncObj Lock not aquired!
+11:37:27.501[INFO] 1
+11:37:27.501[INFO] 1
+11:37:27.516[INFO] syncObj Lock not aquired!
+11:37:27.547[INFO] syncObj Lock not aquired!
+11:37:27.547[INFO] syncObj Lock not aquired!
+11:37:27.580[INFO] syncObj Lock not aquired!
+11:37:27.580[INFO] syncObj Lock not aquired!
+11:37:27.593[INFO] 1
+11:37:27.593[INFO] 1
+11:37:27.643[INFO] syncObj Lock not aquired!
+11:37:27.645[INFO] syncObj Lock not aquired!
+11:37:27.675[INFO] syncObj Lock not aquired!
+11:37:27.676[INFO] 1
+11:37:27.676[INFO] 1
+11:37:27.708[INFO] syncObj Lock not aquired!
+11:37:27.742[INFO] syncObj Lock not aquired!
+11:37:27.744[INFO] syncObj Lock not aquired!
+11:37:27.771[INFO] syncObj Lock not aquired!
+11:37:27.803[INFO] syncObj Lock not aquired!
+11:37:27.803[INFO] syncObj Lock not aquired!
+11:37:27.804[INFO] 1
+11:37:27.804[INFO] 1
+11:37:27.883[INFO] syncObj Lock not aquired!
+11:37:27.884[INFO] syncObj Lock not aquired!
+11:37:27.885[INFO] syncObj Lock not aquired!
+11:37:27.905[INFO] 1
+11:37:27.905[INFO] 1
+11:37:27.948[INFO] syncObj Lock not aquired!
+11:37:27.949[INFO] syncObj Lock not aquired!
+11:37:27.979[INFO] syncObj Lock not aquired!
+11:37:27.984[INFO] 1
+11:37:27.984[INFO] 1
+11:37:28.011[INFO] syncObj Lock not aquired!
+11:37:28.042[INFO] syncObj Lock not aquired!
+11:37:28.043[INFO] syncObj Lock not aquired!
+11:37:28.078[INFO] syncObj Lock not aquired!
+11:37:28.078[INFO] syncObj Lock not aquired!
+11:37:28.093[INFO] 1
+11:37:28.093[INFO] 1
+11:37:28.139[INFO] syncObj Lock not aquired!
+11:37:28.139[INFO] syncObj Lock not aquired!
+11:37:28.170[INFO] syncObj Lock not aquired!
+11:37:28.171[INFO] 1
+11:37:28.171[INFO] 1
+11:37:28.219[INFO] syncObj Lock not aquired!
+11:37:28.220[INFO] syncObj Lock not aquired!
+11:37:28.254[INFO] syncObj Lock not aquired!
+11:37:28.278[INFO] 1
+11:37:28.278[INFO] 1
+11:37:28.315[INFO] syncObj Lock not aquired!
+11:37:28.315[INFO] syncObj Lock not aquired!
+11:37:28.347[INFO] syncObj Lock not aquired!
+11:37:28.347[INFO] syncObj Lock not aquired!
+11:37:28.348[INFO] 1
+11:37:28.348[INFO] 1
+11:37:28.410[INFO] syncObj Lock not aquired!
+11:37:28.443[INFO] syncObj Lock not aquired!
+11:37:28.443[INFO] syncObj Lock not aquired!
+11:37:28.445[INFO] syncObj Lock not aquired!
+11:37:28.475[INFO] syncObj Lock not aquired!
+11:37:28.498[INFO] 1
+11:37:28.498[INFO] 1
+11:37:28.508[INFO] syncObj Lock not aquired!
+11:37:28.541[INFO] syncObj Lock not aquired!
+11:37:28.579[INFO] 1
+11:37:28.579[INFO] 1
+11:37:28.588[INFO] syncObj Lock not aquired!
+11:37:28.588[INFO] syncObj Lock not aquired!
+11:37:28.624[INFO] syncObj Lock not aquired!
+11:37:28.624[INFO] syncObj Lock not aquired!
+11:37:28.651[INFO] syncObj Lock not aquired!
+11:37:28.651[INFO] 1
+11:37:28.651[INFO] 1
+11:37:28.683[INFO] syncObj Lock not aquired!
+11:37:28.715[INFO] syncObj Lock not aquired!
+11:37:28.741[INFO] 1
+11:37:28.741[INFO] 1
+11:37:28.748[INFO] syncObj Lock not aquired!
+11:37:28.779[INFO] syncObj Lock not aquired!
+11:37:28.779[INFO] syncObj Lock not aquired!
+11:37:28.811[INFO] syncObj Lock not aquired!
+11:37:28.811[INFO] 1
+11:37:28.811[INFO] 1
+11:37:28.874[INFO] syncObj Lock not aquired!
+11:37:28.875[INFO] syncObj Lock not aquired!
+11:37:28.938[INFO] syncObj Lock not aquired!
+11:37:28.939[INFO] syncObj Lock not aquired!
+11:37:28.945[INFO] 1
+11:37:28.945[INFO] 1
+11:37:28.955[INFO] syncObj Lock not aquired!
+11:37:28.955[INFO] syncObj Lock not aquired!
+11:37:28.986[INFO] syncObj Lock not aquired!
+11:37:29.018[INFO] syncObj Lock not aquired!
+11:37:29.020[INFO] 1
+11:37:29.020[INFO] 1
+11:37:29.052[INFO] syncObj Lock not aquired!
+11:37:29.082[INFO] syncObj Lock not aquired!
+11:37:29.084[INFO] syncObj Lock not aquired!
+11:37:29.114[INFO] 1
+11:37:29.114[INFO] 1
+11:37:29.151[INFO] syncObj Lock not aquired!
+11:37:29.152[INFO] syncObj Lock not aquired!
+11:37:29.178[INFO] syncObj Lock not aquired!
+11:37:29.179[INFO] 1
+11:37:29.179[INFO] 1
+11:37:29.212[INFO] syncObj Lock not aquired!
+11:37:29.242[INFO] syncObj Lock not aquired!
+11:37:29.243[INFO] syncObj Lock not aquired!
+11:37:29.290[INFO] 1
+11:37:29.290[INFO] 1
+11:37:29.291[INFO] syncObj Lock not aquired!
+11:37:29.327[INFO] syncObj Lock not aquired!
+11:37:29.328[INFO] syncObj Lock not aquired!
+11:37:29.355[INFO] syncObj Lock not aquired!
+11:37:29.356[INFO] syncObj Lock not aquired!
+11:37:29.362[INFO] 1
+11:37:29.362[INFO] 1
+11:37:29.418[INFO] syncObj Lock not aquired!
+11:37:29.450[INFO] syncObj Lock not aquired!
+11:37:29.451[INFO] syncObj Lock not aquired!
+11:37:29.453[INFO] 1
+11:37:29.453[INFO] 1
+11:37:29.483[INFO] syncObj Lock not aquired!
+11:37:29.514[INFO] syncObj Lock not aquired!
+11:37:29.547[INFO] syncObj Lock not aquired!
+11:37:29.548[INFO] syncObj Lock not aquired!
+11:37:29.565[INFO] 1
+11:37:29.565[INFO] 1
+11:37:29.579[INFO] syncObj Lock not aquired!
+11:37:29.611[INFO] syncObj Lock not aquired!
+11:37:29.652[INFO] 1
+11:37:29.652[INFO] 1
+11:37:29.660[INFO] syncObj Lock not aquired!
+11:37:29.690[INFO] syncObj Lock not aquired!
+11:37:29.691[INFO] syncObj Lock not aquired!
+11:37:29.722[INFO] 1
+11:37:29.722[INFO] 1
+11:37:29.724[INFO] syncObj Lock not aquired!
+11:37:29.755[INFO] syncObj Lock not aquired!
+11:37:29.787[INFO] syncObj Lock not aquired!
+11:37:29.797[INFO] 1
+11:37:29.797[INFO] 1
+11:37:29.820[INFO] syncObj Lock not aquired!
+11:37:29.850[INFO] syncObj Lock not aquired!
+11:37:29.850[INFO] syncObj Lock not aquired!
+11:37:29.883[INFO] syncObj Lock not aquired!
+11:37:29.885[INFO] 1
+11:37:29.885[INFO] 1
+11:37:29.915[INFO] syncObj Lock not aquired!
+11:37:29.949[INFO] syncObj Lock not aquired!
+11:37:29.950[INFO] syncObj Lock not aquired!
+11:37:29.974[INFO] 1
+11:37:29.974[INFO] 1
+11:37:30.027[INFO] syncObj Lock not aquired!
+11:37:30.027[INFO] syncObj Lock not aquired!
+11:37:30.027[INFO] syncObj Lock not aquired!
+11:37:30.047[INFO] 1
+11:37:30.047[INFO] 1
+11:37:30.091[INFO] syncObj Lock not aquired!
+11:37:30.091[INFO] syncObj Lock not aquired!
+11:37:30.123[INFO] syncObj Lock not aquired!
+11:37:30.125[INFO] 1
+11:37:30.125[INFO] 1
+11:37:30.177[INFO] syncObj Lock not aquired!
+11:37:30.178[INFO] syncObj Lock not aquired!
+11:37:30.186[INFO] syncObj Lock not aquired!
+11:37:30.218[INFO] syncObj Lock not aquired!
+11:37:30.250[INFO] syncObj Lock not aquired!
+11:37:30.250[INFO] syncObj Lock not aquired!
+11:37:30.275[INFO] 1
+11:37:30.275[INFO] 1
+11:37:30.315[INFO] syncObj Lock not aquired!
+11:37:30.315[INFO] syncObj Lock not aquired!
+11:37:30.355[INFO] 1
+11:37:30.355[INFO] 1
+11:37:30.364[INFO] syncObj Lock not aquired!
+11:37:30.364[INFO] syncObj Lock not aquired!
+11:37:30.395[INFO] syncObj Lock not aquired!
+11:37:30.428[INFO] syncObj Lock not aquired!
+11:37:30.429[INFO] syncObj Lock not aquired!
+11:37:30.434[INFO] 1
+11:37:30.434[INFO] 1
+11:37:30.491[INFO] syncObj Lock not aquired!
+11:37:30.491[INFO] syncObj Lock not aquired!
+11:37:30.515[INFO] 1
+11:37:30.515[INFO] 1
+11:37:30.558[INFO] syncObj Lock not aquired!
+11:37:30.558[INFO] syncObj Lock not aquired!
+11:37:30.587[INFO] syncObj Lock not aquired!
+11:37:30.587[INFO] syncObj Lock not aquired!
+11:37:30.589[INFO] 1
+11:37:30.589[INFO] 1
+11:37:30.650[INFO] syncObj Lock not aquired!
+11:37:30.650[INFO] syncObj Lock not aquired!
+11:37:30.682[INFO] syncObj Lock not aquired!
+11:37:30.683[INFO] syncObj Lock not aquired!
+11:37:30.701[INFO] 1
+11:37:30.701[INFO] 1
+11:37:30.732[INFO] syncObj Lock not aquired!
+11:37:30.762[INFO] syncObj Lock not aquired!
+11:37:30.763[INFO] syncObj Lock not aquired!
+11:37:30.791[INFO] 1
+11:37:30.791[INFO] 1
+11:37:30.795[INFO] syncObj Lock not aquired!
+11:37:30.826[INFO] syncObj Lock not aquired!
+11:37:30.865[INFO] syncObj Lock not aquired!
+11:37:30.865[INFO] 1
+11:37:30.865[INFO] 1
+11:37:30.894[INFO] syncObj Lock not aquired!
+11:37:30.925[INFO] syncObj Lock not aquired!
+11:37:30.941[INFO] 1
+11:37:30.941[INFO] 1
+11:37:30.954[INFO] syncObj Lock not aquired!
+11:37:30.986[INFO] syncObj Lock not aquired!
+11:37:30.987[INFO] syncObj Lock not aquired!
+11:37:31.018[INFO] syncObj Lock not aquired!
+11:37:31.019[INFO] syncObj Lock not aquired!
+11:37:31.020[INFO] 1
+11:37:31.020[INFO] 1
+11:37:31.099[INFO] syncObj Lock not aquired!
+11:37:31.099[INFO] syncObj Lock not aquired!
+11:37:31.131[INFO] syncObj Lock not aquired!
+11:37:31.131[INFO] syncObj Lock not aquired!
+11:37:31.153[INFO] 1
+11:37:31.153[INFO] 1
+11:37:31.163[INFO] syncObj Lock not aquired!
+11:37:31.194[INFO] syncObj Lock not aquired!
+11:37:31.227[INFO] syncObj Lock not aquired!
+11:37:31.227[INFO] syncObj Lock not aquired!
+11:37:31.229[INFO] 1
+11:37:31.229[INFO] 1
+11:37:31.291[INFO] syncObj Lock not aquired!
+11:37:31.291[INFO] syncObj Lock not aquired!
+11:37:31.322[INFO] syncObj Lock not aquired!
+11:37:31.323[INFO] syncObj Lock not aquired!
+11:37:31.330[INFO] 1
+11:37:31.330[INFO] 1
+11:37:31.355[INFO] syncObj Lock not aquired!
+11:37:31.389[INFO] syncObj Lock not aquired!
+11:37:31.417[INFO] 1
+11:37:31.417[INFO] 1
+11:37:31.436[INFO] syncObj Lock not aquired!
+11:37:31.436[INFO] syncObj Lock not aquired!
+11:37:31.467[INFO] syncObj Lock not aquired!
+11:37:31.498[INFO] syncObj Lock not aquired!
+11:37:31.499[INFO] syncObj Lock not aquired!
+11:37:31.505[INFO] 1
+11:37:31.505[INFO] 1
+11:37:31.562[INFO] syncObj Lock not aquired!
+11:37:31.595[INFO] 1
+11:37:31.595[INFO] 1
+11:37:31.595[INFO] syncObj Lock not aquired!
+11:37:31.627[INFO] syncObj Lock not aquired!
+11:37:31.627[INFO] syncObj Lock not aquired!
+11:37:31.659[INFO] syncObj Lock not aquired!
+11:37:31.666[INFO] 1
+11:37:31.666[INFO] 1
+11:37:31.692[INFO] syncObj Lock not aquired!
+11:37:31.723[INFO] syncObj Lock not aquired!
+11:37:31.723[INFO] syncObj Lock not aquired!
+11:37:31.755[INFO] syncObj Lock not aquired!
+11:37:31.778[INFO] 1
+11:37:31.778[INFO] 1
+11:37:31.804[INFO] syncObj Lock not aquired!
+11:37:31.804[INFO] syncObj Lock not aquired!
+11:37:31.838[INFO] syncObj Lock not aquired!
+11:37:31.865[INFO] 1
+11:37:31.865[INFO] 1
+11:37:31.868[INFO] syncObj Lock not aquired!
+11:37:31.902[INFO] syncObj Lock not aquired!
+11:37:31.931[INFO] syncObj Lock not aquired!
+11:37:31.931[INFO] syncObj Lock not aquired!
+11:37:31.938[INFO] 1
+11:37:31.938[INFO] 1
+11:37:31.964[INFO] syncObj Lock not aquired!
+11:37:32.003[INFO] syncObj Lock not aquired!
+11:37:32.022[INFO] 1
+11:37:32.022[INFO] 1
+11:37:32.027[INFO] syncObj Lock not aquired!
+11:37:32.058[INFO] syncObj Lock not aquired!
+11:37:32.090[INFO] syncObj Lock not aquired!
+11:37:32.091[INFO] syncObj Lock not aquired!
+11:37:32.092[INFO] 1
+11:37:32.092[INFO] 1
+11:37:32.170[INFO] syncObj Lock not aquired!
+11:37:32.171[INFO] syncObj Lock not aquired!
+11:37:32.173[INFO] syncObj Lock not aquired!
+11:37:32.202[INFO] syncObj Lock not aquired!
+11:37:32.218[INFO] 1
+11:37:32.218[INFO] 1
+11:37:32.236[INFO] syncObj Lock not aquired!
+11:37:32.266[INFO] syncObj Lock not aquired!
+11:37:32.267[INFO] syncObj Lock not aquired!
+11:37:32.299[INFO] syncObj Lock not aquired!
+11:37:32.299[INFO] syncObj Lock not aquired!
+11:37:32.299[INFO] 1
+11:37:32.299[INFO] 1
+11:37:32.364[INFO] syncObj Lock not aquired!
+11:37:32.365[INFO] syncObj Lock not aquired!
+11:37:32.393[INFO] 1
+11:37:32.393[INFO] 1
+11:37:32.430[INFO] syncObj Lock not aquired!
+11:37:32.431[INFO] syncObj Lock not aquired!
+11:37:32.459[INFO] syncObj Lock not aquired!
+11:37:32.459[INFO] syncObj Lock not aquired!
+11:37:32.468[INFO] 1
+11:37:32.468[INFO] 1
+11:37:32.507[INFO] syncObj Lock not aquired!
+11:37:32.539[INFO] syncObj Lock not aquired!
+11:37:32.570[INFO] syncObj Lock not aquired!
+11:37:32.571[INFO] syncObj Lock not aquired!
+11:37:32.582[INFO] 1
+11:37:32.582[INFO] 1
+11:37:32.635[INFO] syncObj Lock not aquired!
+11:37:32.635[INFO] syncObj Lock not aquired!
+11:37:32.636[INFO] syncObj Lock not aquired!
+11:37:32.664[INFO] 1
+11:37:32.664[INFO] 1
+11:37:32.699[INFO] syncObj Lock not aquired!
+11:37:32.732[INFO] syncObj Lock not aquired!
+11:37:32.732[INFO] syncObj Lock not aquired!
+11:37:32.738[INFO] 1
+11:37:32.738[INFO] 1
+11:37:32.763[INFO] syncObj Lock not aquired!
+11:37:32.794[INFO] syncObj Lock not aquired!
+11:37:32.827[INFO] syncObj Lock not aquired!
+11:37:32.829[INFO] syncObj Lock not aquired!
+11:37:32.864[INFO] 1
+11:37:32.864[INFO] 1
+11:37:32.876[INFO] syncObj Lock not aquired!
+11:37:32.908[INFO] syncObj Lock not aquired!
+11:37:32.908[INFO] syncObj Lock not aquired!
+11:37:32.939[INFO] syncObj Lock not aquired!
+11:37:32.940[INFO] syncObj Lock not aquired!
+11:37:32.942[INFO] 1
+11:37:32.942[INFO] 1
+11:37:33.003[INFO] syncObj Lock not aquired!
+11:37:33.005[INFO] syncObj Lock not aquired!
+11:37:33.035[INFO] syncObj Lock not aquired!
+11:37:33.041[INFO] 1
+11:37:33.041[INFO] 1
+11:37:33.068[INFO] syncObj Lock not aquired!
+11:37:33.098[INFO] syncObj Lock not aquired!
+11:37:33.130[INFO] syncObj Lock not aquired!
+11:37:33.131[INFO] syncObj Lock not aquired!
+11:37:33.133[INFO] 1
+11:37:33.133[INFO] 1
+11:37:33.194[INFO] syncObj Lock not aquired!
+11:37:33.194[INFO] syncObj Lock not aquired!
+11:37:33.242[INFO] syncObj Lock not aquired!
+11:37:33.243[INFO] syncObj Lock not aquired!
+11:37:33.259[INFO] 1
+11:37:33.259[INFO] 1
+11:37:33.275[INFO] syncObj Lock not aquired!
+11:37:33.307[INFO] syncObj Lock not aquired!
+11:37:33.307[INFO] syncObj Lock not aquired!
+11:37:33.339[INFO] syncObj Lock not aquired!
+11:37:33.339[INFO] syncObj Lock not aquired!
+11:37:33.341[INFO] 1
+11:37:33.341[INFO] 1
+11:37:33.402[INFO] syncObj Lock not aquired!
+11:37:33.429[INFO] 1
+11:37:33.429[INFO] 1
+11:37:33.435[INFO] syncObj Lock not aquired!
+11:37:33.436[INFO] syncObj Lock not aquired!
+11:37:33.466[INFO] syncObj Lock not aquired!
+11:37:33.499[INFO] syncObj Lock not aquired!
+11:37:33.499[INFO] syncObj Lock not aquired!
+11:37:33.505[INFO] 1
+11:37:33.505[INFO] 1
+11:37:33.579[INFO] syncObj Lock not aquired!
+11:37:33.579[INFO] syncObj Lock not aquired!
+11:37:33.581[INFO] syncObj Lock not aquired!
+11:37:33.599[INFO] 1
+11:37:33.599[INFO] 1
+11:37:33.643[INFO] syncObj Lock not aquired!
+11:37:33.644[INFO] syncObj Lock not aquired!
+11:37:33.675[INFO] syncObj Lock not aquired!
+11:37:33.682[INFO] 1
+11:37:33.682[INFO] 1
+11:37:33.739[INFO] syncObj Lock not aquired!
+11:37:33.739[INFO] syncObj Lock not aquired!
+11:37:33.763[INFO] 1
+11:37:33.763[INFO] 1
+11:37:33.772[INFO] syncObj Lock not aquired!
+11:37:33.806[INFO] syncObj Lock not aquired!
+11:37:33.806[INFO] syncObj Lock not aquired!
+11:37:33.835[INFO] syncObj Lock not aquired!
+11:37:33.836[INFO] 1
+11:37:33.836[INFO] 1
+11:37:33.868[INFO] syncObj Lock not aquired!
+11:37:33.899[INFO] syncObj Lock not aquired!
+11:37:33.931[INFO] 1
+11:37:33.931[INFO] 1
+11:37:33.947[INFO] syncObj Lock not aquired!
+11:37:33.947[INFO] syncObj Lock not aquired!
+11:37:33.979[INFO] syncObj Lock not aquired!
+11:37:34.010[INFO] syncObj Lock not aquired!
+11:37:34.011[INFO] syncObj Lock not aquired!
+11:37:34.012[INFO] 0
+11:37:34.012[INFO] 0
+11:37:34.043[INFO] syncObj Lock not aquired!
+11:37:34.074[INFO] syncObj Lock not aquired!
+11:37:34.108[INFO] syncObj Lock not aquired!
+11:37:34.108[INFO] syncObj Lock not aquired!
+11:37:34.138[INFO] syncObj Lock not aquired!
+11:37:34.139[INFO] syncObj Lock not aquired!
+11:37:34.141[INFO] 1
+11:37:34.141[INFO] 1
+11:37:34.206[INFO] syncObj Lock not aquired!
+11:37:34.228[INFO] 1
+11:37:34.228[INFO] 1
+11:37:34.235[INFO] syncObj Lock not aquired!
+11:37:34.282[INFO] syncObj Lock not aquired!
+11:37:34.284[INFO] syncObj Lock not aquired!
+11:37:34.285[INFO] syncObj Lock not aquired!
+11:37:34.312[INFO] 1
+11:37:34.312[INFO] 1
+11:37:34.347[INFO] syncObj Lock not aquired!
+11:37:34.347[INFO] syncObj Lock not aquired!
+11:37:34.379[INFO] syncObj Lock not aquired!
+11:37:34.379[INFO] syncObj Lock not aquired!
+11:37:34.386[INFO] 1
+11:37:34.386[INFO] 1
+11:37:34.442[INFO] syncObj Lock not aquired!
+11:37:34.442[INFO] syncObj Lock not aquired!
+11:37:34.475[INFO] syncObj Lock not aquired!
+11:37:34.505[INFO] 1
+11:37:34.505[INFO] 1
+11:37:34.507[INFO] syncObj Lock not aquired!
+11:37:34.539[INFO] syncObj Lock not aquired!
+11:37:34.571[INFO] syncObj Lock not aquired!
+11:37:34.572[INFO] syncObj Lock not aquired!
+11:37:34.586[INFO] 1
+11:37:34.587[INFO] 1
+11:37:34.653[INFO] syncObj Lock not aquired!
+11:37:34.653[INFO] syncObj Lock not aquired!
+11:37:34.653[INFO] syncObj Lock not aquired!
+11:37:34.667[INFO] 1
+11:37:34.667[INFO] 1
+11:37:34.716[INFO] syncObj Lock not aquired!
+11:37:34.716[INFO] syncObj Lock not aquired!
+11:37:34.717[INFO] syncObj Lock not aquired!
+11:37:34.746[INFO] syncObj Lock not aquired!
+11:37:34.747[INFO] 1
+11:37:34.747[INFO] 1
+11:37:34.810[INFO] syncObj Lock not aquired!
+11:37:34.811[INFO] syncObj Lock not aquired!
+11:37:34.843[INFO] syncObj Lock not aquired!
+11:37:34.845[INFO] 1
+11:37:34.845[INFO] 1
+11:37:34.876[INFO] syncObj Lock not aquired!
+11:37:34.910[INFO] syncObj Lock not aquired!
+11:37:34.911[INFO] syncObj Lock not aquired!
+11:37:34.936[INFO] 1
+11:37:34.936[INFO] 1
+11:37:34.939[INFO] syncObj Lock not aquired!
+11:37:34.970[INFO] syncObj Lock not aquired!
+11:37:35.008[INFO] 1
+11:37:35.008[INFO] 1
+11:37:35.020[INFO] syncObj Lock not aquired!
+11:37:35.051[INFO] syncObj Lock not aquired!
+11:37:35.051[INFO] syncObj Lock not aquired!
+11:37:35.082[INFO] syncObj Lock not aquired!
+11:37:35.083[INFO] syncObj Lock not aquired!
+11:37:35.088[INFO] 1
+11:37:35.088[INFO] 1
+11:37:35.147[INFO] syncObj Lock not aquired!
+11:37:35.147[INFO] syncObj Lock not aquired!
+11:37:35.178[INFO] syncObj Lock not aquired!
+11:37:35.190[INFO] 1
+11:37:35.190[INFO] 1
+11:37:35.212[INFO] syncObj Lock not aquired!
+11:37:35.242[INFO] syncObj Lock not aquired!
+11:37:35.273[INFO] 1
+11:37:35.273[INFO] 1
+11:37:35.276[INFO] syncObj Lock not aquired!
+11:37:35.307[INFO] syncObj Lock not aquired!
+11:37:35.309[INFO] syncObj Lock not aquired!
+11:37:35.358[INFO] syncObj Lock not aquired!
+11:37:35.360[INFO] syncObj Lock not aquired!
+11:37:35.367[INFO] syncObj Lock not aquired!
+11:37:35.372[INFO] 1
+11:37:35.372[INFO] 1
+11:37:35.423[INFO] syncObj Lock not aquired!
+07:58:31.396[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+08:56:47.774[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+08:57:41.533[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+08:58:27.397[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+08:59:31.234[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+09:01:44.892[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+09:02:37.596[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+09:05:00.583[ERROR][System.Private.CoreLib in Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)] Could not find file 'D:\Programmieren\WPF\MFR\maceXD33\MFR-GUI\MFR-GUI\Data\TrainedLabels.txt'.
+09:05:06.098[INFO] 2
+09:05:06.098[INFO] 2
+09:05:06.324[INFO] 3
+09:05:06.324[INFO] 3
+09:05:06.431[INFO] 3
+09:05:06.431[INFO] 3
+09:05:06.540[INFO] 3
+09:05:06.540[INFO] 3
+09:05:06.671[INFO] 3
+09:05:06.671[INFO] 3
+09:05:06.796[INFO] 3
+09:05:06.796[INFO] 3
+09:05:06.916[INFO] 3
+09:05:06.916[INFO] 3
+09:05:07.027[INFO] 3
+09:05:07.027[INFO] 3
+09:05:07.146[INFO] 3
+09:05:07.146[INFO] 3
+09:05:07.265[INFO] 3
+09:05:07.265[INFO] 3
+09:05:07.382[INFO] 3
+09:05:07.382[INFO] 3
+09:05:07.508[INFO] 2
+09:05:07.508[INFO] 2
+09:05:07.620[INFO] 3
+09:05:07.620[INFO] 3
+09:05:07.730[INFO] 3
+09:05:07.730[INFO] 3
+09:05:07.846[INFO] 2
+09:05:07.846[INFO] 2
+09:05:07.875[INFO] syncObj Lock not aquired!
+09:05:07.907[INFO] syncObj Lock not aquired!
+09:05:07.939[INFO] syncObj Lock not aquired!
+09:05:07.971[INFO] syncObj Lock not aquired!
+09:05:07.985[INFO] 3
+09:05:07.985[INFO] 3
+09:05:08.003[INFO] syncObj Lock not aquired!
+09:05:08.035[INFO] syncObj Lock not aquired!
+09:05:08.067[INFO] syncObj Lock not aquired!
+09:05:08.099[INFO] syncObj Lock not aquired!
+09:05:08.119[INFO] 3
+09:05:08.119[INFO] 3
+09:05:08.131[INFO] syncObj Lock not aquired!
+09:05:08.179[INFO] syncObj Lock not aquired!
+09:05:08.211[INFO] syncObj Lock not aquired!
+09:05:08.243[INFO] syncObj Lock not aquired!
+09:05:08.253[INFO] 3
+09:05:08.253[INFO] 3
+09:05:08.275[INFO] syncObj Lock not aquired!
+09:05:08.307[INFO] syncObj Lock not aquired!
+09:05:08.339[INFO] syncObj Lock not aquired!
+09:05:08.371[INFO] syncObj Lock not aquired!
+09:05:08.396[INFO] 3
+09:05:08.396[INFO] 3
+09:05:08.404[INFO] syncObj Lock not aquired!
+09:05:08.436[INFO] syncObj Lock not aquired!
+09:05:08.468[INFO] syncObj Lock not aquired!
+09:05:08.515[INFO] syncObj Lock not aquired!
+09:05:08.541[INFO] 2
+09:05:08.541[INFO] 2
+09:05:08.549[INFO] syncObj Lock not aquired!
+09:05:08.579[INFO] syncObj Lock not aquired!
+09:05:08.694[INFO] 3
+09:05:08.694[INFO] 3
