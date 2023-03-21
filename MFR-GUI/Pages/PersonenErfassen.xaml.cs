@@ -19,6 +19,7 @@ using Timer = System.Timers.Timer;
 using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
 using static Emgu.CV.Face.FaceRecognizer;
+using System.Timers;
 
 namespace MFR_GUI.Pages
 {
@@ -52,7 +53,7 @@ namespace MFR_GUI.Pages
             _savedNamesCount = tuple.Item2;
 
             // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
-            GenerateImageBox();
+            GenerateImageBox(FrameGrabber);
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace MFR_GUI.Pages
         /// <summary>
         /// Grabs frames from the camera and looks for faces on the frame.
         /// When it finds faces, a red rectangle gets drawn over the frame.
-        /// Afterwards the faces run through the AI and if they belong to a name
+        /// Afterwards the faces run through the FaceRecognizer and if they belong to a name
         /// the name gets drawn above the red rectangle, else the word "Unbekannt" gets draw above.
         /// The frame gets set as the Image property of _imgBoxKamera and depending on weither a
         /// face was recognized or not the Content and Background of Label1 get set and the Content
@@ -103,7 +104,7 @@ namespace MFR_GUI.Pages
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
             Image<Bgr, Byte> currentFrame;
-            Image<Bgr, byte> result;
+            Image<Bgr, byte> currentFrameCopy;
             string status = "nicht erkannt";
             string recognizedNames = "";
 
@@ -124,8 +125,8 @@ namespace MFR_GUI.Pages
                 // Define a List of rectangles where the detected faces will be safed
                 List<Rectangle> recs = new List<Rectangle>();
 
-                // Copy the currentFrame to result to have the frame without anything drawn on it
-                result = currentFrame.Copy();
+                // Copy the currentFrame to currentFrameCopy to have the frame without anything drawn on it
+                currentFrameCopy = currentFrame.Copy();
 
                 // Run through the fullFaceRegions list, which contains faces
                 foreach (DetectedObject d in fullFaceRegions)
@@ -146,118 +147,177 @@ namespace MFR_GUI.Pages
                     // Draw a red rectangle on the image around the detected face
                     currentFrame.Draw(r, new Bgr(Color.Red), 1);
 
-                    if (_savedNamesCount > 0)
+                    // Check, if there are any faces saved in the FaceRecognizer
+                    if (_savedNamesCount <= 0)
                     {
+                        // There are no faces to recognize, so "Unbekannt" can be drawn above all red rectangles
                         currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                     }
                 }
 
-                // Check, if 
-                if (fullFaceRegions.Count > 0)
-                {
-                    if (_savedNamesCount > 0)
-                    {
-                        VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
+                // Detect facial landmarks, run through the faces, crop and align them, try to recognize them and evaluate the result
+                PrepareFaces(fullFaceRegions, partialFaceRegions, currentFrame, currentFrameCopy, recs, ref status, ref recognizedNames);
 
-                        PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames);
-                    }
-                }
-
+                // Acquire a lock on the synchronizing object
                 lock (syncObj1)
                 {
+                    // Set the Image of the ImageBox, the Content of Label1 and the Content of Label2 (Threadsafe method)
                     SetGUIElements(currentFrame, status, recognizedNames);
                 }
-
-                _logger.LogInfo("Set Frame");
             }
         }
 
-        private void PrepareFaces(VectorOfVectorOfPointF vovop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> result, List<Rectangle> recs, ref string status, ref string recognizedNames)
+        /// <summary>
+        /// Detects all facial landmarks inside the rectangles of recs on the currentFrame.
+        /// Then runs through all of them and crops and aligns the faces. Afterwards they
+        /// are run through the FaceRecognizer and the currentFrameCopy gets evaluated.
+        /// </summary>
+        /// <param name="fullFaceRegions"></param>
+        /// <param name="partialFaceRegions"></param>
+        /// <param name="currentFrame"></param>
+        /// <param name="currentFrameCopy"></param>
+        /// <param name="recs"></param>
+        /// <param name="status"></param>
+        /// <param name="recognizedNames"></param>
+        private void PrepareFaces(List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> currentFrameCopy, List<Rectangle> recs, ref string status, ref string recognizedNames)
         {
-            for (int i = 0; i < vovop.Size; i++)
+            // Check, if the FaceDetecter detected any faces
+            if (fullFaceRegions.Count > 0)
             {
-                //Check if there are any trained faces
-                //if(_savedNamesCount != 0)
+                // Check, if there are any faces saved in the FaceRecognizer
+                if (_savedNamesCount > 0)
                 {
-                    //if (i <= fullFaceRegions.Count - 1)
+                    // Detect facial landmarks inside the rectangles the FaceDetector detected before
+                    VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrameCopy, recs.ToArray());
+
+                    // Run through all facial landmarks
+                    for (int i = 0; i < vovop.Size; i++)
                     {
-                        ProcessFace(vovop[i], fullFaceRegions, partialFaceRegions, currentFrame, result, recs, ref status, ref recognizedNames, i);
+                        //if (i <= fullFaceRegions.Count - 1)
+                        // Crop and align the face, then try to recognize it and evaluate the currentFrameCopy
+                        ProcessFace(vovop[i], fullFaceRegions, partialFaceRegions, currentFrame, currentFrameCopy, recs, ref status, ref recognizedNames, i);
                     }
                 }
-                /*
-                else
-                {
-                    //Draw the label "Unkown" as there are no faces in the database
-                    currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
-                }
-                */
             }
         }
 
-        private void ProcessFace(VectorOfPointF vop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> result, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
+        /// <summary>
+        /// Cut out part of the image containing the face and uses the facial landmarks inside vop to rotate the frame 
+        /// so that the eyes are aligned. Then crop the image so that only the face is on it and
+        /// use it for face recognition. Evaluate the currentFrameCopy afterwards.
+        /// </summary>
+        /// <param name="vop"></param>
+        /// <param name="fullFaceRegions"></param>
+        /// <param name="partialFaceRegions"></param>
+        /// <param name="currentFrame"></param>
+        /// <param name="currentFrameCopy"></param>
+        /// <param name="recs"></param>
+        /// <param name="status"></param>
+        /// <param name="recognizedNames"></param>
+        /// <param name="i"></param>
+        private void ProcessFace(VectorOfPointF vop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> currentFrameCopy, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
         {
-            result = ImageEditor.RotateAndAlignPicture(result, vop, fullFaceRegions[i], _logger);
+            // Cut out part of the image and rotate it so that the eyes are aligned
+            Image<Bgr, byte> alignedFace = ImageEditor.RotateAndAlignPicture(currentFrameCopy, vop, fullFaceRegions[i], _logger);
 
+            // Empty the two Lists to use them again
             fullFaceRegions = new List<DetectedObject>();
             partialFaceRegions = new List<DetectedObject>();
 
-            if (result != null)
+            // Check, if there was any error with aligning the face
+            if (alignedFace != null)
             {
-                //Enter critical region
+                // Acquire a lock on the synchronizing object
                 lock (syncObj1)
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector1.Detect(result, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                    faceDetector1.Detect(alignedFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                 }
 
+                // Check, if the FaceDetecter detected any faces
                 if (fullFaceRegions.Count > 0)
                 {
-                    result = ImageEditor.CropImage(fullFaceRegions, result);
+                    // Crop the aligned Face so that it only contains the face
+                    Image<Bgr, byte> alignedCroppedFace = ImageEditor.CropImage(fullFaceRegions, alignedFace);
                     
-                    RecognizeFace(currentFrame, result, recs, i, ref status, ref recognizedNames);
+                    // Try to recognize the face and evaluate the currentFrameCopy
+                    RecognizeFace(currentFrame, alignedCroppedFace, recs, i, ref status, ref recognizedNames);
                 }
             }
         }
 
-        private void RecognizeFace(Image<Bgr, Byte> currentFrame, Image<Bgr, byte> result, List<Rectangle> recs, int i, ref string status, ref string recognizedNames)
+        /// <summary>
+        /// Try to recognize the alignedCroppedFace and evaluate the result afterwards.
+        /// If there was an error with croping the aligned face "Unbekannt" gets drawn
+        /// above the red rectanlge of this face
+        /// </summary>
+        /// <param name="currentFrame"></param>
+        /// <param name="alignedCroppedFace"></param>
+        /// <param name="recs"></param>
+        /// <param name="i"></param>
+        /// <param name="status"></param>
+        /// <param name="recognizedNames"></param>
+        private void RecognizeFace(Image<Bgr, Byte> currentFrame, Image<Bgr, byte> alignedCroppedFace, List<Rectangle> recs, int i, ref string status, ref string recognizedNames)
         {
-            if (result != null)
+            // Check, if there was an error cropping the aligend face
+            if (alignedCroppedFace != null)
             {
-                result = result.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
+                // Resize the aligned and cropped face for the face recognition
+                alignedCroppedFace = alignedCroppedFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
 
+                // Declare a method variable
                 PredictionResult res;
 
+                // Acquire a lock on the synchronizing object
                 lock (syncObj1)
                 {
-                    //Get the result of the prediction from the recognizer
-                    res = recognizer.Predict(result.Convert<Gray, Byte>());
+                    //Get the currentFrameCopy of the prediction from the recognizer
+                    res = recognizer.Predict(alignedCroppedFace.Convert<Gray, Byte>());
                 }
 
+                // Evaluate the result from the face recognition and change the variables determing
+                // the output on the GUI depending on it.
                 EvaluateResult(currentFrame, recs, res, ref recognizedNames, ref status, i);
             }
             else
             {
+                // Draw "Unbekannt" above the red rectanlge as there was an error cropping the aligned face
                 currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                 _logger.LogInfo("Falsch!");
             }
         }
 
+        /// <summary>
+        /// Checks, if the result from the FaceRecognizer is approved. When it is, draws the label above
+        /// the red rectangle, adds the name to the recognized names and sets the status to "erkannt".
+        /// Else "Unbekannt is drawn above the red rectangle.
+        /// </summary>
+        /// <param name="currentFrame"></param>
+        /// <param name="recs"></param>
+        /// <param name="res"></param>
+        /// <param name="recognizedNames"></param>
+        /// <param name="status"></param>
+        /// <param name="i"></param>
         private void EvaluateResult(Image<Bgr, Byte> currentFrame, List<Rectangle> recs, PredictionResult res, ref string recognizedNames, ref string status, int i)
         {
-            //res.Distance <= n determs how familiar the faces must look
+            // res.Distance <= n determs how familiar the detected face and the face from the recognizer
+            // must look to be considered the same
             if (res.Distance <= 65)
             {
                 //Draw the label for the detected face
                 currentFrame.Draw(_labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
 
-                //Add the label to the recognized faces
+                // Check, if there is alreade a name in the recognized faces
                 if (recognizedNames != "")
                 {
+                    // Add a seperation between the two names
                     recognizedNames += ", ";
                 }
 
+                // Add the label to the recognized faces
                 recognizedNames += _labels[res.Label];
 
+                // Change the status to "erkannt"
                 status = "erkannt";
             }
             else
@@ -267,35 +327,46 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void GenerateImageBox()
+        private void GenerateImageBox(ElapsedEventHandler elapsedEventHandler)
         {
-            //Create the interop host control.
+            // Definition of a WindowsFormsHost method variable
             WindowsFormsHost host = new WindowsFormsHost();
 
-            //Create the ImageBox control.
+            //Create the ImageBox
             _imgBoxKamera = new ImageBox();
 
+            // Set the Border for _imageBoxKamera to a simple black line
             _imgBoxKamera.BorderStyle = BorderStyle.FixedSingle;
+            // Set the Sizemode of _imageBoxKamera to Strectch Ímage so it uses the full space it gets provided with
             _imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
+            // Set the Enabled property of _imgBoxKamera to false so that the user can't zoom in and out on the ImageBox
             _imgBoxKamera.Enabled = false;
-
+            // Subscribe the HideScrollbars-method to the SizeChanged event of the Page,
+            // because when the user changes the size of the Window the ImageBox would display Scrollbars
             this.SizeChanged += HideScrollbars;
 
+            // Set the space in which the WindowsFormsHost with the ImageBox is located within the WPF-Application
             Grid.SetColumn(host, 3);
             Grid.SetRow(host, 1);
             Grid.SetColumnSpan(host, 2);
             Grid.SetRowSpan(host, 6);
 
+            // Set the Background of the WindowsFormsHost to white, because when host gets assigned children
+            // it will display the Background of the WPF-Apllication
             host.Background = Brushes.White;
 
-            // Assign the ImageBox control as the host control's child.
+            // Assign the ImageBox as the host control's child.
             host.Child = _imgBoxKamera;
-            //Add the interop host control to the Grid control's collection of child controls.
+            //Add the interop host control to the Grid collection of child controls.
             this.grid2.Children.Add(host);
 
+            // Create a new Timer and assign it to _timer
             _timer = new Timer();
-            _timer.Elapsed += FrameGrabber;
+            // Subscribe the ElapsedEventHandler to the Elasped Event of the Timer
+            _timer.Elapsed += elapsedEventHandler;
+            // Set the Interval of the Timer to 20ms
             _timer.Interval = 20;
+            // Start the Timer
             _timer.Start();
         }
 
@@ -323,9 +394,11 @@ namespace MFR_GUI.Pages
         /// <param name="recognizedNames">The string that will be written as the content for the Label Label2</param>
         private void SetGUIElements(Image<Bgr, byte> image, string status, string recognizedNames)
         {
+            // Check, if we are on the thread owning the control
             if (this.grid2.Dispatcher.CheckAccess())
             {
                 //We are on the thread that owns the control
+                //Set the Background of Label1 depending on, weither a face got recognized or not
                 if (status == "erkannt")
                 {
                     Label1.Background = Brushes.Green;
@@ -389,9 +462,7 @@ namespace MFR_GUI.Pages
 
                     if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
                     {
-                        VectorOfVectorOfPointF vovop = facemarkDetector.Detect(image, recs.ToArray());
-
-                        PrepareFaces(vovop, fullFaceRegions, partialFaceRegions, image, result, recs, ref status, ref recognizedNames);
+                        PrepareFaces(fullFaceRegions, partialFaceRegions, image, result, recs, ref status, ref recognizedNames);
                     }
 
                     image.Save(projectDirectory + "/TrainingFaces/TestDataset/OutputNeu/image_" + a + ".bmp");

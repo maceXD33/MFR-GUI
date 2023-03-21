@@ -30,6 +30,7 @@ namespace MFR_GUI.Pages
 
             List<string> cameraNames = new List<string>();
             
+            // 
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
             {
                 foreach (ManagementBaseObject device in searcher.Get())
@@ -55,13 +56,13 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private void btn_passwort_Click(object sender, RoutedEventArgs e)
+        private void Btn_passwort_Click(object sender, RoutedEventArgs e)
         {
             PasswortÄndern p = new PasswortÄndern();
             this.NavigationService.Navigate(p);
         }
 
-        private void btn_speichern_Click(object sender, RoutedEventArgs e)
+        private void Btn_speichern_Click(object sender, RoutedEventArgs e)
         {
             if (cameraIndex >= 0)
             {

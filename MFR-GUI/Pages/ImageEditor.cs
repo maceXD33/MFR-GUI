@@ -12,6 +12,14 @@ namespace MFR_GUI.Pages
 {
     internal class ImageEditor
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image">The original image where the faces where detected</param>
+        /// <param name="vop">The facial landmarks detected inside the detectedObject</param>
+        /// <param name="detectedObject">The DetectedObject containing the rectanle in which a face got detected</param>
+        /// <param name="logger"></param>
+        /// <returns>Returns the </returns>
         public static Image<Bgr, byte>? RotateAndAlignPicture(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject, Logger logger)
         {
             Rectangle rec = detectedObject.Region;
@@ -87,7 +95,7 @@ namespace MFR_GUI.Pages
                 return frame.Rotate(-angle, new Bgr(255, 255, 255)).Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
             }
 
-            //return null;
+            return null;
         }
 
         //Normales Kopfverhätnis: 2:3 (Breite : Länge)
@@ -101,6 +109,7 @@ namespace MFR_GUI.Pages
             return false;
         }
 
+        //Normales Kopfverhätnis: 2:3 (Breite : Länge)
         public static bool IsAngelOver30Degree(Rectangle r, Logger logger)
         {
             double ratio = (double) r.Width / r.Height;

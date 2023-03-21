@@ -29,25 +29,25 @@
         <Image x:Name="FaceRecognition" Grid.RowSpan="4" Grid.ColumnSpan="2" Grid.Column="1" Source="\Image\FaceRecognition.jpg"></Image>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
-            <Button x:Name="btn_erfassen"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_erfassen_Click">
+            <Button x:Name="btn_erfassen"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_erfassen_Click">
                 Person erfassen
             </Button>
         </Viewbox>
 
         <Viewbox Grid.Row="1" Stretch="Uniform">
-            <Button x:Name="btn_hinzufuegen"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_hinzufuegen_Click">
+            <Button x:Name="btn_hinzufuegen"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_hinzufuegen_Click">
                 Bild hinzufügen
             </Button>
         </Viewbox>
 
         <Viewbox Grid.Row="2" Stretch="Uniform">
-            <Button x:Name="btn_anzeigen"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_anzeigen_Click">
+            <Button x:Name="btn_anzeigen"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_anzeigen_Click">
                 Personen anzeigen
             </Button>
         </Viewbox>
 
         <Viewbox Grid.Row="3" Stretch="Uniform">
-            <Button x:Name="btn_beenden"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_beenden_Click">
+            <Button x:Name="btn_beenden"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_beenden_Click">
                 Beenden
             </Button>
         </Viewbox>

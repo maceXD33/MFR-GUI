@@ -72,7 +72,8 @@ namespace MFR_GUI.Pages
                 btn_speichern_Click(sender, e);
             }
         }
-            private void btn_speichern_Click(object sender, RoutedEventArgs e)
+
+        private void btn_speichern_Click(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Globals.projectDirectory + "/Image/passwort.txt"))
             {
@@ -115,7 +116,6 @@ namespace MFR_GUI.Pages
                         l_Fehler.Foreground = Brushes.Red;
                         l_Fehler.Content = "Passwort eingeben!";
                     }
-
                 }
             }
             else
@@ -124,7 +124,6 @@ namespace MFR_GUI.Pages
                 l_Fehler.Foreground = Brushes.Green;
                 l_Fehler.Content = "Passwort gespeichert!";
                 passwordChecked = true;
-
             }
         }
 

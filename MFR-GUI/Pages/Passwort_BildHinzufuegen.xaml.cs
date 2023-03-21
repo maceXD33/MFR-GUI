@@ -19,6 +19,7 @@ namespace MFR_GUI.Pages
             InitializeComponent();
             PasswordHidden.Focus();
         }
+
         private void ShowPassword_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPasswordFunction();
         private void ShowPassword_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePasswordFunction();
         private void ShowPassword_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) => HidePasswordFunction();

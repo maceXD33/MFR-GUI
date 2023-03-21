@@ -13,12 +13,14 @@ namespace MFR_GUI.Pages
     /// </summary>
     public partial class Menu : Page
     {
+        // Declaration of fields
         private Logger _logger;
 
         public Menu()
         {
             InitializeComponent();
 
+            // Create a new Logger-Object and assing it to the _logger-field
             _logger = new Logger();
 
             // Check if the data was already loaded
@@ -28,19 +30,22 @@ namespace MFR_GUI.Pages
                 // Check if the FaceRecognizer should be loaded from a file
                 if (loadRecognizerFromFile)
                 {
-                    TrainingFacesLoader.LoadFaceRecognizer();
+                    // Load the recognizer from a file
+                    LoadFaceRecognizer();
                 }
                 else
                 {
                     // Load the images and label numbers for training
                     Tuple<List<Mat>, List<int>> tuple = LoadTrainingFacesForMenu(_logger);
 
+                    // Assign the returned values to new method variables
                     List<Mat> trainingImagesMat = tuple.Item1;
                     List<int> labelNumbers = tuple.Item2;
 
-                    // Train the recognizer with the images and label numbers
+                    // Check, if there was an error loading the data
                     if (trainingImagesMat != null && labelNumbers != null)
                     {
+                        // Train the recognizer with the images and label numbers
                         recognizer.Train(trainingImagesMat.ToArray(), labelNumbers.ToArray());
                     }
                 }
@@ -55,7 +60,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_erfassen_Click(object sender, RoutedEventArgs e)
+        private void Btn_erfassen_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new PersonenErfassen());
         }
@@ -65,7 +70,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_hinzufuegen_Click(object sender, RoutedEventArgs e)
+        private void Btn_hinzufuegen_Click(object sender, RoutedEventArgs e)
         {
             // Check if the user has already entered the password once
             if (passwordChecked)
@@ -89,7 +94,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_anzeigen_Click(object sender, RoutedEventArgs e)
+        private void Btn_anzeigen_Click(object sender, RoutedEventArgs e)
         {
             // Check if the user has already entered the password once
             if (passwordChecked)
@@ -113,15 +118,16 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_beenden_Click(object sender, RoutedEventArgs e)
+        private void Btn_beenden_Click(object sender, RoutedEventArgs e)
         {
-            //Dispose of the objects if they are not null
             if (videoCapture != null)
-            { 
+            {
+                // videoCapture is not null, so it gets disposed
                 videoCapture.Dispose();
             }
             if (recognizer != null)
             {
+                // recognizer is not null, so it gets disposed
                 recognizer.Dispose();
             }
 

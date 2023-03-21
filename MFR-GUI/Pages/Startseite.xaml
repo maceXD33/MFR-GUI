@@ -48,13 +48,13 @@
         </Viewbox>
             
         <Viewbox Grid.Row="2" Stretch="Uniform">
-            <Button x:Name="btn_passwort"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_passwort_Click">
+            <Button x:Name="btn_passwort"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_passwort_Click">
                 Passwort ändern
             </Button>
         </Viewbox>
 
         <Viewbox Grid.Row="3" Stretch="Uniform">
-            <Button x:Name="btn_speichern"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="btn_speichern_Click">
+            <Button x:Name="btn_speichern"  Margin="30" Height="30" Width="120" Background="#FF87888A" FontFamily="Dubai" FontWeight="Bold" Foreground="White" Click="Btn_speichern_Click">
                 Änderung speichern
             </Button>
         </Viewbox>

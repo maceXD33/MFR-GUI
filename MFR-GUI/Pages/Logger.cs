@@ -68,10 +68,10 @@ namespace MFR_GUI.Pages
 
         private class Param
         {
-            public LogType LogType { get; }     //Type of log
-            public string Message { get; }      //Message
-            public string Trigger { get; }      //Name of the file or method which triggered the Error/Warning
-            public string Object { get; }       //Object that was processed when the Error/Warning occured
+            public LogType LogType { get; }     // Type of log
+            public string Message { get; }      // Message
+            public string Trigger { get; }      // Name of the file or method which triggered the Error/Warning
+            public string Object { get; }       // Object that was processed when the Error/Warning occured
             public DateTime Time { get; }
 
             public Param()

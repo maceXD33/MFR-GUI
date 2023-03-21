@@ -57,7 +57,7 @@ namespace MFR_GUI.Pages
             txt_Name.Focus();
 
             // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
-            generateImageBox(FrameGrabber);
+            GenerateImageBox(FrameGrabber);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace MFR_GUI.Pages
                 lock (syncObj2)
                 {
                     // Set the Image of the ImageBox (Threadsafe method)
-                    setImageOfImageBox(currentFrame);
+                    SetImageOfImageBox(currentFrame);
                 }
             }
             else
@@ -120,7 +120,7 @@ namespace MFR_GUI.Pages
             if (e.Key == Key.Return)
             {
                 // Call the method, which is normally called when the button for saving is pressed
-                btn_speichern_Click(sender, e);
+                Btn_speichern_Click(sender, e);
             }
         }
 
@@ -129,7 +129,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_speichern_Click(object sender, RoutedEventArgs e)
+        private void Btn_speichern_Click(object sender, RoutedEventArgs e)
         {
             //Create and start a Task so the UI-Thread isn't blocked
             Task t = Task.Factory.StartNew(() =>
@@ -140,7 +140,7 @@ namespace MFR_GUI.Pages
                 Image<Bgr, Byte> currentFrame;
                 List<Mat> training = new List<Mat>();
                 List<int> labelNr = new List<int>();
-                string name = get_txt_Name();
+                string name = Get_txt_Name();
 
                 try
                 {
@@ -235,27 +235,27 @@ namespace MFR_GUI.Pages
                                 tempTrainingFace.Save(trainingFacesDirectory + name + "/" + name + i + ".bmp");
 
                                 //Show a MessageBox for confirmation of successful training
-                                setTrainingStatus("Gesicht gespeichert", Brushes.Green);
+                                SetTrainingStatus("Gesicht gespeichert", Brushes.Green);
                             }
                             else
                             {
-                                setTrainingStatus("Falsch!", Brushes.Red);
+                                SetTrainingStatus("Falsch!", Brushes.Red);
                             }
                         }
                         else
                         {
-                            setTrainingStatus("Zu schräg!", Brushes.Red);
+                            SetTrainingStatus("Zu schräg!", Brushes.Red);
                         }
                     }
                     else
                     {
-                        setTrainingStatus("Kein Gesicht!", Brushes.Red);
+                        SetTrainingStatus("Kein Gesicht!", Brushes.Red);
                     }
                 }
                 catch (Exception ex)
                 {
                     // Show the user that the saving didn't work
-                    setTrainingStatus("Nicht gespeichert!", Brushes.Red);
+                    SetTrainingStatus("Nicht gespeichert!", Brushes.Red);
                     // Log an error message
                     _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs", "btnSpeichern");
                 }
@@ -269,7 +269,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btn_Zurueck1_Click(object sender, RoutedEventArgs e)
+        private void Btn_Zurueck1_Click(object sender, RoutedEventArgs e)
         {
             if (_timer != null)
             {
@@ -299,10 +299,10 @@ namespace MFR_GUI.Pages
 
         /// <summary>
         /// Generates a WindowsForms ImageBox and displays it inside a WPF-Application.
-        /// Initializes and starts a new Timer with elapsedEventHandler subscribed for the Elapsed Event.
+        /// Initializes and starts a new Timer with ElapsedEventHandler subscribed for the Elapsed Event.
         /// </summary>
-        /// <param name="elapsedEventHandler">The ElapsedEventHandler that gets subscribed to the Elapsed Event of the Timer</param>
-        private void generateImageBox(ElapsedEventHandler elapsedEventHandler)
+        /// <param name="ElapsedEventHandler">The ElapsedEventHandler that gets subscribed to the Elapsed Event of the Timer</param>
+        private void GenerateImageBox(ElapsedEventHandler elapsedEventHandler)
         {
             // Definition of a WindowsFormsHost method variable
             WindowsFormsHost host = new WindowsFormsHost();
@@ -316,9 +316,9 @@ namespace MFR_GUI.Pages
             _imgBoxKamera.SizeMode = PictureBoxSizeMode.StretchImage;
             // Set the Enabled property of _imgBoxKamera to false so that the user can't zoom in and out on the ImageBox
             _imgBoxKamera.Enabled = false;
-            // Subscribe the hideScrollbars-method to the SizeChanged event of the Page,
+            // Subscribe the HideScrollbars-method to the SizeChanged event of the Page,
             // because when the user changes the size of the Window the ImageBox would display Scrollbars
-            this.SizeChanged += hideScrollbars;
+            this.SizeChanged += HideScrollbars;
 
             // Set the space in which the WindowsFormsHost with the ImageBox is located within the WPF-Application
             Grid.SetColumn(host, 3);
@@ -337,7 +337,7 @@ namespace MFR_GUI.Pages
 
             // Create a new Timer and assign it to _timer
             _timer = new Timer();
-            // Subscribe the elapsedEventHandler to the Elasped Event of the Timer
+            // Subscribe the ElapsedEventHandler to the Elasped Event of the Timer
             _timer.Elapsed += elapsedEventHandler;
             // Set the Interval of the Timer to 20ms
             _timer.Interval = 20;
@@ -350,7 +350,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void hideScrollbars(object sender, RoutedEventArgs e)
+        private void HideScrollbars(object sender, RoutedEventArgs e)
         {
             _imgBoxKamera.HorizontalScrollBar.Hide();
             _imgBoxKamera.VerticalScrollBar.Hide();
@@ -360,7 +360,7 @@ namespace MFR_GUI.Pages
         /// Gets the Text Property of the TextView txt_Name.
         /// This method can be called in a thread outside of the GUI-Thread.
         /// </summary>
-        private string get_txt_Name()
+        private string Get_txt_Name()
         {
             if (this.txt_Name.Dispatcher.CheckAccess())
             {
@@ -370,7 +370,7 @@ namespace MFR_GUI.Pages
             else
             {
                 // We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
-                return (string)this.Dispatcher.Invoke(this.get_txt_Name);
+                return (string)this.Dispatcher.Invoke(this.Get_txt_Name);
             }
         }
 
@@ -380,7 +380,7 @@ namespace MFR_GUI.Pages
         /// </summary>
         /// <param name="status">The string that will be set as Content for the Label l_Fehler</param>
         /// <param name="color">The Brush that will be set as Foreground for the Label l_Fehler</param>
-        private void setTrainingStatus(string status, Brush color)
+        private void SetTrainingStatus(string status, Brush color)
         {
             if (this.l_Fehler.Dispatcher.CheckAccess())
             {
@@ -393,7 +393,7 @@ namespace MFR_GUI.Pages
             else
             {
                 // We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
-                this.Dispatcher.Invoke(setTrainingStatus, status, color);
+                this.Dispatcher.Invoke(SetTrainingStatus, status, color);
             }
         }
 
@@ -402,7 +402,7 @@ namespace MFR_GUI.Pages
         /// This method can be called in a thread outside of the GUI-Thread.
         /// </summary>
         /// <param name="image">The Image that will be as Image for _imgBoxKamera</param>
-        private void setImageOfImageBox(Image<Bgr, byte> image)
+        private void SetImageOfImageBox(Image<Bgr, byte> image)
         {
             if (this.grid2.Dispatcher.CheckAccess())
             {
@@ -412,7 +412,7 @@ namespace MFR_GUI.Pages
             else
             {
                 //We are on a different thread, that's why we need to call Invoke to execute the method on the thread owning the control
-                this.Dispatcher.Invoke(setImageOfImageBox, image);
+                this.Dispatcher.Invoke(SetImageOfImageBox, image);
             }
         }
     }
