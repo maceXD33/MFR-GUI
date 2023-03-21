@@ -52,8 +52,11 @@ namespace MFR_GUI.Pages
             _labels = tuple.Item1;
             _savedNamesCount = tuple.Item2;
 
-            // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
-            GenerateImageBox(FrameGrabber);
+            lock (syncObj1)
+            {
+                // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
+                GenerateImageBox(FrameGrabber);
+            }
         }
 
         /// <summary>

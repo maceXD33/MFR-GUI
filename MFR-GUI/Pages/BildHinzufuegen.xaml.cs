@@ -56,8 +56,11 @@ namespace MFR_GUI.Pages
             // without needing to click into it
             txt_Name.Focus();
 
-            // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
-            GenerateImageBox(FrameGrabber);
+            lock (syncObj1)
+            {
+                // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
+                GenerateImageBox(FrameGrabber);
+            }
         }
 
         /// <summary>
@@ -260,6 +263,8 @@ namespace MFR_GUI.Pages
                     _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs", "btnSpeichern");
                 }
             });
+
+            Monitor.Exit(syncObj1);
         }
 
 
