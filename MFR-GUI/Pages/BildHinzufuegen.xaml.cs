@@ -263,8 +263,6 @@ namespace MFR_GUI.Pages
                     _logger.LogError(ex.Message, "BildHinzufuegen.xaml.cs", "btnSpeichern");
                 }
             });
-
-            Monitor.Exit(syncObj1);
         }
 
 
