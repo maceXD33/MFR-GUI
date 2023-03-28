@@ -366,3 +366,5 @@ FodyWeavers.xsd
 /MFR-GUI/Data/log.txt
 /MFR-GUI/Data/recognizer.txt
 /MFR-GUI/Data/TrainedLabels.txt
+/MFR-GUI/Data/log.txt
+/MFR-GUI/Data/recognizer.txt
