@@ -162,7 +162,7 @@ namespace MFR_GUI.Pages
                     for (i = 0; File.Exists(projectDirectory + "/TrainingFaces/TestDataset/" + name + "/image_" + i + ".jpg"); i++)
                     {
                         Image<Bgr, byte> image = new Image<Bgr, byte>(projectDirectory + "/TrainingFaces/TestDataset/" + name + "/image_" + i + ".jpg");
-                        Mat m = Hope(image, logger);
+                        Mat m = ProcessTestingImage(image, logger);
                         if (m != null)
                         {
                             m.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedTrainingImages/" + name + i + ".bmp");
@@ -190,12 +190,10 @@ namespace MFR_GUI.Pages
             }
         }
 
-        private static Mat Hope(Image<Bgr, Byte> image, Logger logger)
+        private static Mat ProcessTestingImage(Image<Bgr, Byte> image, Logger logger)
         {
             List<DetectedObject> fullFaceRegions = new List<DetectedObject>();
             List<DetectedObject> partialFaceRegions = new List<DetectedObject>();
-            List<Mat> training = new List<Mat>();
-            List<int> labelNr = new List<int>();
 
             try
             {

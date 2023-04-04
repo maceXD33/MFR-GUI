@@ -79,7 +79,7 @@ namespace MFR_GUI.Pages
 
             // Get the next frame from the VideoCapture and resize it to 320x240
             currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.LinearExact);
-
+            
             // Try to acquire a lock on the synchronizing object to use the FaceDetector, 
             // because the .Detect() method can't handle multiple access and returns around
             // 50 or more wrong rectangles
@@ -108,7 +108,7 @@ namespace MFR_GUI.Pages
             else
             {
                 // The lock couldn't be acquired so we do nothing
-                _logger.LogInfo("Lock couldn't be acquired!");
+                //_logger.LogInfo("Lock couldn't be acquired!");
             }
         }
 
@@ -167,7 +167,7 @@ namespace MFR_GUI.Pages
                             fullFaceRegions[0].Region
                         };
 
-                        // Check if the face is rotated more than 15°, because the FacemarkDetector
+                        // Check if the face is rotated more than 30°, because the FacemarkDetector
                         // has problems correctly detecting Facemarks if the face is tilted
                         if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
                         {
