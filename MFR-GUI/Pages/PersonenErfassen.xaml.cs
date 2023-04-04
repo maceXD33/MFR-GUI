@@ -19,7 +19,9 @@ using Timer = System.Timers.Timer;
 using static MFR_GUI.Pages.Globals;
 using static MFR_GUI.Pages.TrainingFacesLoader;
 using static Emgu.CV.Face.FaceRecognizer;
+using static MFR_GUI.Pages.ImageEditor;
 using System.Timers;
+using System.Windows.Media;
 
 namespace MFR_GUI.Pages
 {
@@ -112,7 +114,7 @@ namespace MFR_GUI.Pages
             string recognizedNames = "";
 
             // Get the next frame from the VideoCapture and resize it to 320x240
-            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+            currentFrame = videoCapture.QueryFrame().ToImage<Bgr, Byte>().Resize(320, 240, Emgu.CV.CvEnum.Inter.LinearExact);
 
             // Try to acquire a lock on the synchronizing object to use the FaceDetector, 
             // because the .Detect() method can't handle multiple access and returns around
@@ -157,6 +159,8 @@ namespace MFR_GUI.Pages
                         currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                     }
                 }
+
+                _logger.LogInfo("Rctangles: " + recs.Count.ToString());
 
                 // Detect facial landmarks, run through the faces, crop and align them, try to recognize them and evaluate the result
                 PrepareFaces(fullFaceRegions, partialFaceRegions, currentFrame, currentFrameCopy, recs, ref status, ref recognizedNames);
@@ -221,8 +225,8 @@ namespace MFR_GUI.Pages
         private void ProcessFace(VectorOfPointF vop, List<DetectedObject> fullFaceRegions, List<DetectedObject> partialFaceRegions, Image<Bgr, Byte> currentFrame, Image<Bgr, byte> currentFrameCopy, List<Rectangle> recs, ref string status, ref string recognizedNames, int i)
         {
             // Cut out part of the image and rotate it so that the eyes are aligned
-            Image<Bgr, byte> alignedFace = ImageEditor.RotateAndAlignPicture(currentFrameCopy, vop, fullFaceRegions[i], _logger);
-
+            Image<Bgr, byte> alignedFace = RotateAndAlignPicture(currentFrameCopy, vop, fullFaceRegions[i], _logger);
+            
             // Empty the two Lists to use them again
             fullFaceRegions = new List<DetectedObject>();
             partialFaceRegions = new List<DetectedObject>();
@@ -241,11 +245,19 @@ namespace MFR_GUI.Pages
                 if (fullFaceRegions.Count > 0)
                 {
                     // Crop the aligned Face so that it only contains the face
-                    Image<Bgr, byte> alignedCroppedFace = ImageEditor.CropImage(fullFaceRegions, alignedFace);
+                    Image<Bgr, byte> alignedCroppedFace = CropImage(fullFaceRegions, alignedFace);
                     
                     // Try to recognize the face and evaluate the currentFrameCopy
                     RecognizeFace(currentFrame, alignedCroppedFace, recs, i, ref status, ref recognizedNames);
                 }
+                else
+                {
+                    currentFrame.Draw("Unbekannt", new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                }
+            }
+            else
+            {
+                _logger.LogInfo("alignedFace is null!");
             }
         }
 
@@ -266,7 +278,7 @@ namespace MFR_GUI.Pages
             if (alignedCroppedFace != null)
             {
                 // Resize the aligned and cropped face for the face recognition
-                alignedCroppedFace = alignedCroppedFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
+                alignedCroppedFace = alignedCroppedFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.LinearExact);
 
                 // Declare a method variable
                 PredictionResult res;
@@ -307,6 +319,7 @@ namespace MFR_GUI.Pages
             // must look to be considered the same
             if (res.Distance <= 65)
             {
+                _logger.LogInfo("Name: " + _labels[res.Label]);
                 //Draw the label for the detected face
                 currentFrame.Draw(_labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
 

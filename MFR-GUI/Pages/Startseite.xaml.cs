@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using System;
 using System.Collections.Generic;
 using System.Management;
 using System.Threading.Tasks;
@@ -72,7 +73,7 @@ namespace MFR_GUI.Pages
                     lock (syncObj1)
                     {
                         // Initialize the capture device
-                        videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.Any);
+                        videoCapture = new VideoCapture(cameraIndex, VideoCapture.API.DShow);
                     }
                 });
 

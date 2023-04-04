@@ -114,7 +114,7 @@ namespace MFR_GUI.Pages
         }
 
         /// <summary>
-        /// Gets called when the btn_beenden gets clicked and the window gets closed
+        /// Gets called when the Button btn_beenden gets clicked and the window gets closed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -124,6 +124,18 @@ namespace MFR_GUI.Pages
             {
                 // videoCapture is not null, so it gets disposed
                 videoCapture.Dispose();
+            }
+            if (faceDetector1 != null)
+            {
+                faceDetector1.Dispose();
+            }
+            if (faceDetector2 != null)
+            {
+                faceDetector2.Dispose();
+            }
+            if (facemarkDetector != null)
+            {
+                facemarkDetector.Dispose();
             }
             if (recognizer != null)
             {
