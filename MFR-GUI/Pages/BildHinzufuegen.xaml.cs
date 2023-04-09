@@ -94,9 +94,12 @@ namespace MFR_GUI.Pages
                 // Run through the fullFaceRegions list, which contains faces
                 foreach (DetectedObject d in fullFaceRegions)
                 {
+                    _logger.LogInfo("X: " + d.Region.X + ", Y: " + d.Region.Y);
                     // Draw a red rectangle on the image around the detected face
                     currentFrame.Draw(d.Region, new Bgr(Color.Red), 1);
                 }
+
+                _logger.LogInfo("");
 
                 // Acquire a lock on the synchronizing object
                 lock (syncObj2)
@@ -169,7 +172,7 @@ namespace MFR_GUI.Pages
 
                         // Check if the face is rotated more than 30°, because the FacemarkDetector
                         // has problems correctly detecting Facemarks if the face is tilted
-                        if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
+                        if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region, _logger))
                         {
                             // Detect the facial landmarks inside the rectangles
                             VectorOfVectorOfPointF vovop = facemarkDetector.Detect(currentFrame, recs.ToArray());
@@ -194,7 +197,7 @@ namespace MFR_GUI.Pages
                             string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
 
                             // Crop the image of the face out of image also containing background
-                            tempTrainingFace = ImageEditor.CropImage(fullFaceRegions, tempTrainingFace);
+                            tempTrainingFace = ImageEditor.CropImage(fullFaceRegions, tempTrainingFace, _logger);
 
                             if (tempTrainingFace != null)
                             {

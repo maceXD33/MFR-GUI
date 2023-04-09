@@ -139,18 +139,13 @@ namespace MFR_GUI.Pages
                     // Define a rectangle with the Region of the DetectedObject
                     Rectangle r = d.Region;
 
-                    /*
-                    if(r.Right < 320 && r.Bottom < 240)
+                    if (r.Right < currentFrame.Cols && r.Bottom < currentFrame.Rows)
                     {
                         recs.Add(r);
+
+                        // Draw a red rectangle on the image around the detected face
+                        currentFrame.Draw(r, new Bgr(Color.Red), 1);
                     }
-                    */
-
-                    // Add the Rectangle to the list of Rectangles
-                    recs.Add(r);
-
-                    // Draw a red rectangle on the image around the detected face
-                    currentFrame.Draw(r, new Bgr(Color.Red), 1);
 
                     // Check, if there are any faces saved in the FaceRecognizer
                     if (_savedNamesCount <= 0)
@@ -159,8 +154,6 @@ namespace MFR_GUI.Pages
                         currentFrame.Draw("Unbekannt", new Point(r.X - 5, r.Y - 5), FontFace.HersheyComplexSmall, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
                     }
                 }
-
-                _logger.LogInfo("Rctangles: " + recs.Count.ToString());
 
                 // Detect facial landmarks, run through the faces, crop and align them, try to recognize them and evaluate the result
                 PrepareFaces(fullFaceRegions, partialFaceRegions, currentFrame, currentFrameCopy, recs, ref status, ref recognizedNames);
@@ -245,7 +238,7 @@ namespace MFR_GUI.Pages
                 if (fullFaceRegions.Count > 0)
                 {
                     // Crop the aligned Face so that it only contains the face
-                    Image<Bgr, byte> alignedCroppedFace = CropImage(fullFaceRegions, alignedFace);
+                    Image<Bgr, byte> alignedCroppedFace = CropImage(fullFaceRegions, alignedFace, _logger);
                     
                     // Try to recognize the face and evaluate the currentFrameCopy
                     RecognizeFace(currentFrame, alignedCroppedFace, recs, i, ref status, ref recognizedNames);
@@ -319,7 +312,6 @@ namespace MFR_GUI.Pages
             // must look to be considered the same
             if (res.Distance <= 65)
             {
-                _logger.LogInfo("Name: " + _labels[res.Label]);
                 //Draw the label for the detected face
                 currentFrame.Draw(_labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
 

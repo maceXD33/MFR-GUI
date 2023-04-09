@@ -214,7 +214,7 @@ namespace MFR_GUI.Pages
 
                     VectorOfVectorOfPointF vovop = facemarkDetector.Detect(image, recs.ToArray());
 
-                    if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region))
+                    if (!ImageEditor.IsAngelOver30Degree(fullFaceRegions[0].Region, logger))
                     {
                         Image<Bgr, Byte> tempTrainingFace = ImageEditor.RotateAndAlignPicture(image, vovop[0], fullFaceRegions[0], logger);
 

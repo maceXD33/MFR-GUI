@@ -7,6 +7,9 @@ using Emgu.CV.Util;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Numerics;
+using System.Windows;
 
 namespace MFR_GUI.Pages
 {
@@ -22,51 +25,49 @@ namespace MFR_GUI.Pages
         /// <returns>Returns the </returns>
         public static Image<Bgr, byte>? RotateAndAlignPicture(Image<Bgr, byte> image, VectorOfPointF vop, DetectedObject detectedObject, Logger logger)
         {
-            Rectangle rec = detectedObject.Region;
-            Point center = new Point(0, 0);
-
-            //if (rec.X >= 0 && rec.Y >= 0)
+            try
             {
+                Rectangle rec = detectedObject.Region;
+                Vector2 sumVec = new Vector2(0, 0);
+
                 for (int j = 36; j < 42; j++)
                 {
-                    Point p = Point.Round(vop[j]);
-                    center.Offset(p);
+                    sumVec = Vector2.Add(sumVec, vop[j].ToVector2());
                 }
 
-                Point rightEyeCenter = new Point(center.X / 6, center.Y / 6);
-                
-                center = new Point(0, 0);
+                Vector2 rightEyeCenter = Vector2.Divide(sumVec, 6);
+
+                sumVec = new Vector2(0, 0);
 
                 for (int j = 42; j < 48; j++)
                 {
-                    Point p = Point.Round(vop[j]);
-                    center.Offset(p);
+                    sumVec = Vector2.Add(sumVec, vop[j].ToVector2());
                 }
 
-                Point leftEyeCenter = new Point(center.X / 6, center.Y / 6);
+                Vector2 leftEyeCenter = Vector2.Divide(sumVec, 6);
 
-                double value = (double)(leftEyeCenter.Y - rightEyeCenter.Y) / (leftEyeCenter.X - rightEyeCenter.X);
+                double value = (leftEyeCenter.Y - rightEyeCenter.Y) / (leftEyeCenter.X - rightEyeCenter.X);
                 double angle = Math.Atan(value) * 180 / Math.PI;
 
-                double diagonal = Math.Round(Math.Sqrt(rec.Width * rec.Width + rec.Height * rec.Height), 1, MidpointRounding.ToPositiveInfinity);
+                double diagonal = Math.Round(Math.Sqrt(rec.Width * rec.Width + rec.Height * rec.Height), MidpointRounding.ToPositiveInfinity);
 
                 int width = Convert.ToInt32(diagonal);
                 int height = Convert.ToInt32(diagonal);
                 int x = Convert.ToInt32(rec.X - (diagonal - rec.Width) / 2);
                 int y = Convert.ToInt32(rec.Y - (diagonal - rec.Height) / 2);
 
-                if(x < 0)
+                if (x < 0)
                 {
                     x = 0;
                 }
 
-                if(y < 0)
+                if (y < 0)
                 {
                     y = 0;
                 }
 
                 Rectangle frameRec;
-                Point rightUnderCorner = new Point((x + width), y + height);
+                Point rightUnderCorner = new Point(x + width, y + height);
 
                 if (rightUnderCorner.X > image.Width || rightUnderCorner.Y > image.Height)
                 {
@@ -88,25 +89,15 @@ namespace MFR_GUI.Pages
                     frameRec = new Rectangle(x, y, width, height);
                 }
 
-                //logger.LogInfo("frameRec: " + frameRec.ToString());
-                
                 Image<Bgr, byte> frame = image.Copy(frameRec);
 
-                return frame.Rotate(-angle, new Bgr(255, 255, 255)).Resize(320, 240, Emgu.CV.CvEnum.Inter.Cubic);
+                return frame.Rotate(-angle, new Bgr(255, 255, 255));
             }
-
-            return null;
-        }
-
-        //Normales Kopfverhätnis: 2:3 (Breite : Länge)
-        public static bool IsAngelOver30Degree(Rectangle r)
-        {
-            if((double) r.Width/r.Height > 0.8983)
+            catch(Exception e)
             {
-                return true;
+                logger.LogError(e.Message, "RotateAndAlignPicture.xaml.cs", e.Source);
+                return null;
             }
-
-            return false;
         }
 
         //Normales Kopfverhätnis: 2:3 (Breite : Länge)
@@ -122,34 +113,23 @@ namespace MFR_GUI.Pages
             return false;
         }
 
-        public static Image<Bgr, byte> CropImage(List<DetectedObject> fullFaceRegions, Image<Bgr, byte> image)
+        public static Image<Bgr, byte> CropImage(List<DetectedObject> fullFaceRegions, Image<Bgr, byte> image, Logger logger)
         {
-            if (fullFaceRegions.Count > 1)
-            {
-                Rectangle r = fullFaceRegions[1].Region;
+            List<Rectangle> regions = new List<Rectangle>();
 
-                if (r.X < image.Width / 3 && r.Y < image.Height / 3)
+            foreach (DetectedObject d in fullFaceRegions)
+            {
+                Rectangle r = d.Region;
+
+                if (r.Right < image.Cols && r.Bottom < image.Rows)
                 {
+                    regions.Add(r);
+
                     return image.Copy(r);
                 }
-                else
-                {
-                    return image.Copy(fullFaceRegions[0].Region);
-                }
             }
-            else
-            {
-                Rectangle r = fullFaceRegions[0].Region;
 
-                if (r.X < image.Width / 3 && r.Y < image.Height / 3)
-                {
-                    return image.Copy(r);
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return null;
         }
     }
 }
