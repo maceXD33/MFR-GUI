@@ -16,7 +16,8 @@ namespace MFR_GUI.Pages
     /// Interaktionslogik für PersonenAnzeigen.xaml
     /// </summary>
     public partial class PersonenAnzeigen : Page
-    {/*
+    {   
+        /*
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
