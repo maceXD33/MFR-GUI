@@ -114,26 +114,13 @@ namespace MFR_GUI.Pages
 
         public static Image<Bgr, byte> CropImage(List<DetectedObject> fullFaceRegions, Image<Bgr, byte> image, Logger logger)
         {
-            List<Rectangle> regions = new List<Rectangle>();
-
-            logger.LogInfo("Cols: " + image.Cols + ", Rows: " + image.Rows);
-
             foreach (DetectedObject d in fullFaceRegions)
             {
                 Rectangle r = d.Region;
 
-                logger.LogInfo("X: " + r.X + ", Y: " + r.Y);
-                logger.LogInfo("Right: " + r.Right + ", Bottom: " + r.Bottom);
-
                 if (r.Right < image.Cols && r.Bottom < image.Rows)
                 {
-                    regions.Add(r);
-
                     return image.Copy(r);
-                }
-                else
-                {
-                    Console.WriteLine();
                 }
             }
 
