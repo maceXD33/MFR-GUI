@@ -25,10 +25,10 @@ namespace MFR_GUI.Pages
                 //Load the file with the labels from previous trained faces
                 string allLabels = File.ReadAllText(projectDirectory + "/Data/TrainedLabels.txt");
                 string[] Labels = allLabels.Split('%');
-
+                
                 List<string> distinctLabels = Labels.Distinct().ToList();
                 distinctLabels.RemoveAt(0);
-
+                
                 //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
                 foreach (string name in distinctLabels)
                 {
@@ -54,9 +54,7 @@ namespace MFR_GUI.Pages
 
         public static Tuple<List<string>, int> LoadTrainingFacesTwoReturns(Logger logger)
         {
-            List<Mat> trainingImagesMat = new List<Mat>();
             List<string> labels = new List<string>();
-            List<int> labelNr = new List<int>();
             int savedNamesCount = 0;
 
             try
@@ -71,13 +69,6 @@ namespace MFR_GUI.Pages
                 //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
                 foreach (string name in distinctLabels)
                 {
-                    for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp"); i++)
-                    {
-                        Image<Gray, byte> image = new Image<Gray, byte>(projectDirectory + "/TrainingFaces/" + name + "/" + name + i + ".bmp");
-                        trainingImagesMat.Add(image.Mat);
-                        labelNr.Add(savedNamesCount);
-                    }
-
                     labels.Add(name);
                     savedNamesCount++;
                 }
@@ -158,14 +149,13 @@ namespace MFR_GUI.Pages
                 //Load the images from previous trained faces and add the images, labels and labelnumbers to Lists
                 foreach (string name in distinctLabels)
                 {
-                    int i;
-                    for (i = 0; File.Exists(projectDirectory + "/TrainingFaces/TestDataset/" + name + "/image_" + i + ".jpg"); i++)
+                    for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/TestDataset/" + name + "/image_" + i + ".jpg"); i++)
                     {
                         Image<Bgr, byte> image = new Image<Bgr, byte>(projectDirectory + "/TrainingFaces/TestDataset/" + name + "/image_" + i + ".jpg");
                         Mat m = ProcessTestingImage(image, logger);
                         if (m != null)
                         {
-                            m.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedTrainingImages/" + name + i + ".bmp");
+                            m.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedTrainingImages/" + name + i + ".png");
                             trainingImagesMat.Add(m);
                             labelNr.Add(savedNamesCount);
                         }
@@ -176,9 +166,9 @@ namespace MFR_GUI.Pages
                 }
 
                 List<Image<Bgr, Byte>> testImages = new List<Image<Bgr, Byte>>();
-                for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/TestDataset/Recognize/image_" + i + ".jpg"); i++)
+                for (int i = 0; File.Exists(projectDirectory + "/TrainingFaces/TestDataset/Recognize/image" + i + ".jpg"); i++)
                 {
-                    Image<Bgr, byte> image = new Image<Bgr, byte>(projectDirectory + "/TrainingFaces/TestDataset/Recognize/image_" + i + ".jpg");
+                    Image<Bgr, byte> image = new Image<Bgr, byte>(projectDirectory + "/TrainingFaces/TestDataset/Recognize/image" + i + ".jpg");
                     testImages.Add(image);
                 }
 
@@ -201,7 +191,7 @@ namespace MFR_GUI.Pages
                 lock (syncObj1)
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector1.Detect(image, fullFaceRegions, partialFaceRegions);
+                    faceDetector1.Detect(image, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.6);
                 }
 
                 if (fullFaceRegions.Count != 0)
@@ -209,7 +199,12 @@ namespace MFR_GUI.Pages
                     List<Rectangle> recs = new List<Rectangle>();
                     foreach (DetectedObject o in fullFaceRegions)
                     {
-                        recs.Add(o.Region);
+                        Rectangle r = o.Region;
+
+                        if (r.Right < image.Cols && r.Bottom < image.Rows)
+                        {
+                            recs.Add(r);
+                        }
                     }
 
                     VectorOfVectorOfPointF vovop = facemarkDetector.Detect(image, recs.ToArray());
@@ -228,28 +223,10 @@ namespace MFR_GUI.Pages
                             faceDetector1.Detect(tempTrainingFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
                         }
 
-                        string trainingFacesDirectory = projectDirectory + "/TrainingFaces/";
-
-                        if (fullFaceRegions.Count > 1)
-                        {
-                            Rectangle r = fullFaceRegions[1].Region;
-                            if (r.X < tempTrainingFace.Width / 3 && r.Y < tempTrainingFace.Height / 3)
-                            {
-                                tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[1].Region);
-                            }
-                            else
-                            {
-                                tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
-                            }
-                        }
-                        else
-                        {
-                            tempTrainingFace = tempTrainingFace.Copy(fullFaceRegions[0].Region);
-                        }
+                        tempTrainingFace = ImageEditor.CropImage(fullFaceRegions, tempTrainingFace, logger);
 
                         Image<Gray, Byte> trainingFace = tempTrainingFace.Convert<Gray, Byte>();
 
-                        //Resize the image of the detected face and add the image and label to the lists for training
                         trainingFace = trainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
 
                         return trainingFace.Mat;
@@ -258,7 +235,7 @@ namespace MFR_GUI.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine();
+                logger.LogError(ex.Message, "ProcessTestingImage", ex.Source);
             }
 
             return null;

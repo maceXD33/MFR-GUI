@@ -204,20 +204,23 @@ namespace MFR_GUI.Pages
                                 //Resize the image of the detected face
                                 tempTrainingFace = tempTrainingFace.Resize(100, 100, Emgu.CV.CvEnum.Inter.Cubic);
 
-                                // Check if the name of the face to save already exists
-                                if (!_labels.Contains(name))
+                                lock (syncObj2)
                                 {
-                                    // Add the count of saved names to labelNr and increase the count of saved names
-                                    labelNr.Add(_savedNamesCount++);
-                                    // Add the name to labels
-                                    _labels.Add(name);
-                                    // Save the name to a text file (Is used in the TrainingFacesLoader)
-                                    File.AppendAllText(projectDirectory + "/Data/TrainedLabels.txt", "%" + name);
-                                }
-                                else
-                                {
-                                    // Add the index of the name in labels to labelNr
-                                    labelNr.Add(_labels.IndexOf(name));
+                                    // Check if the name of the face to save already exists
+                                    if (!_labels.Contains(name))
+                                    {
+                                        // Add the count of saved names to labelNr and increase the count of saved names
+                                        labelNr.Add(_savedNamesCount++);
+                                        // Add the name to labels
+                                        _labels.Add(name);
+                                        // Save the name to a text file (Is used in the TrainingFacesLoader)
+                                        File.AppendAllText(projectDirectory + "/Data/TrainedLabels.txt", "%" + name);
+                                    }
+                                    else
+                                    {
+                                        // Add the index of the name in labels to labelNr
+                                        labelNr.Add(_labels.IndexOf(name));
+                                    }
                                 }
 
                                 // Add the training image to a list of Mats

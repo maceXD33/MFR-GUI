@@ -21,7 +21,7 @@ namespace MFR_GUI.Pages
         public static FaceDetector faceDetector1 = new FaceDetector();
         public static FaceDetector faceDetector2 = new FaceDetector();
         public static FacemarkDetector facemarkDetector = new FacemarkDetector();
-        public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer(gridX: 3, gridY: 3);
+        public static LBPHFaceRecognizer recognizer = new LBPHFaceRecognizer(gridX: 8, gridY: 8);
 
         // Declararation/Definition of control variables
         public static int cameraIndex;

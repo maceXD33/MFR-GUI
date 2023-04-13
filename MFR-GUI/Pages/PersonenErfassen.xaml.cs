@@ -58,6 +58,7 @@ namespace MFR_GUI.Pages
             {
                 // Generate a ImageBox and start a Timer with FrameGrabber used for the Elapsed Event
                 GenerateImageBox(FrameGrabber);
+                //Testing();
             }
         }
 
@@ -231,7 +232,7 @@ namespace MFR_GUI.Pages
                 lock (syncObj1)
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector1.Detect(alignedFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.99);
+                    faceDetector1.Detect(alignedFace, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.9);
                 }
 
                 // Check, if the FaceDetecter detected any faces
@@ -310,10 +311,12 @@ namespace MFR_GUI.Pages
         {
             // res.Distance <= n determs how familiar the detected face and the face from the recognizer
             // must look to be considered the same
+            //if (true)
             if (res.Distance <= 65)
             {
                 //Draw the label for the detected face
-                currentFrame.Draw(_labels[res.Label], new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                //currentFrame.Draw(_labels[res.Label] + ", " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
+                currentFrame.Draw(_labels[res.Label] + ", " + res.Distance, new Point(recs[i].X - 5, recs[i].Y - 5), FontFace.HersheyComplex, 1.0d, new Bgr(Color.LightGreen), thickness: 1);
 
                 // Check, if there is alreade a name in the recognized faces
                 if (recognizedNames != "")
@@ -450,7 +453,7 @@ namespace MFR_GUI.Pages
                 if (Monitor.TryEnter(syncObj1))
                 {
                     //Detect rectangular regions which contain a face
-                    faceDetector1.Detect(image, fullFaceRegions, partialFaceRegions);
+                    faceDetector1.Detect(image, fullFaceRegions, partialFaceRegions, confidenceThreshold: (float)0.6);
 
                     Monitor.Exit(syncObj1);
 
@@ -462,18 +465,18 @@ namespace MFR_GUI.Pages
                     {
                         Rectangle r = d.Region;
 
-                        recs.Add(r);
+                        if (r.Right < image.Cols && r.Bottom < image.Rows)
+                        {
+                            recs.Add(r);
 
-                        //Draw a rectangle around the region
-                        image.Draw(r, new Bgr(Color.Red), 1);
+                            // Draw a red rectangle on the image around the detected face
+                            image.Draw(r, new Bgr(Color.Red), 1);
+                        }
                     }
 
-                    if (fullFaceRegions != null && fullFaceRegions.Count > 0 && result != null)
-                    {
-                        PrepareFaces(fullFaceRegions, partialFaceRegions, image, result, recs, ref status, ref recognizedNames);
-                    }
+                    PrepareFaces(fullFaceRegions, partialFaceRegions, image, result, recs, ref status, ref recognizedNames);
 
-                    image.Save(projectDirectory + "/TrainingFaces/TestDataset/OutputNeu/image_" + a + ".bmp");
+                    image.Save(projectDirectory + "/TrainingFaces/TestDataset/OutputNeu/image_" + a + ".png");
                     a++;
                     fullFaceRegions = new List<DetectedObject>();
                     partialFaceRegions = new List<DetectedObject>();

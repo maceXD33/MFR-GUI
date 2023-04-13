@@ -51,8 +51,7 @@ namespace MFR_GUI.Pages
 
                 double diagonal = Math.Round(Math.Sqrt(rec.Width * rec.Width + rec.Height * rec.Height), MidpointRounding.ToPositiveInfinity);
 
-                int width = Convert.ToInt32(diagonal);
-                int height = Convert.ToInt32(diagonal);
+                int side = Convert.ToInt32(diagonal);
                 int x = Convert.ToInt32(rec.X - (diagonal - rec.Width) / 2);
                 int y = Convert.ToInt32(rec.Y - (diagonal - rec.Height) / 2);
 
@@ -67,7 +66,7 @@ namespace MFR_GUI.Pages
                 }
 
                 Rectangle frameRec;
-                Point rightUnderCorner = new Point(x + width, y + height);
+                Point rightUnderCorner = new Point(x + side, y + side);
 
                 if (rightUnderCorner.X > image.Width || rightUnderCorner.Y > image.Height)
                 {
@@ -77,16 +76,16 @@ namespace MFR_GUI.Pages
                     }
                     else if (rightUnderCorner.X > image.Width && rightUnderCorner.Y < image.Height)
                     {
-                        frameRec = new Rectangle(x, y, image.Width - x, height);
+                        frameRec = new Rectangle(x, y, image.Width - x, side);
                     }
                     else
                     {
-                        frameRec = new Rectangle(x, y, width, image.Height - y);
+                        frameRec = new Rectangle(x, y, side, image.Height - y);
                     }
                 }
                 else
                 {
-                    frameRec = new Rectangle(x, y, width, height);
+                    frameRec = new Rectangle(x, y, side, side);
                 }
 
                 Image<Bgr, byte> frame = image.Copy(frameRec);
@@ -117,15 +116,24 @@ namespace MFR_GUI.Pages
         {
             List<Rectangle> regions = new List<Rectangle>();
 
+            logger.LogInfo("Cols: " + image.Cols + ", Rows: " + image.Rows);
+
             foreach (DetectedObject d in fullFaceRegions)
             {
                 Rectangle r = d.Region;
+
+                logger.LogInfo("X: " + r.X + ", Y: " + r.Y);
+                logger.LogInfo("Right: " + r.Right + ", Bottom: " + r.Bottom);
 
                 if (r.Right < image.Cols && r.Bottom < image.Rows)
                 {
                     regions.Add(r);
 
                     return image.Copy(r);
+                }
+                else
+                {
+                    Console.WriteLine();
                 }
             }
 
