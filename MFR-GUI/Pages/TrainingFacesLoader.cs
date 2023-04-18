@@ -155,7 +155,7 @@ namespace MFR_GUI.Pages
                         Mat m = ProcessTestingImage(image, logger);
                         if (m != null)
                         {
-                            m.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedTrainingImages/" + name + i + ".png");
+                            m.Save(projectDirectory + "/TrainingFaces/TestDataset/CroppedTrainingImages/" + name + i + ".bmp");
                             trainingImagesMat.Add(m);
                             labelNr.Add(savedNamesCount);
                         }

@@ -476,7 +476,7 @@ namespace MFR_GUI.Pages
 
                     PrepareFaces(fullFaceRegions, partialFaceRegions, image, result, recs, ref status, ref recognizedNames);
 
-                    image.Save(projectDirectory + "/TrainingFaces/TestDataset/OutputNeu/image_" + a + ".png");
+                    image.Save(projectDirectory + "/TrainingFaces/TestDataset/OutputNeu/image_" + a + ".bmp");
                     a++;
                     fullFaceRegions = new List<DetectedObject>();
                     partialFaceRegions = new List<DetectedObject>();
